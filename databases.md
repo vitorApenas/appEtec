@@ -4,7 +4,7 @@
 
 ## Cadastro
 Vai pegar o rm/email constituicional do aluno e pesquisar no banco de dados do NSA (fake), se estiver lá vai mandar um email de confirmação e vai para o database de não confirmados.
-Quando o usuário tiver colocado o código, ele vai tentar entrar, se estiver certo, os dados dele vão ser copiados do banco NSA e vão para o banco de usuários.
+Quando o usuário tiver colocado o código, ele vai tentar entrar, se estiver certo, os dados dele vão ser copiados da tabela de não confirmados e vão para o banco de usuários.
 
 ## Tabela NSA
     RM (PK), Email Instituicional, Turma (completo), Nome (completo), RG

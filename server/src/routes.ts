@@ -1,9 +1,21 @@
 import {Router} from 'express';
 
-const apiRouter = Router();apiRouter.get('/', (req, res)=>{
+const apiRouter = Router();
+
+//Teste de API
+apiRouter.get('/teste', (req, res)=>{
     res.json({
-        "hey":"jude"
+        "message":"API funcionando"
     })
+});
+
+//Cadastro de funcionário
+apiRouter.get('/cadastro/funcionario', (req, res)=>{
+    
+});
+//Cadastro de aluno
+apiRouter.get('/cadastro/aluno', (req, res)=>{
+    
 });
 
 export default apiRouter;
