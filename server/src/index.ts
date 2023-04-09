@@ -1,17 +1,12 @@
 const express = require('express');
 const cors = require('cors');
+import apiRouter from './routes'
 
 const app = express();
-const port = 3333;
+const port:Number = 3333;
 
 app.use(cors());
-
-app.get('/', (req, res)=>{
-    res.json({
-        msg:"Hello",
-        dia: new Date()
-    })
-});
+app.use('/api', apiRouter);
 
 app.listen(port, ()=>{
     console.log(`Listening at http://127.0.0.1:${port}`);
