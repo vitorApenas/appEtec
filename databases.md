@@ -2,24 +2,33 @@
 
 <hr>
 
-## Cadastro
+## Cadastro de Alunos
 Vai pegar o rm/email constituicional do aluno e pesquisar no banco de dados do NSA (fake), se estiver lá vai mandar um email de confirmação e vai para o database de não confirmados.
 Quando o usuário tiver colocado o código, ele vai tentar entrar, se estiver certo, os dados dele vão ser copiados da tabela de não confirmados e vão para o banco de usuários.
 
-## Tabela NSA
+## Tabela NSA (ReferenciaAlunos)
     RM (PK), Email Instituicional, Turma (completo), Nome (completo), RG
 
-## Tabela NÃO CONFIRMADOS
+## Tabela NÃO CONFIRMADOS ALUNOS
     Id (PK), Email Institucional, RM, Foto de Perfil (se não for feito o input, será uma default), Senha, Código de confirmação
 
 ## Tabela ALUNOS
     Id (PK), Email Institucional, RM, Nome (completo), RG, Turma (sigla), Curso (completo), Foto de Perfil, Senha
 
+## Cadastro de Funcionários
+É parecido com o mecanismo de cadastro para alunos, tendo uma tabela de referência para os novos funcionários. O usuário também vai receber um email de confirmação com um código e depois irá para o database definitivo de funcionários
+
+# Tabela REFERÊNCIA FUNCIONÁRIOS (ReferenciaFuncionarios)
+    Id (PK), Email Institucional (unico), Nome
+
+# Tabela NÃO CONFIRMADOS FUNCIONÁRIOS
+    Id(PK), Email Institucional, Foto de Perfil (se não for feito o input, será uma default), Senha, Código de confirmação
+
 ## Tabela FUNCIONARIOS
     Id (PK), Email Institucional, Nome (completo), Foto de Perfil, Senha
 
---Tem que ter imagens para os usuarios (decidir onde colocar o input)
-Tem que ter uma tela pra input
+O nome do funcionário ou aluno é obtido com a tabela de referência depois de confirmado, assim como outros dados necessários
+
 <hr>
 
 ## Login

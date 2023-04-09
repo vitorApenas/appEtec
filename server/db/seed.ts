@@ -11,8 +11,6 @@ interface typeReferenciaAlunos {
 
 //Arquivo para RESETAR e POPULAR o database com dados para teste
 (async()=>{
-    sequelize.sync({force: true});
-
     const alunosReferencia:typeReferenciaAlunos[] = [
         {
             rm: 210083,
@@ -29,33 +27,15 @@ interface typeReferenciaAlunos {
             rg:'22.222.222-2'
         },
         {
-            rm: 2,
-            email:'',
+            rm: 210066,
+            email:'rodrigo.lucena01@etec.sp.gov.br',
             turma:'3E - Desenvolvimento de Sistemas',
-            nome:'',
+            nome:'Rodrigo Fernandes de Lucena',
             rg:'33.333.333-3'
-        },
-        {
-            rm: 3,
-            email:'',
-            turma:'3E - Desenvolvimento de Sistemas',
-            nome:'',
-            rg:'44.444.444-4'
-        },
-        {
-            rm: 4,
-            email:'',
-            turma:'3E - Desenvolvimento de Sistemas',
-            nome:'',
-            rg:'55.555.555-5'
-        },
-        {
-            rm: 5,
-            email:'',
-            turma:'3E - Desenvolvimento de Sistemas',
-            nome:'',
-            rg:'66.666.666-6'
-        },
-    ]
-    await ReferenciaAlunos.bulkCreate();
+        }
+    ];
+
+    sequelize.sync({force: true});
+
+    await ReferenciaAlunos.bulkCreate(alunosReferencia);
 })();
