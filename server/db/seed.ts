@@ -1,5 +1,5 @@
 import sequelize from "./db";
-import {ReferenciaAlunos} from './models';
+import {ReferenciaAlunos, ReferenciaFuncionarios} from './models';
 
 interface typeReferenciaAlunos {
     rm: Number,
@@ -7,6 +7,12 @@ interface typeReferenciaAlunos {
     turma: String,
     nome: String,
     rg: String
+}
+
+interface typeReferenciaFuncionarios {
+    id: String,
+    email: String,
+    nome: String
 }
 
 //Arquivo para RESETAR e POPULAR o database com dados para teste
@@ -35,7 +41,26 @@ interface typeReferenciaAlunos {
         }
     ];
 
+    const funcionariosReferencia:typeReferenciaFuncionarios[] = [
+        {
+            id: 'Jco10xWw6n2WicfyrkitR',
+            email: 'rosa.shimizu@etec.sp.gov.br',
+            nome: 'rosa mitiko shimizu'
+        },
+        {
+            id: 'E_M4nW-7ij3OSLNpcaLVm',
+            email: 'paula.simas@etec.sp.gov.br',
+            nome: 'paula da silva simas'
+        },
+        {
+            id: '1nF3Vq2rM-3FwM26Kitjx',
+            email: 'nilson.anjos@etec.sp.gov.br',
+            nome: 'nilson dos anjos'
+        }
+    ];
+
     sequelize.sync({force: true});
 
     await ReferenciaAlunos.bulkCreate(alunosReferencia);
+    await ReferenciaFuncionarios.bulkCreate(funcionariosReferencia);
 })();
