@@ -2,28 +2,33 @@ import { customAlphabet } from "nanoid";
 import sequelize from "../db";
 import {DataTypes} from 'sequelize';
 
-const ReferenciaFuncionarios = sequelize.define('ReferenciaFuncionarios', {
-    id:{
-        type: DataTypes.STRING,
-        primaryKey: true,
-    },
-    email:{
-        type: DataTypes.STRING,
-        unique: true,
-        allowNull: false,
-        validate:{
-            notEmpty: true,
-            isEmail: true
+const ReferenciaFuncionarios = sequelize.define('ReferenciaFuncionarios',
+    {
+        id:{
+            type: DataTypes.STRING,
+            primaryKey: true,
+        },
+        email:{
+            type: DataTypes.STRING,
+            unique: true,
+            allowNull: false,
+            validate:{
+                notEmpty: true,
+                isEmail: true
+            }
+        },
+        nome:{
+            type: DataTypes.STRING,
+            allowNull: false,
+            validate:{
+                notEmpty: true
+            }
         }
     },
-    Nome:{
-        type: DataTypes.STRING,
-        allowNull: false,
-        validate:{
-            notEmpty: true
-        }
+    {
+        timestampes: false
     }
-});
+);
 
 const nanoId = customAlphabet('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz-');
 

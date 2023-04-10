@@ -45,21 +45,21 @@ interface typeReferenciaFuncionarios {
         {
             id: 'Jco10xWw6n2WicfyrkitR',
             email: 'rosa.shimizu@etec.sp.gov.br',
-            nome: 'rosa mitiko shimizu'
+            nome: 'Rosa Mitiko Shimizu'
         },
         {
             id: 'E_M4nW-7ij3OSLNpcaLVm',
             email: 'paula.simas@etec.sp.gov.br',
-            nome: 'paula da silva simas'
+            nome: 'Paula da Silva Simas'
         },
         {
             id: '1nF3Vq2rM-3FwM26Kitjx',
             email: 'nilson.anjos@etec.sp.gov.br',
-            nome: 'nilson dos anjos'
+            nome: 'Nilson dos Anjos'
         }
     ];
 
-    sequelize.sync({force: true});
+    await sequelize.sync({force: true});
 
     await ReferenciaAlunos.bulkCreate(alunosReferencia);
     await ReferenciaFuncionarios.bulkCreate(funcionariosReferencia);
