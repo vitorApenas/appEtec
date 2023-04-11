@@ -1,5 +1,5 @@
 import sequelize from "./db";
-import {ReferenciaAlunos, ReferenciaFuncionarios} from './models';
+import {AlunosAtivos, FuncionariosAtivos, ReferenciaAlunos, ReferenciaFuncionarios} from './models';
 
 interface typeReferenciaAlunos {
     rm: Number,
@@ -15,17 +15,27 @@ interface typeReferenciaFuncionarios {
     nome: String
 }
 
+interface typeAlunosAtivos {
+    rm: Number,
+    email: String,
+    nome: String,
+    rg: String,
+    turma: String,
+    fotoPerfil: String, 
+    senha: String
+}
+
+interface typeFuncionariosAtivos {
+    email: String,
+    nome: String,
+    fotoPerfil: String,
+    senha: String
+}
+
 //Arquivo para RESETAR e POPULAR o database com dados para teste
 (async()=>{
     const alunosReferencia:typeReferenciaAlunos[] = [
-        {
-            rm: 210083,
-            email:'vitor.estevanin@etec.sp.gov.br',
-            turma:'3E - Desenvolvimento de Sistemas',
-            nome:'Vitor Mendes Estevanin',
-            rg:'11.111.111-1'
-        },
-        {
+       {
             rm: 210057,
             email:'vinicius.roberto2@etec.sp.gov.br',
             turma:'3E - Desenvolvimento de Sistemas',
@@ -59,8 +69,31 @@ interface typeReferenciaFuncionarios {
         }
     ];
 
+    const alunosAtivos:typeAlunosAtivos[] = [
+        {
+            rm: 210083,
+            email: 'vitor.estevanin@etec.sp.gov.br',
+            nome: 'Vitor Mendes Estevanin',
+            rg: '11.111.111-1',
+            turma: '3E - Desenvolvimento de Sistemas',
+            fotoPerfil: 'fotoVitor.png', 
+            senha: 'vitor123'
+        }
+    ];
+
+    const funcionariosAtivos:typeFuncionariosAtivos[] = [
+        {
+            email: 'rosa.shimizu@etec.sp.gov.br',
+            nome: 'Rosa Mitiko Shimizu',
+            fotoPerfil: 'fotoRosinha.png',
+            senha: 'rosa123'
+        }
+    ];
+
     await sequelize.sync({force: true});
 
     await ReferenciaAlunos.bulkCreate(alunosReferencia);
     await ReferenciaFuncionarios.bulkCreate(funcionariosReferencia);
+    await AlunosAtivos.bulkCreate(alunosAtivos);
+    await FuncionariosAtivos.bulkCreate(funcionariosAtivos);
 })();
