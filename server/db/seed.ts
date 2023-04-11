@@ -35,7 +35,14 @@ interface typeFuncionariosAtivos {
 //Arquivo para RESETAR e POPULAR o database com dados para teste
 (async()=>{
     const alunosReferencia:typeReferenciaAlunos[] = [
-       {
+        {
+            rm: 210083,
+            email: 'vitor.estevanin@etec.sp.gov.br',
+            turma: '3E - Desenvolvimento de Sistemas',
+            nome: 'Vitor Mendes Estevanin',
+            rg: '11.111.111-1'
+        },
+        {
             rm: 210057,
             email:'vinicius.roberto2@etec.sp.gov.br',
             turma:'3E - Desenvolvimento de Sistemas',

@@ -6,6 +6,7 @@ const app = express();
 const port:Number = 3333;
 
 app.use(cors());
+app.use(express.json());
 app.use('/api', apiRouter);
 
 app.listen(port, ()=>{

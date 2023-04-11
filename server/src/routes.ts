@@ -1,7 +1,7 @@
 import {Router} from 'express';
 import { customAlphabet } from 'nanoid';
-import {ReferenciaFuncionarios, NConfirmadosFuncionarios, ReferenciaAlunos, NConfirmadosAlunos} from '../db/models'
-import { Op } from 'sequelize';
+import {ReferenciaFuncionarios, NConfirmadosFuncionarios, ReferenciaAlunos, NConfirmadosAlunos, AlunosAtivos, FuncionariosAtivos} from '../db/models'
+import {compareSync} from 'bcrypt'
 
 const apiRouter = Router();
 
@@ -14,6 +14,7 @@ apiRouter.get('/teste', (req, res)=>{
     })
 });
 
+/*
 //Teste da tabela de não confirmados (funcionários)
 apiRouter.get('/testarFun', async(req, res)=>{
     const retFuncs = await ReferenciaFuncionarios.findAll({ where: {email: 'rosa.shimizu@etec.sp.gov.br'}});
@@ -60,16 +61,56 @@ apiRouter.get('/testarAluno', async(req, res)=>{
         });
     }
 });
-
-/*
-//Cadastro de funcionário
-apiRouter.get('/cadastro/funcionario', (req, res)=>{
-    
-});
-//Cadastro de aluno
-apiRouter.get('/cadastro/aluno', (req, res)=>{
-    
-});
 */
+
+//Cadastro de Aluno
+apiRouter.post("/cadastro/aluno", async(req, res)=>{
+    const rm = req.body.rm;
+    const senha = req.body.senha;
+
+    const busca = await ReferenciaAlunos.findAll({where:{rm:rm}});
+    res.json(busca)
+});
+
+//Login de Aluno
+apiRouter.get('/login/aluno', async(req, res)=>{
+    const login = req.body.login;
+    const senha = req.body.senha;
+
+    if(isNaN(Number(login))){
+        const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if(!regexEmail.test(login)){
+            res.json({
+                Erro:"login invalido"
+            });
+            return;
+        }
+        //Caso seja um email válido
+        const busca = await AlunosAtivos.findAll({where:{email: login}});
+        /*if(compareSync(senha, busca[0].senha)){
+            res.json({
+                Mensagem: "Login feito com sucesso"
+            })
+        }*/
+        res.json(busca);
+    }
+    else{
+        //caso o input seja de números
+        if(login.length !== 6){
+            res.json({
+                Erro:"login invalido"
+            });
+            return;
+        }
+        //caso tenha 6 números (rm válido)
+        const busca = await AlunosAtivos.findAll({where:{rm:Number(login)}});
+        /*if(compareSync(senha, busca[0].senha)){
+            res.json({
+                Mensagem: "Login feito com sucesso"
+            })
+        }*/
+        res.json(busca);
+    }
+});
 
 export default apiRouter;
