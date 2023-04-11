@@ -13,16 +13,12 @@ const ReferenciaFuncionarios = sequelize.define('ReferenciaFuncionarios',
             unique: true,
             allowNull: false,
             validate:{
-                notEmpty: true,
                 isEmail: true
             }
         },
         nome:{
             type: DataTypes.STRING,
-            allowNull: false,
-            validate:{
-                notEmpty: true
-            }
+            allowNull: false
         }
     },
     {
@@ -33,7 +29,7 @@ const ReferenciaFuncionarios = sequelize.define('ReferenciaFuncionarios',
 const nanoId = customAlphabet('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz-');
 
 ReferenciaFuncionarios.beforeCreate((func)=>{
-    func.id = nanoId()
+    func.id = nanoId();
 });
 
 export default ReferenciaFuncionarios;

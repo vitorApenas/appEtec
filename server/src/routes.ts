@@ -1,10 +1,11 @@
 import {Router} from 'express';
 import { customAlphabet } from 'nanoid';
-
-import sequelize from '../db/db';
-import {ReferenciaFuncionarios, NConfirmadosFuncionarios} from '../db/models'
+import {ReferenciaFuncionarios, NConfirmadosFuncionarios, ReferenciaAlunos, NConfirmadosAlunos} from '../db/models'
+import { Op } from 'sequelize';
 
 const apiRouter = Router();
+
+const gerarCodigo = customAlphabet('0123456789', 6);
 
 //Teste de API
 apiRouter.get('/teste', (req, res)=>{
@@ -13,23 +14,50 @@ apiRouter.get('/teste', (req, res)=>{
     })
 });
 
+//Teste da tabela de não confirmados (funcionários)
 apiRouter.get('/testarFun', async(req, res)=>{
     const retFuncs = await ReferenciaFuncionarios.findAll({ where: {email: 'rosa.shimizu@etec.sp.gov.br'}});
-    const gerarCodigo = customAlphabet('0123456789', 6);
+    
     try{
         const testeInput = await NConfirmadosFuncionarios.create({
-            id: retFuncs[0].id,
             email: retFuncs[0].email,
             fotoPerfil: 'teste.png',
             senha: '123rosa',
             codigo: gerarCodigo()
         });
-        res.json(testeInput)
+        res.json(testeInput);
     }
-    catch(e){
+    catch(err){
         res.json({
-            "Erro":"Você já recebeu seu email"
-        })
+            "Erro":err
+        });
+    }
+});
+
+//Teste da tabela de não confirmados (alunos)
+apiRouter.get('/testarAluno', async(req, res)=>{
+    const retAlunos = await ReferenciaAlunos.findAll({
+        where: {
+            [Op.or]:[
+                {rm: 210083},
+                {email: 'vitor.estevanin@etec.sp.gov.br'}
+            ]
+        }
+    });
+    try{
+        const testeInput = await NConfirmadosAlunos.create({
+            email: retAlunos[0].email,
+            rm: retAlunos[0].rm,
+            fotoPerfil: 'teste.png',
+            senha: '123vito',
+            codigo: gerarCodigo()
+        });
+        res.json(testeInput);
+    }
+    catch(err){
+        res.json({
+            "Erro":err
+        });
     }
 });
 

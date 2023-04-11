@@ -1,7 +1,7 @@
 import sequelize from "../db";
 import { DataTypes } from "sequelize";
 
-const ReferenciaAlunos = sequelize.define('ReferenciaAlunos',
+const AlunosAtivos = sequelize.define('AlunosAtivos',
     {
         rm:{
             type: DataTypes.INTEGER,
@@ -12,15 +12,11 @@ const ReferenciaAlunos = sequelize.define('ReferenciaAlunos',
         },
         email:{
             type: DataTypes.STRING,
-            allowNull: false,
             unique: true,
+            allowNull: false,
             validate:{
                 isEmail: true
             }
-        },
-        turma:{
-            type: DataTypes.STRING,
-            allowNull: false
         },
         nome:{
             type: DataTypes.STRING,
@@ -30,6 +26,18 @@ const ReferenciaAlunos = sequelize.define('ReferenciaAlunos',
             type: DataTypes.STRING,
             allowNull: false,
             unique: true
+        },
+        turma:{
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        fotoPerfil:{
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        senha:{
+            type: DataTypes.TEXT, //por causa da criptografia, sem se limitar a 255 char
+            allowNull: false
         }
     },
     {
@@ -37,4 +45,4 @@ const ReferenciaAlunos = sequelize.define('ReferenciaAlunos',
     }
 );
 
-export default ReferenciaAlunos;
+export default AlunosAtivos;

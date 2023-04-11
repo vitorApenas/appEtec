@@ -10,22 +10,17 @@ const NConfirmadosFuncionarios = sequelize.define('NConfirmadosFuncionarios',
     },
     email:{
         type: DataTypes.STRING,
-        unique: true,
         allowNull: false,
         validate:{
-            notEmpty: true,
             isEmail: true
         }
     },
     fotoPerfil:{
         type: DataTypes.STRING,
-        allowNull: false,
-        validate:{
-            notEmpty: true
-        }
+        allowNull: false
     },
     senha:{
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         allowNull: false,
     },
     codigo:{
@@ -38,10 +33,10 @@ const NConfirmadosFuncionarios = sequelize.define('NConfirmadosFuncionarios',
 }
 );
 
-const nanoId = customAlphabet('0123456789', 6);
+const nanoId = customAlphabet('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz-');
 
 NConfirmadosFuncionarios.beforeCreate((func)=>{
-    func.codigo = nanoId();
+    func.id = nanoId();
 });
 
 export default NConfirmadosFuncionarios;
