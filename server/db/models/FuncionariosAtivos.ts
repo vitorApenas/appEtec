@@ -1,6 +1,5 @@
 import sequelize from "../db";
 import { DataTypes } from "sequelize";
-import { customAlphabet } from "nanoid";
 
 const FuncionariosAtivos = sequelize.define('FuncionariosAtivos',
     {

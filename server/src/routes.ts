@@ -78,7 +78,8 @@ apiRouter.get('/login/aluno', async(req, res)=>{
     const senha = req.body.senha;
 
     if(isNaN(Number(login))){
-        const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        //const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const regexEmail = /^[^\s@]+@etec.sp.gov.br$/;
         if(!regexEmail.test(login)){
             res.json({
                 Erro:"login invalido"
@@ -90,8 +91,7 @@ apiRouter.get('/login/aluno', async(req, res)=>{
         /*if(compareSync(senha, busca[0].senha)){
             res.json({
                 Mensagem: "Login feito com sucesso"
-            })
-        }*/
+            })*/
         res.json(busca);
     }
     else{
@@ -104,11 +104,12 @@ apiRouter.get('/login/aluno', async(req, res)=>{
         }
         //caso tenha 6 números (rm válido)
         const busca = await AlunosAtivos.findAll({where:{rm:Number(login)}});
-        /*if(compareSync(senha, busca[0].senha)){
+        if(compareSync(senha, busca[0].senha)){
             res.json({
                 Mensagem: "Login feito com sucesso"
-            })
-        }*/
+            });
+            return;
+        }
         res.json(busca);
     }
 });
