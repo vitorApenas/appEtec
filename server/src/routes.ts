@@ -69,7 +69,7 @@ apiRouter.post("/cadastro/aluno", async(req, res)=>{
     const senha = req.body.senha;
 
     const busca = await ReferenciaAlunos.findAll({where:{rm:rm}});
-    res.json(busca)
+    res.json(busca);
 });
 
 //Login de Aluno
