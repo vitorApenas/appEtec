@@ -68,8 +68,31 @@ apiRouter.post("/cadastro/aluno", async(req, res)=>{
     const rm = req.body.rm;
     const senha = req.body.senha;
 
-    const busca = await ReferenciaAlunos.findAll({where:{rm:rm}});
-    res.json(busca);
+    const buscaRef = await ReferenciaAlunos.findAll({where:{rm:rm}});
+    const buscaAtivos = await AlunosAtivos.findAll({where:{rm:rm}});
+    if(buscaRef[0]){
+        if(buscaAtivos[0]){
+            res.json({
+                msg: "O aluno com esse RM já está cadastrado."
+            })
+        }
+        else{
+            const alunoNovo = AlunosAtivos.create({
+                rm: buscaRef[0].rm,
+                email: buscaRef[0].email,
+                nome: buscaRef[0].nome,
+                rg: buscaRef[0].rg,
+                turma: buscaRef[0].turma,
+                
+            });
+            res.json(buscaRef);
+        }
+    }
+    else{
+        res.json({
+            msg: "Não existe aluno com esse RM"
+        })
+    }
 });
 
 //Login de Aluno

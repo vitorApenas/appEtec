@@ -5,7 +5,7 @@ interface Props extends TouchableOpacityProps{
     isMarked: boolean
 }
 
-export function TabForm({text, isMarked, ...rest}: Props){
+export function TabForm({text="", isMarked=false, ...rest}: Props){
     return(
         <TouchableOpacity className="w-32 items-center" {...rest}>
             <Text className="text-standart font-nmedium text-sm">
