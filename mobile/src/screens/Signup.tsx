@@ -14,25 +14,23 @@ export function Signup({navigation}){
     async function cadastroAluno(){
         const regexPass = /^(?=.*[a-zA-Z])(?=.*\d).+$/;
         
-        if(rm.includes('.') || !Number.isInteger(Number(rm)) || isNaN(Number(rm))) return setErroAluno("O RM é inválido!");
+        if(rm.trim().includes('.') || !Number.isInteger(Number(rm.trim())) || isNaN(Number(rm.trim()))) return setErroAluno("O RM é inválido!");
         if(passAluno.trim().includes(' ')) return setErroAluno("A senha não pode ter espaços!")
         if(passAluno.trim().length < 8) return setErroAluno("A senha precisa de no mínimo 8 caracteres.");
         if(!regexPass.test(passAluno)) return setErroAluno("A senha precisa ter letras e números.")
         if(confirmPassAluno.trim() !== passAluno.trim()) return setErroAluno("As senhas não são iguais!");
         setErroAluno('');
-        navigation.navigate('profilePhoto', {
-            aluno: true,
-            rm: Number(rm),
-            pass: passAluno
-        })
-        /*try{
+        try{
             setIsLoading(true);
-            const response = await api.post('/cadastro/aluno', {
-                rm: Number(rm),
+            const response = await api.post('/check/aluno', {
+                rm: Number(rm)
+            });
+            if(response.data.msg) return setErroAluno(response.data.msg);
+            const resCadastro = await api.post('/cadastro/aluno', {
+                rm: rm,
                 senha: passAluno
             });
-            if(response.status !== 200) return setErroAluno(response.data.msg);
-            navigation.navigate('login')
+            if(resCadastro.data.criado) return navigation.navigate('login');
         }
         catch(err){
             setErroAluno("Houve um problema, tente novamente mais tarde");
@@ -40,7 +38,7 @@ export function Signup({navigation}){
         }
         finally{
             setIsLoading(false);
-        }*/
+        }
     }
 
     async function cadastroFunc(){
@@ -53,7 +51,7 @@ export function Signup({navigation}){
     const [formFunc, setFormFunc] = useState<boolean>(false);
     const [hidePass, setHidePass] = useState<boolean>(true);
 
-    const [rm, setRm] = useState<string>('123456');
+    const [rm, setRm] = useState<string>('210066');
     const [passAluno, setPassAluno] = useState<string>('vitorvitor123');
     const [confirmPassAluno, setConfirmPassAluno] = useState<string>('vitorvitor123');
     const [erroAluno, setErroAluno] = useState<string>('');
@@ -186,7 +184,7 @@ export function Signup({navigation}){
                             </View>
 
                             <BtnForm
-                                text="PRÓXIMO"
+                                text="CADASTRAR"
                                 erro={erroAluno}
                                 className="mt-44"
                                 onPress={()=>cadastroAluno()}

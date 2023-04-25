@@ -1,9 +1,11 @@
 import { Image, Text, View, TouchableOpacity, Keyboard } from "react-native";
 import { useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { TabForm } from "../components/TabForm";
 import { InputLogin } from "../components/InputLogin";
 import { BtnForm } from "../components/BtnForm";
+import { Loading } from "../components/Loading";
 
 import {api} from '../lib/axios';
 
@@ -11,14 +13,47 @@ export function Login({navigation}){
 
     const [teclado, setTeclado] = useState<boolean>(false);
     const [formFunc, setFormFunc] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     
     const [rm, setRm] = useState<string>('')
     const [alunoSenha, setAlunoSenha] = useState<string>('');
+    const [erroAluno, setErroAluno] = useState<string>('');
+
     const [email, setEmail] = useState<string>('');
     const [funcSenha, setFuncSenha] = useState<string>('');
 
     Keyboard.addListener('keyboardDidShow', ()=>setTeclado(true));
     Keyboard.addListener('keyboardDidHide', ()=>setTeclado(false));
+
+    async function loginAluno(){
+        if(rm.trim().includes('.') || !Number.isInteger(Number(rm.trim())) || isNaN(Number(rm.trim())) || rm.trim().length !== 6) return setErroAluno("O RM é inválido!");
+        if(alunoSenha.trim().length === 0) return setErroAluno("Coloque uma senha!");
+        setErroAluno('');
+
+        try{
+            setIsLoading(true);
+            const response = await api.post('/login/aluno', {
+                rm: rm.trim(),
+                senha: alunoSenha.trim()
+            });
+            if(response.data.msg) return setErroAluno(response.data.msg);
+            try{
+                await AsyncStorage.setItem('rm', rm);
+                navigation.navigate('carteirinha')
+            }
+            catch(err){
+                console.log(err);
+            }
+        }
+        catch(err){
+
+        }
+        finally{
+            setIsLoading(false);
+        }
+    }
+
+    if(isLoading) return <Loading/>
     
     return(
         <View className="flex-1 bg-back items-center">
@@ -83,6 +118,7 @@ export function Login({navigation}){
                                 value={rm}
                                 onChangeText={(value)=>setRm(value)}
                                 className="mt-2"
+                                maxLength={6}
                             />
                             <InputLogin
                                 label="Senha"
@@ -94,7 +130,8 @@ export function Login({navigation}){
                         <BtnForm
                             text="ENTRAR"
                             className="mt-28"
-                            onPress={()=>{}}
+                            onPress={()=>loginAluno()}
+                            erro={erroAluno}
                         />
                     </>
                 }

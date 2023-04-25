@@ -1,11 +1,24 @@
 import {Router} from 'express';
 import { customAlphabet } from 'nanoid';
-import {ReferenciaFuncionarios, NConfirmadosFuncionarios, ReferenciaAlunos, NConfirmadosAlunos, AlunosAtivos, FuncionariosAtivos} from '../db/models'
-import {compareSync} from 'bcrypt'
+import {ReferenciaFuncionarios, NConfirmadosFuncionarios, ReferenciaAlunos, NConfirmadosAlunos, AlunosAtivos, FuncionariosAtivos} from '../db/models';
+const multer = require('multer');
 
 const apiRouter = Router();
 
 const gerarCodigo = customAlphabet('0123456789', 6);
+
+/*const profilePic = multer.diskStorage({
+    destination: function(req, file, cb){
+        cb(null, '../assets/profilePics');
+    },
+    filename: function(req, file, cb){
+        const extensao = file.originalName.split('.')[1];
+        const nome = file.originalName.split('.')[0];
+
+        cb(null, `${nome}.${extensao}`);
+    }
+});
+const uploadProfilePic = multer({profilePic})*/
 
 //Teste de API
 apiRouter.get('/teste', (req, res)=>{
@@ -63,11 +76,9 @@ apiRouter.get('/testarAluno', async(req, res)=>{
 });
 */
 
-//Cadastro de Aluno
-apiRouter.post("/cadastro/aluno", async(req, res)=>{
+//Checar se o aluno está ativo
+apiRouter.post("/check/aluno", async(req, res)=>{
     const rm = req.body.rm;
-    const senha = req.body.senha;
-
     const buscaRef = await ReferenciaAlunos.findAll({where:{rm:rm}});
     const buscaAtivos = await AlunosAtivos.findAll({where:{rm:rm}});
     if(buscaRef[0]){
@@ -77,15 +88,7 @@ apiRouter.post("/cadastro/aluno", async(req, res)=>{
             })
         }
         else{
-            const alunoNovo = AlunosAtivos.create({
-                rm: buscaRef[0].rm,
-                email: buscaRef[0].email,
-                nome: buscaRef[0].nome,
-                rg: buscaRef[0].rg,
-                turma: buscaRef[0].turma,
-                
-            });
-            res.json(buscaRef);
+            res.json({code: res.statusCode});
         }
     }
     else{
@@ -95,46 +98,36 @@ apiRouter.post("/cadastro/aluno", async(req, res)=>{
     }
 });
 
-//Login de Aluno
-apiRouter.get('/login/aluno', async(req, res)=>{
-    const login = req.body.login;
+//Cadastro de Aluno
+apiRouter.post("/cadastro/aluno", async(req, res)=>{
+    
+    const rm = req.body.rm;
     const senha = req.body.senha;
 
-    if(isNaN(Number(login))){
-        //const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        const regexEmail = /^[^\s@]+@etec.sp.gov.br$/;
-        if(!regexEmail.test(login)){
-            res.json({
-                Erro:"login invalido"
-            });
-            return;
-        }
-        //Caso seja um email válido
-        const busca = await AlunosAtivos.findAll({where:{email: login}});
-        /*if(compareSync(senha, busca[0].senha)){
-            res.json({
-                Mensagem: "Login feito com sucesso"
-            })*/
-        res.json(busca);
-    }
-    else{
-        //caso o input seja de números
-        if(login.length !== 6){
-            res.json({
-                Erro:"login invalido"
-            });
-            return;
-        }
-        //caso tenha 6 números (rm válido)
-        const busca = await AlunosAtivos.findAll({where:{rm:Number(login)}});
-        if(compareSync(senha, busca[0].senha)){
-            res.json({
-                Mensagem: "Login feito com sucesso"
-            });
-            return;
-        }
-        res.json(busca);
-    }
+    const buscaRef = await ReferenciaAlunos.findAll({where:{rm:rm}});
+    
+    const alunoNovo = await AlunosAtivos.create({
+        rm: buscaRef[0].rm,
+        email: buscaRef[0].email,
+        nome: buscaRef[0].nome,
+        rg: buscaRef[0].rg,
+        turma: buscaRef[0].turma,
+        fotoPerfil: 'foto.jpg',
+        senha: senha
+    });
+    res.json({criado: alunoNovo});
+
+});
+
+//Login de Aluno
+apiRouter.post('/login/aluno', async(req, res)=>{
+    const rm = req.body.rm;
+    const senha = req.body.senha;
+
+    const buscaAtivos = await AlunosAtivos.findAll({where:{rm:rm}});
+    if(!buscaAtivos[0]) return res.json({msg: "O aluno com esse RM não tem conta!"});
+    if(buscaAtivos[0].senha !== senha) return res.json({msg: "Senha incorreta"});
+    res.json(buscaAtivos[0]);
 });
 
 export default apiRouter;
