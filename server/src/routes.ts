@@ -1,7 +1,7 @@
 import {Router} from 'express';
 import { customAlphabet } from 'nanoid';
 import {ReferenciaFuncionarios, NConfirmadosFuncionarios, ReferenciaAlunos, NConfirmadosAlunos, AlunosAtivos, FuncionariosAtivos} from '../db/models';
-const multer = require('multer');
+//const multer = require('multer');
 
 const apiRouter = Router();
 
@@ -79,8 +79,19 @@ apiRouter.get('/testarAluno', async(req, res)=>{
 //Checar se o aluno está ativo
 apiRouter.post("/check/aluno", async(req, res)=>{
     const rm = req.body.rm;
-    const buscaRef = await ReferenciaAlunos.findAll({where:{rm:rm}});
-    const buscaAtivos = await AlunosAtivos.findAll({where:{rm:rm}});
+    try{
+        //const buscaRef = await ReferenciaAlunos.findAll({where:{rm:rm}});
+        const teste = await ReferenciaAlunos.findAll();
+        console.log("eitas")
+    }
+    catch(err){
+        console.log(err);
+        res.json({
+            msg: "deu erro"
+        })
+    }
+    
+    /*const buscaAtivos = await AlunosAtivos.findAll({where:{rm:rm}});
     if(buscaRef[0]){
         if(buscaAtivos[0]){
             res.json({
@@ -95,7 +106,7 @@ apiRouter.post("/check/aluno", async(req, res)=>{
         res.json({
             msg: "Não existe aluno com esse RM"
         })
-    }
+    }*/
 });
 
 //Cadastro de Aluno

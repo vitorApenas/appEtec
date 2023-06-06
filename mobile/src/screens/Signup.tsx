@@ -25,16 +25,17 @@ export function Signup({navigation}){
             const response = await api.post('/check/aluno', {
                 rm: Number(rm)
             });
-            if(response.data.msg) return setErroAluno(response.data.msg);
+            alert(JSON.stringify(response.data));
+            /*if(response.data.msg) return setErroAluno(response.data.msg);
             const resCadastro = await api.post('/cadastro/aluno', {
                 rm: rm,
                 senha: passAluno
             });
-            if(resCadastro.data.criado) return navigation.navigate('login');
+            if(resCadastro.data.criado) return navigation.navigate('login');*/
         }
         catch(err){
             setErroAluno("Houve um problema, tente novamente mais tarde");
-            console.log(err);
+            console.log(`Erro: ${err}`);
         }
         finally{
             setIsLoading(false);
