@@ -22,6 +22,7 @@ const uploadProfilePic = multer({profilePic})*/
 
 //Teste de API
 apiRouter.get('/teste', (req, res)=>{
+    console.log("Recebido")
     res.json({
         "message":"API funcionando"
     })
@@ -80,14 +81,16 @@ apiRouter.get('/testarAluno', async(req, res)=>{
 apiRouter.post("/check/aluno", async(req, res)=>{
     const rm = req.body.rm;
     try{
-        //const buscaRef = await ReferenciaAlunos.findAll({where:{rm:rm}});
-        const teste = await ReferenciaAlunos.findAll();
-        console.log("eitas")
+        const buscaRef = await ReferenciaAlunos.findAll({where:{rm:rm}});
+        if(!buscaRef[0]) return res.json({msg: "O aluno com esse RM não está cadastrado"});
+
+        const buscaAtivos = await AlunosAtivos.findAll({where:{rm:rm}});
+        if(buscaAtivos[0]) return res.json({msg: "O aluno com esse RM já está cadastrado"});
     }
     catch(err){
         console.log(err);
         res.json({
-            msg: "deu erro"
+            msg: "Houve um erro no servidor, tente novamente mais tarde"
         })
     }
     

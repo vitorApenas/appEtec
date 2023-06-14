@@ -14,7 +14,7 @@ export function Signup({navigation}){
     async function cadastroAluno(){
         const regexPass = /^(?=.*[a-zA-Z])(?=.*\d).+$/;
         
-        if(rm.trim().includes('.') || !Number.isInteger(Number(rm.trim())) || isNaN(Number(rm.trim()))) return setErroAluno("O RM é inválido!");
+        if(rm.trim().includes('.') || !Number.isInteger(Number(rm.trim())) || isNaN(Number(rm.trim())) || rm.length !== 6) return setErroAluno("O RM é inválido!");
         if(passAluno.trim().includes(' ')) return setErroAluno("A senha não pode ter espaços!")
         if(passAluno.trim().length < 8) return setErroAluno("A senha precisa de no mínimo 8 caracteres.");
         if(!regexPass.test(passAluno)) return setErroAluno("A senha precisa ter letras e números.")
@@ -25,6 +25,9 @@ export function Signup({navigation}){
             const response = await api.post('/check/aluno', {
                 rm: Number(rm)
             });
+            if(response.data.msg){
+                setErroAluno(response.data.msg);
+            }
             alert(JSON.stringify(response.data));
             /*if(response.data.msg) return setErroAluno(response.data.msg);
             const resCadastro = await api.post('/cadastro/aluno', {
