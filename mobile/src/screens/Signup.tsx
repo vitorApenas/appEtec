@@ -1,5 +1,6 @@
 import {View, Text, TouchableOpacity} from 'react-native';
 import { useState } from 'react';
+import bcrypt from 'bcryptjs';
 
 import { TabForm } from '../components/TabForm';
 import { InputLogin } from '../components/InputLogin';
@@ -9,8 +10,8 @@ import { Feather } from '@expo/vector-icons';
 
 import { api } from '../lib/axios';
 
-export function Signup({navigation}){
-
+export function Signup({navigation}){   
+    
     async function cadastroAluno(){
         const regexPass = /^(?=.*[a-zA-Z])(?=.*\d).+$/;
         
@@ -22,15 +23,23 @@ export function Signup({navigation}){
         setErroAluno('');
         try{
             setIsLoading(true);
-            const response = await api.post('/check/aluno', {
+            
+            const check = await api.post('/check/aluno', {
                 rm: Number(rm)
             });
-            if(response.data.msg){
-                setErroAluno(response.data.msg);
-            }
-            alert(JSON.stringify(response.data));
-            /*if(response.data.msg) return setErroAluno(response.data.msg);
-            const resCadastro = await api.post('/cadastro/aluno', {
+            if(check.data.msg) return setErroAluno(check.data.msg);
+            
+            const cadastro = await api.post('/cadastro/aluno', {
+                rm: Number(rm),
+                senha: passAluno
+            });
+
+            alert(JSON.stringify(cadastro.data))
+
+            
+            
+            
+            /*const resCadastro = await api.post('/cadastro/aluno', {
                 rm: rm,
                 senha: passAluno
             });
