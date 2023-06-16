@@ -33,25 +33,29 @@ export function ProfilePhoto({route, navigation}){
             {/*Testar com a flatlist também*/}
             <View className="w-full border border-black mt-2" style={{height: screenWidth}}>
                 <ScrollView>
-                    <TouchableOpacity
-                        onPress={()=>alert("as")}
-                    >
-                        <Image
-                            source={require('../assets/tucanosPerfil/tuca01.png')}
-                            className="w-1/3 rounded-full"
-                            style={{resizeMode: 'contain', height: screenWidth/3}}
-                        />
-                    </TouchableOpacity>
-                    
-                    <TouchableOpacity
-                        onPress={()=>alert("as")}
-                    >
-                        <Image
-                            source={require('../assets/tucanosPerfil/tuca02.png')}
-                            className="w-1/3 rounded-full"
-                            style={{resizeMode: 'contain', height: screenWidth/3}}
-                        />
-                    </TouchableOpacity>
+                    <View className="w-full" style={{height: screenWidth/3}}>
+                        <TouchableOpacity
+                            onPress={()=>alert("as")}
+                            style={{height: screenWidth/3, width: screenWidth/3}}
+                        >
+                            <Image
+                                source={require('../assets/tucanosPerfil/tuca01.png')}
+                                className="rounded-full w-full h-full"
+                                style={{resizeMode: 'contain'}}
+                            />
+                        </TouchableOpacity>
+                        
+                        <TouchableOpacity
+                            onPress={()=>alert("as")}
+                            style={{height: screenWidth/3, width: screenWidth/3}}
+                        >
+                            <Image
+                                source={require('../assets/tucanosPerfil/tuca01.png')}
+                                className="rounded-full w-full h-full"
+                                style={{resizeMode: 'contain'}}
+                            />
+                        </TouchableOpacity>
+                    </View>
                 </ScrollView>
             </View>
             <BtnForm
