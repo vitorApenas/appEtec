@@ -33,7 +33,7 @@ export function ProfilePhoto({route, navigation}){
             {/*Testar com a flatlist também*/}
             <View className="w-full border border-black mt-2" style={{height: screenWidth}}>
                 <ScrollView>
-                    <View className="w-full" style={{height: screenWidth/3}}>
+                    <View className="w-full border border-red-700" style={{height: screenWidth/3}}>
                         <TouchableOpacity
                             onPress={()=>alert("as")}
                             style={{height: screenWidth/3, width: screenWidth/3}}
@@ -61,7 +61,6 @@ export function ProfilePhoto({route, navigation}){
             <BtnForm
             className="mt-4"
             text="CONFIRMAR"
-            erro="Houve um erro no servidor, tente novamente mais tarde"
             />
         </View>
     )
