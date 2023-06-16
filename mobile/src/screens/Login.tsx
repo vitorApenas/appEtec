@@ -1,6 +1,5 @@
 import { Image, Text, View, TouchableOpacity, Keyboard } from "react-native";
 import { useState } from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { TabForm } from "../components/TabForm";
 import { InputLogin } from "../components/InputLogin";
@@ -30,7 +29,7 @@ export function Login({navigation}){
         if(alunoSenha.trim().length === 0) return setErroAluno("Coloque uma senha!");
         setErroAluno('');
 
-        try{
+        /*try{
             setIsLoading(true);
             const response = await api.post('/login/aluno', {
                 rm: rm.trim(),
@@ -50,7 +49,7 @@ export function Login({navigation}){
         }
         finally{
             setIsLoading(false);
-        }
+        }*/
     }
 
     if(isLoading) return <Loading/>

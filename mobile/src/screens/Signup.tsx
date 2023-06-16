@@ -28,16 +28,13 @@ export function Signup({navigation}){
                 rm: Number(rm)
             });
             if(check.data.msg) return setErroAluno(check.data.msg);
+
+            navigation.navigate('profilePhoto');
             
-            const cadastro = await api.post('/cadastro/aluno', {
+            /*const cadastro = await api.post('/cadastro/aluno', {
                 rm: Number(rm),
                 senha: passAluno
-            });
-
-            alert(JSON.stringify(cadastro.data))
-
-            
-            
+            });*/
             
             /*const resCadastro = await api.post('/cadastro/aluno', {
                 rm: rm,

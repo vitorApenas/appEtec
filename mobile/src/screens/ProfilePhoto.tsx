@@ -1,89 +1,63 @@
-import { View, Text, Image, TouchableOpacity, ImageComponent } from 'react-native'
-import * as ImagePicker from 'expo-image-picker';
-import { useState } from 'react';
+import { View, Text, Image, TouchableOpacity, ScrollView, FlatList, Dimensions} from 'react-native'
 
 import { BtnForm } from '../components/BtnForm';
 import { api } from '../lib/axios';
 
 export function ProfilePhoto({route, navigation}){
-    
-    const formAluno = route.params.aluno;
-    const {rm, pass} = route.params;
 
-    const [image, setImage] = useState<string>('');
-    const [erroImg, setErroImg] = useState<string>('');
+    const screenWidth = Dimensions.get('screen').width;
 
-    async function pegarImg(){
-        const result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.Images,
-            allowsEditing: true,
-            aspect: [1,1],
-            quality: 1
-        });
-        //console.log(result.assets[0].uri);
-        if(!result.canceled){
-            setImage(result.assets[0].uri);
-        }
-    }
+    const flatListData = [
+        {key: '1', src: 'tuca01.png'},
+        {key: '2', src: 'tuca02.png'},
+        {key: '3', src: 'tuca03.png'},
+        {key: '4', src: 'tuca04.png'},
+        {key: '5', src: 'tuca05.png'},
+        {key: '6', src: 'tuca06.png'},
+        {key: '7', src: 'tuca07.png'},
+        {key: '8', src: 'tuca08.png'}
+    ]
 
-    async function upload(){
-        const fileName = image.substring(
-            image.lastIndexOf('/') + 1,
-            image.length
-        );
-
-        const extensao = fileName.split('.')[1];
-
-        console.log(extensao)
-        
-        const formData = new FormData();
-        formData.append('fotoPerfil', JSON.parse(
-            JSON.stringify({
-                uri: image,
-                name: `${rm.toString()}.${extensao}`,
-                type: `image/${extensao}`
-            })
-        ));
-
-        const response = await api.post('/cadastro/aluno', {
-            rm: rm,
-            pass: pass,
-            image: formData
-        });
-
-        console.log(response.data);
-        
-    }
-    
     return(
         <View className="flex-1 bg-back items-center">
-            <Text className="text-standart text-3xl font-nbold mt-16 w-3/4 text-center">
-                Que tal uma foto de perfil pra deixar esse espaço com a sua cara?
+            <Text className="text-standart text-3xl font-nbold mt-12 w-3/4 text-center">
+                Escolha sua foto de perfil
             </Text>
-            {image ?
-                <Image
-                    source={{uri: image}}
-                    className="h-80 w-80 mt-8 rounded-full"
-                />
-            :
-                <Image
-                    source={require('../assets/Perfil_foto_cadastro.png')}
-                    className="h-80 w-80 mt-8 rounded-full"
-                />
-            }
-            <TouchableOpacity
-                onPress={()=>pegarImg()}
-                className="h-10 w-11 rounded-lg bg-gray-300 items-center justify-center border-2 border-gray-500 mt-8"
-            >
-                <Text className="text-black text-3xl">
-                    +
-                </Text>
-            </TouchableOpacity>
+
+            <Image 
+                source={require('../assets/tucanosPerfil/tuca01.png')} 
+                className="w-1/3 rounded-full mt-0" 
+                style={{resizeMode: 'contain', height: screenWidth/3}}
+            />
+            
+            {/*Testar com a flatlist também*/}
+            <View className="w-full border border-black mt-2" style={{height: screenWidth}}>
+                <ScrollView>
+                    <TouchableOpacity
+                        onPress={()=>alert("as")}
+                    >
+                        <Image
+                            source={require('../assets/tucanosPerfil/tuca01.png')}
+                            className="w-1/3 rounded-full"
+                            style={{resizeMode: 'contain', height: screenWidth/3}}
+                        />
+                    </TouchableOpacity>
+                    
+                    <TouchableOpacity
+                        onPress={()=>alert("as")}
+                    >
+                        <Image
+                            source={require('../assets/tucanosPerfil/tuca02.png')}
+                            className="w-1/3 rounded-full"
+                            style={{resizeMode: 'contain', height: screenWidth/3}}
+                        />
+                    </TouchableOpacity>
+                </ScrollView>
+            </View>
             <BtnForm
-                className="mt-12"
-                text="CADASTRAR"
-                erro={erroImg}
-                onPress = {()=>upload()}
+            className="mt-4"
+            text="CONFIRMAR"
+            erro="Houve um erro no servidor, tente novamente mais tarde"
             />
         </View>
     )
