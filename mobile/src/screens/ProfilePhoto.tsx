@@ -1,4 +1,5 @@
-import { View, Text, Image, TouchableOpacity, ScrollView, FlatList, Dimensions} from 'react-native'
+import { View, Text, Image, TouchableOpacity, ScrollView, Dimensions} from 'react-native'
+import { useState } from 'react';
 
 import { BtnForm } from '../components/BtnForm';
 import { api } from '../lib/axios';
@@ -6,17 +7,10 @@ import { api } from '../lib/axios';
 export function ProfilePhoto({route, navigation}){
 
     const screenWidth = Dimensions.get('screen').width;
+    const {rm, senha} = route.params;
 
-    const flatListData = [
-        {key: '1', src: 'tuca01.png'},
-        {key: '2', src: 'tuca02.png'},
-        {key: '3', src: 'tuca03.png'},
-        {key: '4', src: 'tuca04.png'},
-        {key: '5', src: 'tuca05.png'},
-        {key: '6', src: 'tuca06.png'},
-        {key: '7', src: 'tuca07.png'},
-        {key: '8', src: 'tuca08.png'}
-    ]
+    const [profilePic, setProfilePic] = useState(require(`../assets/tucanosPerfil/tuca01.png`));
+    const prof = new Function(profilePic);
 
     return(
         <View className="flex-1 bg-back items-center">
@@ -25,17 +19,17 @@ export function ProfilePhoto({route, navigation}){
             </Text>
 
             <Image 
-                source={require('../assets/tucanosPerfil/tuca01.png')} 
-                className="w-1/3 rounded-full mt-0" 
+                source={profilePic}
+                className="w-1/3 rounded-full" 
                 style={{resizeMode: 'contain', height: screenWidth/3}}
             />
             
             {/*Testar com a flatlist também*/}
-            <View className="w-full border border-black mt-2" style={{height: screenWidth}}>
+            <View className="w-full mt-2" style={{height: screenWidth}}>
                 <ScrollView>
-                    <View className="w-full border border-red-700" style={{height: screenWidth/3}}>
+                    <View className="w-full flex-row justify-around mb-8" style={{height: screenWidth/3}}>
                         <TouchableOpacity
-                            onPress={()=>alert("as")}
+                            onPress={()=>{setProfilePic(require('../assets/tucanosPerfil/tuca01.png'))}}
                             style={{height: screenWidth/3, width: screenWidth/3}}
                         >
                             <Image
@@ -46,11 +40,83 @@ export function ProfilePhoto({route, navigation}){
                         </TouchableOpacity>
                         
                         <TouchableOpacity
-                            onPress={()=>alert("as")}
+                            onPress={()=>{setProfilePic(require('../assets/tucanosPerfil/tuca02.png'))}}
                             style={{height: screenWidth/3, width: screenWidth/3}}
                         >
                             <Image
-                                source={require('../assets/tucanosPerfil/tuca01.png')}
+                                source={require('../assets/tucanosPerfil/tuca02.png')}
+                                className="rounded-full w-full h-full"
+                                style={{resizeMode: 'contain'}}
+                            />
+                        </TouchableOpacity>
+                    </View>
+
+                    <View className="w-full flex-row justify-around mb-8" style={{height: screenWidth/3}}>
+                        <TouchableOpacity
+                            onPress={()=>{setProfilePic(require('../assets/tucanosPerfil/tuca03.png'))}}
+                            style={{height: screenWidth/3, width: screenWidth/3}}
+                        >
+                            <Image
+                                source={require('../assets/tucanosPerfil/tuca03.png')}
+                                className="rounded-full w-full h-full"
+                                style={{resizeMode: 'contain'}}
+                            />
+                        </TouchableOpacity>
+                        
+                        <TouchableOpacity
+                            onPress={()=>{setProfilePic(require('../assets/tucanosPerfil/tuca04.png'))}}
+                            style={{height: screenWidth/3, width: screenWidth/3}}
+                        >
+                            <Image
+                                source={require('../assets/tucanosPerfil/tuca04.png')}
+                                className="rounded-full w-full h-full"
+                                style={{resizeMode: 'contain'}}
+                            />
+                        </TouchableOpacity>
+                    </View>
+
+                    <View className="w-full flex-row justify-around mb-8" style={{height: screenWidth/3}}>
+                        <TouchableOpacity
+                            onPress={()=>{setProfilePic(require('../assets/tucanosPerfil/tuca05.png'))}}
+                            style={{height: screenWidth/3, width: screenWidth/3}}
+                        >
+                            <Image
+                                source={require('../assets/tucanosPerfil/tuca05.png')}
+                                className="rounded-full w-full h-full"
+                                style={{resizeMode: 'contain'}}
+                            />
+                        </TouchableOpacity>
+                        
+                        <TouchableOpacity
+                            onPress={()=>{setProfilePic(require('../assets/tucanosPerfil/tuca06.png'))}}
+                            style={{height: screenWidth/3, width: screenWidth/3}}
+                        >
+                            <Image
+                                source={require('../assets/tucanosPerfil/tuca06.png')}
+                                className="rounded-full w-full h-full"
+                                style={{resizeMode: 'contain'}}
+                            />
+                        </TouchableOpacity>
+                    </View>
+
+                    <View className="w-full flex-row justify-around" style={{height: screenWidth/3}}>
+                        <TouchableOpacity
+                            onPress={()=>{setProfilePic(require('../assets/tucanosPerfil/tuca07.png'))}}
+                            style={{height: screenWidth/3, width: screenWidth/3}}
+                        >
+                            <Image
+                                source={require('../assets/tucanosPerfil/tuca07.png')}
+                                className="rounded-full w-full h-full"
+                                style={{resizeMode: 'contain'}}
+                            />
+                        </TouchableOpacity>
+                        
+                        <TouchableOpacity
+                            onPress={()=>{setProfilePic("require('../assets/tucanosPerfil/tuca08.png')")}}
+                            style={{height: screenWidth/3, width: screenWidth/3}}
+                        >
+                            <Image
+                                source={require('../assets/tucanosPerfil/tuca08.png')}
                                 className="rounded-full w-full h-full"
                                 style={{resizeMode: 'contain'}}
                             />
@@ -59,8 +125,18 @@ export function ProfilePhoto({route, navigation}){
                 </ScrollView>
             </View>
             <BtnForm
-            className="mt-4"
-            text="CONFIRMAR"
+                className="mt-4"
+                text="CONFIRMAR"
+                onPress={()=>{eval('alert("oi")')}}
+                /*
+                
+                api.post('/cadastro/aluno', {
+                    rm: rm,
+                    senha: senha,
+                    img: profilePic
+                })
+                
+                */
             />
         </View>
     )

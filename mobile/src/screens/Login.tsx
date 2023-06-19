@@ -1,5 +1,8 @@
 import { Image, Text, View, TouchableOpacity, Keyboard } from "react-native";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useIsFocused } from "@react-navigation/native";
+import { Feather } from "@expo/vector-icons";
 
 import { TabForm } from "../components/TabForm";
 import { InputLogin } from "../components/InputLogin";
@@ -10,50 +13,106 @@ import {api} from '../lib/axios';
 
 export function Login({navigation}){
 
+    const isFocused = useIsFocused();
+    
+    useEffect(()=>{
+        if(isFocused) getData();
+        
+    }, [isFocused]);
+
+    async function getData(){
+        setIsLoading(true);
+        
+        const keys = await AsyncStorage.getAllKeys();
+        if(keys.includes('@rm')) return navigation.navigate('home');
+        if(keys.includes('@email') && !keys.includes('@rm')) return navigation.navigate('home');
+
+        setIsLoading(false);
+    }
+
+    async function loginAluno(){
+        Keyboard.dismiss()
+        if(rm.trim().includes('.') || !Number.isInteger(Number(rm.trim())) || isNaN(Number(rm.trim())) || rm.trim().length !== 6) return setErroAluno("O RM é inválido!");
+        if(passAluno.trim().length === 0) return setErroAluno("Insira uma senha!");
+        setErroAluno('');
+        
+        try{
+            setIsLoading(true);
+            const login = await api.post('/login/aluno', {
+                rm: rm.trim(),
+                senha: passAluno.trim()
+            });
+
+            if(login.data.msg) return setErroAluno(login.data.msg);
+            AsyncStorage.multiSet([
+                ['@rm', rm.trim()],
+                ['@email', login.data.email],
+                ['@nome', login.data.nome],
+                ['@rg', login.data.rg],
+                ['@turma', login.data.turma],
+                ['@profilePhoto', login.data.fotoPerfil]
+            ]);
+            return navigation.navigate('home')
+        }
+        catch(err){
+            setErroAluno("Houve um problema, tente novamente mais tarde");
+            console.log(`Erro: ${err}`);
+        }
+        finally{
+            setIsLoading(false);
+        }
+    }
+
+    async function loginFunc(){
+        Keyboard.dismiss();
+        const regexEmail = /^[^\s@]+@etec.sp.gov.br$/;
+        if(!regexEmail.test(email.trim()) || email.trim().length <= 16) return setErroFunc("O E-mail é inválido!");
+        if(passFunc.trim().length === 0) return setErroFunc("Insira uma senha!");
+        setErroFunc('');
+
+        try{
+            setIsLoading(true);
+
+            const login = await api.post('/login/funcionario', {
+                email: email.trim(),
+                senha: passFunc.trim()
+            });
+            if(login.data.msg) return setErroFunc(login.data.msg);
+            AsyncStorage.multiSet([
+                ['@email', email.trim()],
+                ['@nome', login.data.nome],
+                ['@profilePhoto', login.data.fotoPerfil]
+            ]);
+            return navigation.navigate('home')
+        }
+        catch(err){
+            setErroFunc("Houve um problema, tente novamente mais tarde");
+            console.log(`Erro: ${err}`);
+        }
+        finally{
+            setIsLoading(false);
+        }
+    }
+    
     const [teclado, setTeclado] = useState<boolean>(false);
     const [formFunc, setFormFunc] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [hidePassAluno, setHidePassAluno] = useState<boolean>(true);
+    const [hidePassFunc, setHidePassFunc] = useState<boolean>(true);
     
     const [rm, setRm] = useState<string>('')
-    const [alunoSenha, setAlunoSenha] = useState<string>('');
+    const [passAluno, setPassAluno] = useState<string>('');
     const [erroAluno, setErroAluno] = useState<string>('');
 
     const [email, setEmail] = useState<string>('');
-    const [funcSenha, setFuncSenha] = useState<string>('');
+    const [passFunc, setPassFunc] = useState<string>('');
+    const [erroFunc, setErroFunc] = useState<string>('');
 
     Keyboard.addListener('keyboardDidShow', ()=>setTeclado(true));
     Keyboard.addListener('keyboardDidHide', ()=>setTeclado(false));
 
-    async function loginAluno(){
-        if(rm.trim().includes('.') || !Number.isInteger(Number(rm.trim())) || isNaN(Number(rm.trim())) || rm.trim().length !== 6) return setErroAluno("O RM é inválido!");
-        if(alunoSenha.trim().length === 0) return setErroAluno("Coloque uma senha!");
-        setErroAluno('');
-
-        /*try{
-            setIsLoading(true);
-            const response = await api.post('/login/aluno', {
-                rm: rm.trim(),
-                senha: alunoSenha.trim()
-            });
-            if(response.data.msg) return setErroAluno(response.data.msg);
-            try{
-                await AsyncStorage.setItem('rm', rm);
-                navigation.navigate('carteirinha')
-            }
-            catch(err){
-                console.log(err);
-            }
-        }
-        catch(err){
-
-        }
-        finally{
-            setIsLoading(false);
-        }*/
-    }
-
     if(isLoading) return <Loading/>
-    
+
     return(
         <View className="flex-1 bg-back items-center">
             {!teclado ?
@@ -98,14 +157,57 @@ export function Login({navigation}){
                             />
                             <InputLogin
                                 label="Senha"
-                                value={funcSenha}
-                                onChangeText={(value)=>setFuncSenha(value)}
+                                value={passFunc}
+                                onChangeText={(value)=>setPassFunc(value)}
                                 className="mt-4"
+                                secureTextEntry={hidePassFunc}
                             />
                         </View>
+                        {!teclado &&
+                            <View className="w-3/4 justify-start items-center flex-row mt-4">
+                                <TouchableOpacity
+                                    className="h-7 w-7 border-2 border-[#82878A] rounded-md items-center justify-center"
+                                    onPress={()=>setHidePassFunc(!hidePassFunc)}
+                                    activeOpacity={1}
+                                >
+                                    {!hidePassFunc &&
+                                        <Feather
+                                            name="check"
+                                            size={24}
+                                            color="#82878A"
+                                        />
+                                    }
+                                </TouchableOpacity>
+                                <Text className="font-nsemibold ml-1 text-[#7F779A]">
+                                    Mostrar senha
+                                </Text>
+                            </View>
+                        }
+                        {teclado &&
+                            <View className="w-3/4 justify-start items-center flex-row mt-16">
+                                <TouchableOpacity
+                                    className="h-7 w-7 border-2 border-[#82878A] rounded-md items-center justify-center"
+                                    onPress={()=>setHidePassFunc(!hidePassFunc)}
+                                    activeOpacity={1}
+                                >
+                                    {!hidePassFunc &&
+                                        <Feather
+                                            name="check"
+                                            size={24}
+                                            color="#82878A"
+                                        />
+                                    }
+                                </TouchableOpacity>
+                                <Text className="font-nsemibold ml-1 text-[#7F779A]">
+                                    Mostrar senha
+                                </Text>
+                            </View>
+                        }
                         <BtnForm
                             text="ENTRAR"
-                            className="mt-28"
+                            className="mt-20"
+                            onPress={()=>loginFunc()}
+                            erro={erroFunc}
                         />
                     </>
                 : 
@@ -121,14 +223,56 @@ export function Login({navigation}){
                             />
                             <InputLogin
                                 label="Senha"
-                                value={alunoSenha}
-                                onChangeText={(value)=>setAlunoSenha(value)}
+                                value={passAluno}
+                                onChangeText={(value)=>setPassAluno(value)}
                                 className="mt-4"
+                                secureTextEntry={hidePassAluno}
                             />
                         </View>
+                        {!teclado &&
+                            <View className="w-3/4 justify-start items-center flex-row mt-4">
+                                <TouchableOpacity
+                                    className="h-7 w-7 border-2 border-[#82878A] rounded-md items-center justify-center"
+                                    onPress={()=>setHidePassAluno(!hidePassAluno)}
+                                    activeOpacity={1}
+                                >
+                                    {!hidePassAluno &&
+                                        <Feather
+                                            name="check"
+                                            size={24}
+                                            color="#82878A"
+                                        />
+                                    }
+                                </TouchableOpacity>
+                                <Text className="font-nsemibold ml-1 text-[#7F779A]">
+                                    Mostrar senha
+                                </Text>
+                            </View>
+                        }
+                        {teclado &&
+                            <View className="w-3/4 justify-start items-center flex-row mt-16">
+                                <TouchableOpacity
+                                    className="h-7 w-7 border-2 border-[#82878A] rounded-md items-center justify-center"
+                                    onPress={()=>setHidePassAluno(!hidePassAluno)}
+                                    activeOpacity={1}
+                                >
+                                    {!hidePassAluno &&
+                                        <Feather
+                                            name="check"
+                                            size={24}
+                                            color="#82878A"
+                                        />
+                                    }
+                                </TouchableOpacity>
+                                <Text className="font-nsemibold ml-1 text-[#7F779A]">
+                                    Mostrar senha
+                                </Text>
+                            </View>
+                        }
+                        
                         <BtnForm
                             text="ENTRAR"
-                            className="mt-28"
+                            className="mt-20"
                             onPress={()=>loginAluno()}
                             erro={erroAluno}
                         />

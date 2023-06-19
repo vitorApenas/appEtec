@@ -1,5 +1,10 @@
 import sequelize from "./db";
-import {AlunosAtivos, FuncionariosAtivos, ReferenciaAlunos, ReferenciaFuncionarios} from './models';
+import {AlunosAtivos,
+    FuncionariosAtivos,
+    ReferenciaAlunos,
+    ReferenciaFuncionarios,
+    Cardapio
+} from './models';
 
 interface typeReferenciaAlunos {
     rm: Number,
@@ -30,6 +35,15 @@ interface typeFuncionariosAtivos {
     nome: String,
     fotoPerfil: String,
     senha: String
+}
+
+interface typeCardapio{
+    id: number,
+    content1: string,
+    content2?: string,
+    abertura: string,
+    fechamento: string,
+    cancelado: boolean
 }
 
 //Arquivo para RESETAR e POPULAR o database com dados para teste
@@ -83,8 +97,8 @@ interface typeFuncionariosAtivos {
             nome: 'Vitor Mendes Estevanin',
             rg: '11.111.111-1',
             turma: '3E - Desenvolvimento de Sistemas',
-            fotoPerfil: 'fotoVitor.png', 
-            senha: 'vitor123'
+            fotoPerfil: 'tuca01.png', 
+            senha: '$2b$10$z5NYOo.e2.b0ejxEqgGFseLl15fKpDO/H4rnYI0PqLF1HchGhByR2'
         }
     ];
 
@@ -92,10 +106,45 @@ interface typeFuncionariosAtivos {
         {
             email: 'rosa.shimizu@etec.sp.gov.br',
             nome: 'Rosa Mitiko Shimizu',
-            fotoPerfil: 'fotoRosinha.png',
-            senha: 'rosa123'
+            fotoPerfil: 'tuca01.png',
+            senha: '$2b$10$z5NYOo.e2.b0ejxEqgGFseLl15fKpDO/H4rnYI0PqLF1HchGhByR2'
         }
     ];
+
+    const cardapio:typeCardapio[] = [
+        {
+            id: 0,
+            content1: "Bolacha de água e sal",
+            content2: "Leite achocolatado",
+            abertura: "09:50",
+            fechamento: "10:10",
+            cancelado: false
+        },
+        {
+            id: 1,
+            content1: "Arroz, feijão e salada",
+            content2: "Carne de porco",
+            abertura: "11:50",
+            fechamento: "13:20",
+            cancelado: false
+        },
+        {
+            id: 2,
+            content1: "Bolacha de chocolate",
+            content2: "Suco de laranja",
+            abertura: "15:00",
+            fechamento: "15:20",
+            cancelado: false
+        },
+        {
+            id: 3,
+            content1: "Arroz, feijão e salada",
+            content2: "Carne de porco",
+            abertura: "17:30",
+            fechamento: "19:00",
+            cancelado: false
+        }
+    ]
 
     await sequelize.sync({force: true});
 
@@ -103,4 +152,5 @@ interface typeFuncionariosAtivos {
     await ReferenciaFuncionarios.bulkCreate(funcionariosReferencia);
     await AlunosAtivos.bulkCreate(alunosAtivos);
     await FuncionariosAtivos.bulkCreate(funcionariosAtivos);
+    await Cardapio.bulkCreate(cardapio);
 })();

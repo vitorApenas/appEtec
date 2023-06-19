@@ -1,6 +1,7 @@
 import {View, Text, TouchableOpacity} from 'react-native';
-import { useState } from 'react';
-import bcrypt from 'bcryptjs';
+import { useEffect, useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useIsFocused } from '@react-navigation/native';
 
 import { TabForm } from '../components/TabForm';
 import { InputLogin } from '../components/InputLogin';
@@ -11,36 +12,61 @@ import { Feather } from '@expo/vector-icons';
 import { api } from '../lib/axios';
 
 export function Signup({navigation}){   
+
+    const isFocused = useIsFocused();
+    
+    useEffect(()=>{
+        if(isFocused) getData();
+        
+    }, [isFocused]);
+
+    async function getData(){
+        setIsLoading(true);
+        
+        const keys = await AsyncStorage.getAllKeys();
+        if(keys.includes('@rm')) return navigation.navigate('carteirinha');
+        if(keys.includes('@email') && !keys.includes('@rm')) return navigation.navigate('refeitorio');
+
+        setIsLoading(false);
+    }
     
     async function cadastroAluno(){
-        const regexPass = /^(?=.*[a-zA-Z])(?=.*\d).+$/;
-        
         if(rm.trim().includes('.') || !Number.isInteger(Number(rm.trim())) || isNaN(Number(rm.trim())) || rm.length !== 6) return setErroAluno("O RM é inválido!");
         if(passAluno.trim().includes(' ')) return setErroAluno("A senha não pode ter espaços!")
         if(passAluno.trim().length < 8) return setErroAluno("A senha precisa de no mínimo 8 caracteres.");
         if(!regexPass.test(passAluno)) return setErroAluno("A senha precisa ter letras e números.")
         if(confirmPassAluno.trim() !== passAluno.trim()) return setErroAluno("As senhas não são iguais!");
         setErroAluno('');
+        
         try{
             setIsLoading(true);
             
             const check = await api.post('/check/aluno', {
-                rm: Number(rm)
+                rm: Number(rm.trim())
             });
             if(check.data.msg) return setErroAluno(check.data.msg);
 
-            navigation.navigate('profilePhoto');
-            
-            /*const cadastro = await api.post('/cadastro/aluno', {
-                rm: Number(rm),
-                senha: passAluno
-            });*/
-            
-            /*const resCadastro = await api.post('/cadastro/aluno', {
-                rm: rm,
-                senha: passAluno
+            const signup = await api.post('/cadastro/aluno', {
+                rm: Number(rm.trim()),
+                senha: passAluno.trim(),
+                img: 'tuca01.png'
             });
-            if(resCadastro.data.criado) return navigation.navigate('login');*/
+            if(signup.data.msg) return setErroAluno(signup.data.msg);
+
+            if(signup.data.criado){
+                await AsyncStorage.clear();
+                await AsyncStorage.multiSet([
+                    ['@rm', rm.trim()],
+                    ['@email', signup.data.criado.email],
+                    ['@nome', signup.data.criado.nome],
+                    ['@rg', signup.data.criado.rg],
+                    ['@turma', signup.data.criado.turma],
+                    ['@profilePhoto', signup.data.criado.fotoPerfil]
+                ]);
+
+                return navigation.navigate('login');
+            };
+            
         }
         catch(err){
             setErroAluno("Houve um problema, tente novamente mais tarde");
@@ -52,10 +78,50 @@ export function Signup({navigation}){
     }
 
     async function cadastroFunc(){
+        if(!regexEmail.test(email) || email.length <= 16) return setErroFunc("O E-mail é inválido!");
+        if(passFunc.trim().includes(' ')) return setErroFunc("A senha não pode ter espaços!")
+        if(passFunc.trim().length < 8) return setErroFunc("A senha precisa de no mínimo 8 caracteres.");
+        if(!regexPass.test(passFunc)) return setErroFunc("A senha precisa ter letras e números.")
+        if(confirmPassFunc.trim() !== passFunc.trim()) return setErroFunc("As senhas não são iguais!");
+        setErroFunc('');
 
+        try{
+            setIsLoading(true);
+
+            const check = await api.post('/check/funcionario', {
+                email: email.trim()
+            });
+            if(check.data.msg) return setErroFunc(check.data.msg);
+
+            const signup = await api.post('/cadastro/funcionario', {
+                email: email.trim(),
+                senha: passFunc.trim(),
+                img: 'tuca01.png'
+            });
+            if(signup.data.msg) return setErroFunc(signup.data.msg);
+
+            if(signup.data.criado){
+                await AsyncStorage.clear();
+                await AsyncStorage.multiSet([
+                    ['@email', email.trim()],
+                    ['@nome', signup.data.criado.nome],
+                    ['@profilePhoto', signup.data.criado.fotoPerfil]
+                ]);
+                
+                return navigation.navigate('login');
+            }
+        }
+        catch(err){
+            setErroFunc("Houve um problema, tente novamente mais tarde");
+            console.log(`Erro: ${err}`);
+        }
+        finally{
+            setIsLoading(false);
+        }
     }
 
     const regexEmail = /^[^\s@]+@etec.sp.gov.br$/;
+    const regexPass = /^(?=.*[a-zA-Z])(?=.*\d).+$/;
     
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [formFunc, setFormFunc] = useState<boolean>(false);
@@ -67,8 +133,8 @@ export function Signup({navigation}){
     const [erroAluno, setErroAluno] = useState<string>('');
 
     const [email, setEmail] = useState<string>('vitor.estevanin@etec.sp.gov.br');
-    const [passFunc, setPassFunc] = useState<string>('');
-    const [confirmPassFunc, setConfirmPassFunc] = useState<string>('');
+    const [passFunc, setPassFunc] = useState<string>('vitorvitor123');
+    const [confirmPassFunc, setConfirmPassFunc] = useState<string>('vitorvitor123');
     const [erroFunc, setErroFunc] = useState<string>('');
 
     if(isLoading) return <Loading/>
@@ -99,7 +165,8 @@ export function Signup({navigation}){
                         onChangeText={(value)=>setEmail(value)}
                         className="mt-8"
                     />
-                    {regexEmail.test(email) &&
+                    {
+                    regexEmail.test(email) &&
                         <>
                             <InputLogin
                                 label="Senha"
@@ -140,7 +207,7 @@ export function Signup({navigation}){
                                 text="CADASTRAR"
                                 erro={erroFunc}
                                 className="mt-44"
-                                onPress={()=>{}}
+                                onPress={()=>cadastroFunc()}
                             />
                         </>
                     }
