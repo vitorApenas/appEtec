@@ -22,7 +22,7 @@ const ReferenciaFuncionarios = sequelize.define('ReferenciaFuncionarios',
         }
     },
     {
-        timestampes: false
+        timestamps: false
     }
 );
 

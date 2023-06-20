@@ -1,4 +1,4 @@
-import { TouchableOpacity, View } from 'react-native';
+import { Image, TouchableOpacity, View } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useEffect, useState } from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -45,43 +45,52 @@ export function Carteirinha({navigation}){
         <View className="flex-1 bg-back items-center">
             <LinearGradient
                 colors={['#6F87C3', '#A4AAB9']}
-                className="w-full h-[28%]"
+                className="w-full h-[28%] items-center"
             >
-                <TouchableOpacity
-                className='mt-1 h-1/2 w-1/6 justify-center items-center'
-                onPress={()=>{navigation.navigate('home')}}
-                >
-                    <Feather
-                        name="arrow-left"
-                        size={38}
-                        color="#3A4365"
-                    />
-                </TouchableOpacity>
+                <View className='w-full h-1/3'>
+                    <TouchableOpacity
+                        className='mt-1 h-full w-1/6 justify-end items-center'
+                        onPress={()=>{navigation.navigate('home')}}
+                    >
+                        <Feather
+                            name="arrow-left"
+                            size={38}
+                            color="#3A4365"
+                        />
+                    </TouchableOpacity>
+                </View>
+                <View className="rounded-full mt-[8%] border-4 border-[#99A0B1]">
+                    <Image
+                        source={require('../assets/tucanosPerfil/tuca01.png')}
+                        className="rounded-full h-40 w-40"
+                    />    
+                </View>
+                
             </LinearGradient>
             <CarteirinhaField
                 label="Nome do aluno"
                 text={nome}
-                className="mt-5"
+                className="mt-7"
             />
             <CarteirinhaField
                 label="RM Escolar"
                 text={rm}
-                className="mt-7"
+                className="mt-5"
             />
             <CarteirinhaField
                 label="E-mail institucional"
                 text={email}
-                className="mt-7"
+                className="mt-5"
             />
             <CarteirinhaField
                 label="Curso"
                 text={turma}
-                className="mt-7"
+                className="mt-5"
             />
             <CarteirinhaField
                 label="RG"
                 text={rg}
-                className="mt-7"
+                className="mt-5"
             />
         </View>
     );

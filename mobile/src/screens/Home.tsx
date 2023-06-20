@@ -1,8 +1,8 @@
 import { useIsFocused } from "@react-navigation/native";
 import { useEffect, useState } from "react";
-import { View, Image, TouchableOpacity } from "react-native";
+import { View, Image, TouchableOpacity, Text } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Feather, MaterialIcons } from "@expo/vector-icons";
+import { Feather } from "@expo/vector-icons";
 
 import { Loading } from "../components/Loading";
 
@@ -44,8 +44,18 @@ export function Home({navigation}){
                         />
                     </TouchableOpacity>
                 }
+                {isFunc  && 
+                    <TouchableOpacity
+                        className="border-[#3A4365] border-2 rounded-full"
+                    >
+                        <Image
+                            source={require('../assets/tucanosPerfil/tuca01.png')}
+                            className="rounded-full h-12 w-12"
+                        />
+                    </TouchableOpacity>
+                }
                 <TouchableOpacity
-                    className="absolute right-2 bottom-1"
+                    className="absolute right-3 bottom-1"
                     onPress={()=>navigation.navigate('settings')}
                 >
                     <Feather
@@ -55,16 +65,63 @@ export function Home({navigation}){
                     />
                 </TouchableOpacity>
             </View>
-            <View className="w-full bg-[#99A0B1] h-16 absolute bottom-0">
-                <TouchableOpacity
-                    onPress={()=>navigation.navigate('refeitorio')}
-                >
-                    <MaterialIcons
-                        name="restaurant-menu"
-                        size={42}
-                        color="#3A4365"
+            <View className="w-full bg-[#99A0B1] h-16 absolute bottom-0 justify-center items-center">
+                <View className="w-5/6 flex-row justify-between items-center">
+                    <TouchableOpacity
+                        onPress={()=>{}}
+                    >
+                        <Image
+                            source={require("../assets/Horario_icon.png")}
+                            className="h-10 w-10"
+                        />
+                    </TouchableOpacity>
+                    <View
+                        className="w-0.5 h-8 bg-white rounded-full"
                     />
-                </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={()=>navigation.navigate('refeitorio')}
+                    >
+                        <Image
+                            source={require("../assets/Cardapio_icon.png")}
+                            className="h-10 w-10"
+                        />
+                    </TouchableOpacity>
+                    <View
+                        className="w-0.5 h-8 bg-white rounded-full"
+                    />
+                    <TouchableOpacity
+                        onPress={()=>{}}
+                        className="items-center justify-center"
+                    >
+                        <Image
+                            source={require("../assets/Home.png")}
+                            className="h-10 w-10"
+                        />
+                        <Text className="font-nbold text-white text-sm">Home</Text>
+                    </TouchableOpacity>
+                    <View
+                        className="w-0.5 h-8 bg-white rounded-full"
+                    />
+                    <TouchableOpacity
+                        onPress={()=>{}}
+                    >
+                        <Image
+                            source={require("../assets/Biblioteca_icon.png")}
+                            className="h-10 w-10"
+                        />
+                    </TouchableOpacity>
+                    <View
+                        className="w-0.5 h-8 bg-white rounded-full"
+                    />
+                    <TouchableOpacity
+                        onPress={()=>{}}
+                    >
+                        <Image
+                            source={require("../assets/A_P_icon.png")}
+                            className="h-10 w-10"
+                        />
+                    </TouchableOpacity>
+                </View>
             </View>
         </View>
     )

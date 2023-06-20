@@ -39,17 +39,17 @@ export function Settings({navigation}){
                 onPress={()=>navigation.navigate('home')}
             />
             <TouchableOpacity
-                className="bg-[#CC3535] w-5/6 flex-row items-center h-16 rounded-lg absolute bottom-[4%]"
+                className="bg-[#BA3C3C] w-5/6 flex-row items-center h-16 rounded-lg absolute bottom-[4%]"
                 onPress={()=>logout()}
             >
                 <View className="ml-[3%]">
                     <Feather
                         name="log-out"
-                        size={50}
+                        size={36}
                         color="#000"
                     />
                 </View>
-                <Text className="font-nbold text-white text-base ml-[3%]">Sair</Text>
+                <Text className="font-nbold text-[#F5F7FA] text-base ml-[3%]">Sair</Text>
             </TouchableOpacity>
         </View>
     )
