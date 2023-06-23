@@ -68,11 +68,11 @@ export function Home({navigation}){
             <View className="w-full bg-[#99A0B1] h-16 absolute bottom-0 justify-center items-center">
                 <View className="w-5/6 flex-row justify-between items-center">
                     <TouchableOpacity
-                        onPress={()=>{}}
+                        onPress={()=>navigation.navigate('horario')}
                     >
                         <Image
-                            source={require("../assets/Horario_icon.png")}
-                            className="h-10 w-10"
+                            source={require("../assets/home/Horario_icon.png")}
+                            className="h-8 w-8"
                         />
                     </TouchableOpacity>
                     <View
@@ -82,8 +82,8 @@ export function Home({navigation}){
                         onPress={()=>navigation.navigate('refeitorio')}
                     >
                         <Image
-                            source={require("../assets/Cardapio_icon.png")}
-                            className="h-10 w-10"
+                            source={require("../assets/home/Cardapio_icon.png")}
+                            className="h-8 w-8"
                         />
                     </TouchableOpacity>
                     <View
@@ -94,8 +94,8 @@ export function Home({navigation}){
                         className="items-center justify-center"
                     >
                         <Image
-                            source={require("../assets/Home.png")}
-                            className="h-10 w-10"
+                            source={require("../assets/home/Home.png")}
+                            className="h-8 w-8"
                         />
                         <Text className="font-nbold text-white text-sm">Home</Text>
                     </TouchableOpacity>
@@ -106,8 +106,8 @@ export function Home({navigation}){
                         onPress={()=>{}}
                     >
                         <Image
-                            source={require("../assets/Biblioteca_icon.png")}
-                            className="h-10 w-10"
+                            source={require("../assets/home/Biblioteca_icon.png")}
+                            className="h-8 w-8"
                         />
                     </TouchableOpacity>
                     <View
@@ -117,8 +117,8 @@ export function Home({navigation}){
                         onPress={()=>{}}
                     >
                         <Image
-                            source={require("../assets/A_P_icon.png")}
-                            className="h-10 w-10"
+                            source={require("../assets/home/A_P_icon.png")}
+                            className="h-8 w-8"
                         />
                     </TouchableOpacity>
                 </View>

@@ -10,6 +10,7 @@ import { Refeitorio } from "../screens/Refeitorio";
 import { EditarRefeicao } from "../screens/EditarRefeicao";
 import { Home } from "../screens/Home";
 import { Settings } from "../screens/Settings";
+import { Horario } from "../screens/Horario";
 //import { Email } from "../screens/Email";
 
 export function AppRoutes(){
@@ -23,6 +24,7 @@ export function AppRoutes(){
             <Screen name="editarRefeicao" component={EditarRefeicao}/>
             <Screen name="home" component={Home}/>
             <Screen name="settings" component={Settings}/>
+            <Screen name="horario" component={Horario}/>
         </Navigator>
     )
 }
