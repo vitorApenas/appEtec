@@ -5,6 +5,10 @@ import NConfirmadosAlunos from "./NConfirmadosAlunos";
 import AlunosAtivos from "./AlunosAtivos";
 import FuncionariosAtivos from "./FuncionariosAtivos";
 import Cardapio from "./Cardapio";
+import Turmas from "./Turmas";
+import Materias from "./Materias";
+import Professores from "./Professores";
+import Horarios from "./Horarios";
 
 export {
     ReferenciaAlunos,
@@ -13,5 +17,9 @@ export {
     NConfirmadosAlunos,
     AlunosAtivos,
     FuncionariosAtivos,
-    Cardapio
+    Cardapio,
+    Turmas,
+    Materias,
+    Professores,
+    Horarios
 };

@@ -7,7 +7,11 @@ import {
     NConfirmadosAlunos,
     AlunosAtivos,
     FuncionariosAtivos,
-    Cardapio
+    Cardapio,
+    Turmas,
+    Materias,
+    Professores,
+    Horarios
 } from '../db/models';
 const bcrypt = require('bcrypt');
 
@@ -44,7 +48,7 @@ apiRouter.post("/check/aluno", async(req, res)=>{
         const buscaAtivos = await AlunosAtivos.findAll({where:{rm:rm}});
         if(buscaAtivos[0]) return res.json({msg: "O aluno com esse RM já está cadastrado"});
 
-        return res.json(res.statusCode)
+        return res.json(res.statusCode);
     }
     catch(err){
         console.log(err);
@@ -61,11 +65,10 @@ apiRouter.post("/cadastro/aluno", async(req, res)=>{
     const senha = req.body.senha;
     const img = req.body.img;
 
-    const hashedPass = await hashPassword(senha);
-
-    const buscaRef = await ReferenciaAlunos.findAll({where:{rm:rm}});
-
     try{
+        const hashedPass = await hashPassword(senha);
+        const buscaRef = await ReferenciaAlunos.findAll({where:{rm:rm}});
+
         const alunoNovo = await AlunosAtivos.create({
             rm: buscaRef[0].rm,
             email: buscaRef[0].email,
@@ -196,6 +199,50 @@ apiRouter.post('/cardapio/edit', async(req, res)=>{
     try{
         await Cardapio.update(req.body, {where:{id:req.body.id}});
         return res.json(res.statusCode);
+    }
+    catch(err){
+        console.log(err);
+        return res.json({
+            msg: "Houve um erro no servidor, tente novamente mais tarde"
+        });
+    }
+});
+
+apiRouter.get('/turmas', async (req, res)=>{
+    try{
+        const turmas = await Turmas.findAll({order:['turma']});
+        return res.json(turmas);
+    }
+    catch(err){
+        console.log(err);
+        return res.json({
+            msg: "Houve um erro no servidor, tente novamente mais tarde"
+        });
+    }
+});
+
+//Consulta de horário por funcionário
+apiRouter.post('/horarioFunc', async(req, res)=>{
+    const reqTurma = req.body.turma;
+    try {
+        const turma = await Turmas.findAll({where:{id:reqTurma}});
+        const horarios = await Horarios.findAll({where:{idTurma:turma[0].id}, order:['aula']});
+        let output:object[] = [];
+        
+        let i = 0;
+        while(i < horarios.length){
+            const materia = await Materias.findAll({where:{id:horarios[i].idMateria}, attributes:['sigla']});
+            const prof = await Professores.findAll({where:{id:horarios[i].idProf}, attributes:['sigla']});
+            output[i] = {
+                id: horarios[i].id,
+                aula: horarios[i].aula,
+                horario: horarios[i].horario,
+                materia: materia[0].sigla,
+                prof: prof[0].sigla
+            };
+            i++;
+        }
+        return res.json(output);
     }
     catch(err){
         console.log(err);

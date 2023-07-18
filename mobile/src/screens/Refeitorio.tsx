@@ -1,8 +1,8 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useIsFocused } from "@react-navigation/native";
 import { useEffect, useState } from "react";
-import { View, Text, TouchableOpacity } from "react-native";
-import { Feather } from "@expo/vector-icons";
+import { View, Text } from "react-native";
+import NetInfo from '@react-native-community/netinfo';
 
 import { Loading } from "../components/Loading";
 import { Header } from "../components/Header";
@@ -23,6 +23,9 @@ export function Refeitorio({navigation}){
     async function getData(){
         setIsLoading(true);
 
+        const conexao = await NetInfo.fetch();
+        if(!conexao.isConnected) return navigation.navigate('login');
+        
         const keys = await AsyncStorage.getAllKeys();
         if(keys.includes('@rm')) setIsFunc(false);
         if(keys.includes('@email') && !keys.includes('@rm')) setIsFunc(true);

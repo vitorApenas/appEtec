@@ -1,6 +1,6 @@
 import {View, Text, ViewProps} from 'react-native';
 
-interface Props extends ViewProps{
+interface Props extends ViewProps {
     label: string
     text: string
 }

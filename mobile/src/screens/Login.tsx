@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useIsFocused } from "@react-navigation/native";
 import { Feather } from "@expo/vector-icons";
+import NetInfo from '@react-native-community/netinfo'
 
 import { TabForm } from "../components/TabForm";
 import { InputLogin } from "../components/InputLogin";
@@ -23,7 +24,10 @@ export function Login({navigation}){
     async function getData(){
         setIsLoading(true);
         
+        const conexao = await NetInfo.fetch();
+        
         const keys = await AsyncStorage.getAllKeys();
+        if(!conexao.isConnected && keys.includes('@rm')) return navigation.navigate('carteirinha');
         if(keys.includes('@rm')) return navigation.navigate('home');
         if(keys.includes('@email') && !keys.includes('@rm')) return navigation.navigate('home');
 
@@ -58,9 +62,7 @@ export function Login({navigation}){
             setErroAluno("Houve um problema, tente novamente mais tarde");
             console.log(`Erro: ${err}`);
         }
-        finally{
-            setIsLoading(false);
-        }
+        setIsLoading(false);
     }
 
     async function loginFunc(){
@@ -89,9 +91,7 @@ export function Login({navigation}){
             setErroFunc("Houve um problema, tente novamente mais tarde");
             console.log(`Erro: ${err}`);
         }
-        finally{
-            setIsLoading(false);
-        }
+        setIsLoading(false);
     }
     
     const [teclado, setTeclado] = useState<boolean>(false);

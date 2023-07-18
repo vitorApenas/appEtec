@@ -2,6 +2,7 @@ import {View, Text, TouchableOpacity} from 'react-native';
 import { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useIsFocused } from '@react-navigation/native';
+import NetInfo from '@react-native-community/netinfo';
 
 import { TabForm } from '../components/TabForm';
 import { InputLogin } from '../components/InputLogin';
@@ -23,9 +24,12 @@ export function Signup({navigation}){
     async function getData(){
         setIsLoading(true);
         
+        const conexao = await NetInfo.fetch();
+        if(!conexao.isConnected) return navigation.navigate('login');
+        
         const keys = await AsyncStorage.getAllKeys();
-        if(keys.includes('@rm')) return navigation.navigate('carteirinha');
-        if(keys.includes('@email') && !keys.includes('@rm')) return navigation.navigate('refeitorio');
+        if(keys.includes('@rm')) return navigation.navigate('home');
+        if(keys.includes('@email') && !keys.includes('@rm')) return navigation.navigate('home');
 
         setIsLoading(false);
     }
@@ -46,27 +50,10 @@ export function Signup({navigation}){
             });
             if(check.data.msg) return setErroAluno(check.data.msg);
 
-            const signup = await api.post('/cadastro/aluno', {
-                rm: Number(rm.trim()),
-                senha: passAluno.trim(),
-                img: 'tuca01.png'
+            navigation.navigate('profilePhoto', {
+                rm: rm.trim(),
+                senha: passAluno.trim()
             });
-            if(signup.data.msg) return setErroAluno(signup.data.msg);
-
-            if(signup.data.criado){
-                await AsyncStorage.clear();
-                await AsyncStorage.multiSet([
-                    ['@rm', rm.trim()],
-                    ['@email', signup.data.criado.email],
-                    ['@nome', signup.data.criado.nome],
-                    ['@rg', signup.data.criado.rg],
-                    ['@turma', signup.data.criado.turma],
-                    ['@profilePhoto', signup.data.criado.fotoPerfil]
-                ]);
-
-                return navigation.navigate('login');
-            };
-            
         }
         catch(err){
             setErroAluno("Houve um problema, tente novamente mais tarde");
@@ -93,23 +80,10 @@ export function Signup({navigation}){
             });
             if(check.data.msg) return setErroFunc(check.data.msg);
 
-            const signup = await api.post('/cadastro/funcionario', {
+            navigation.navigate('profilePhoto', {
                 email: email.trim(),
-                senha: passFunc.trim(),
-                img: 'tuca01.png'
+                senha: passAluno.trim()
             });
-            if(signup.data.msg) return setErroFunc(signup.data.msg);
-
-            if(signup.data.criado){
-                await AsyncStorage.clear();
-                await AsyncStorage.multiSet([
-                    ['@email', email.trim()],
-                    ['@nome', signup.data.criado.nome],
-                    ['@profilePhoto', signup.data.criado.fotoPerfil]
-                ]);
-                
-                return navigation.navigate('login');
-            }
         }
         catch(err){
             setErroFunc("Houve um problema, tente novamente mais tarde");
@@ -132,7 +106,7 @@ export function Signup({navigation}){
     const [confirmPassAluno, setConfirmPassAluno] = useState<string>('vitorvitor123');
     const [erroAluno, setErroAluno] = useState<string>('');
 
-    const [email, setEmail] = useState<string>('vitor.estevanin@etec.sp.gov.br');
+    const [email, setEmail] = useState<string>('nilson.anjos@etec.sp.gov.br');
     const [passFunc, setPassFunc] = useState<string>('vitorvitor123');
     const [confirmPassFunc, setConfirmPassFunc] = useState<string>('vitorvitor123');
     const [erroFunc, setErroFunc] = useState<string>('');

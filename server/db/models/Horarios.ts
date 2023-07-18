@@ -8,8 +8,12 @@ const Horarios = sequelize.define("Horarios",
             type: DataTypes.STRING,
             primaryKey: true
         },
-        horario:{
+        aula:{
             type: DataTypes.INTEGER,
+            allowNull: false
+        },
+        horario:{
+            type: DataTypes.STRING,
             allowNull: false
         },
         idTurma:{

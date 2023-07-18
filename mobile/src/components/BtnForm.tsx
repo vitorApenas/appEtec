@@ -1,6 +1,6 @@
 import { View, TouchableOpacityProps, TouchableOpacity, Text } from "react-native";
 
-interface Props extends TouchableOpacityProps{
+interface Props extends TouchableOpacityProps {
     text: string
     erro?: string
 }

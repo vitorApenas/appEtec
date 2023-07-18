@@ -1,7 +1,7 @@
 import {View, Text, TouchableOpacity, TouchableOpacityProps} from 'react-native';
 import { Feather, FontAwesome } from '@expo/vector-icons';
 
-interface Props extends TouchableOpacityProps{
+interface Props extends TouchableOpacityProps {
     isOpened: boolean
     title: string
     content1:string

@@ -13,7 +13,7 @@ const Turmas = sequelize.define('Turmas',
             allowNull: false
         },
         ano:{
-            type: DataTypes.STRING,
+            type: DataTypes.INTEGER,
             allowNull: false
         },
         curso:{
@@ -22,7 +22,7 @@ const Turmas = sequelize.define('Turmas',
         }
     },
     {
-        timesTamps: false
+        timestamps: false
     }
 );
 

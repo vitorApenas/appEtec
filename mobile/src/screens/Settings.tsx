@@ -3,8 +3,10 @@ import { Feather } from "@expo/vector-icons";
 import { useEffect, useState } from "react";
 import { useIsFocused } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import NetInfo from '@react-native-community/netinfo';
 
 import { Header } from "../components/Header";
+import { Loading } from "../components/Loading";
 
 export function Settings({navigation}){
     
@@ -17,6 +19,9 @@ export function Settings({navigation}){
     async function getData(){
         setIsLoading(true);
 
+        const conexao = await NetInfo.fetch();
+        if(!conexao.isConnected) return navigation.navigate('login');
+        
         const keys = await AsyncStorage.getAllKeys();
         if(!keys.includes('@email')) return navigation.navigate('login');
 
@@ -30,7 +35,9 @@ export function Settings({navigation}){
         setIsLoading(false);
     }
 
-    const [isLoading, setIsLoading] = useState<boolean>()
+    const [isLoading, setIsLoading] = useState<boolean>();
+
+    if(isLoading) return <Loading/>
 
     return(
         <View className="flex-1 bg-back items-center">
