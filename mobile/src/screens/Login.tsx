@@ -35,7 +35,7 @@ export function Login({navigation}){
     }
 
     async function loginAluno(){
-        Keyboard.dismiss()
+        Keyboard.dismiss();
         if(rm.trim().includes('.') || !Number.isInteger(Number(rm.trim())) || isNaN(Number(rm.trim())) || rm.trim().length !== 6) return setErroAluno("O RM é inválido!");
         if(passAluno.trim().length === 0) return setErroAluno("Insira uma senha!");
         setErroAluno('');
@@ -47,22 +47,26 @@ export function Login({navigation}){
                 senha: passAluno.trim()
             });
 
-            if(login.data.msg) return setErroAluno(login.data.msg);
-            AsyncStorage.multiSet([
-                ['@rm', rm.trim()],
-                ['@email', login.data.email],
-                ['@nome', login.data.nome],
-                ['@rg', login.data.rg],
-                ['@turma', login.data.turma],
-                ['@profilePhoto', login.data.fotoPerfil]
-            ]);
-            return navigation.navigate('home')
+            if(login.data.msg){
+                setErroAluno(login.data.msg);
+            }
+            else{
+                AsyncStorage.multiSet([
+                    ['@rm', rm.trim()],
+                    ['@email', login.data.email],
+                    ['@nome', login.data.nome],
+                    ['@rg', login.data.rg],
+                    ['@turma', login.data.turma],
+                    ['@profilePhoto', login.data.fotoPerfil]
+                ]);
+                return navigation.navigate('home')
+            }
         }
         catch(err){
             setErroAluno("Houve um problema, tente novamente mais tarde");
             console.log(`Erro: ${err}`);
         }
-        setIsLoading(false);
+        return setIsLoading(false);
     }
 
     async function loginFunc(){
@@ -79,19 +83,23 @@ export function Login({navigation}){
                 email: email.trim(),
                 senha: passFunc.trim()
             });
-            if(login.data.msg) return setErroFunc(login.data.msg);
-            AsyncStorage.multiSet([
-                ['@email', email.trim()],
-                ['@nome', login.data.nome],
-                ['@profilePhoto', login.data.fotoPerfil]
-            ]);
-            return navigation.navigate('home')
+            if(login.data.msg){
+                setErroFunc(login.data.msg);
+            }
+            else{
+                AsyncStorage.multiSet([
+                    ['@email', email.trim()],
+                    ['@nome', login.data.nome],
+                    ['@profilePhoto', login.data.fotoPerfil]
+                ]);
+                return navigation.navigate('home')
+            }
         }
         catch(err){
             setErroFunc("Houve um problema, tente novamente mais tarde");
             console.log(`Erro: ${err}`);
         }
-        setIsLoading(false);
+        return setIsLoading(false);
     }
     
     const [teclado, setTeclado] = useState<boolean>(false);

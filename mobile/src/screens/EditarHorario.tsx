@@ -2,7 +2,7 @@ import {View, Text, FlatList} from 'react-native';
 import { useEffect, useState } from 'react';
 import { useIsFocused } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import NetInfo from '@react-native-community/netinfo'
+import NetInfo from '@react-native-community/netinfo';
 
 import { Loading } from '../components/Loading';
 import { Header } from '../components/Header';
@@ -40,7 +40,8 @@ export function EditarHorario({route, navigation}){
             }
             else{
                 setHorario([]);
-                res.data.map((item)=>setHorario(horario => [...horario, item]));
+                setHorario(res.data);
+                //res.data.map((item)=>setHorario(horario => [...horario, item]));
             }
         }
         catch{
@@ -81,7 +82,7 @@ export function EditarHorario({route, navigation}){
             key: 4,
             dia: 'Sexta-feira',
             horario: horario.length>30 ? horario.slice(36, 45) : horario.slice(24, 36)
-        },
+        }
     ]
 
     if(isLoading) return <Loading/>
@@ -123,11 +124,12 @@ export function EditarHorario({route, navigation}){
                             diaSemana={dias.item.dia}
                             horario={dias.item.horario}
                             isOpened={openedTab === dias.item.key}
+                            navigation={navigation}
                             onPress={()=>{
                                 if (openedTab === dias.item.key) return setOpenedTab(5)
                                 setOpenedTab(dias.item.key)
                             }}
-                            navigation={navigation}
+                            isFunc={true}
                         />
                     )}
                 />

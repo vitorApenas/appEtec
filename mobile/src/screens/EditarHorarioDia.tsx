@@ -1,4 +1,4 @@
-import { View, Text, FlatList } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, Dimensions } from 'react-native';
 import { useEffect, useState} from 'react';
 import { useIsFocused } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -34,11 +34,11 @@ export function EditarHorarioDia({route, navigation}){
 
         setIsLoading(false);
     }
+
+    const screenHeight = Dimensions.get('screen').height;
     
     const [isLoading, setIsLoading] = useState<boolean>();
     const [erro, setErro] = useState<string>('');
-
-    const teste = ["a", "b", "c", "D"]
 
     if(isLoading) return <Loading/>
 
@@ -69,44 +69,57 @@ export function EditarHorarioDia({route, navigation}){
             </View>
             <View className="w-full flex-row justify-center mt-5">
                 <View className="w-1/3 items-center">
-                    <Text className="font-nbold text-standart text-base">
+                    <Text className="font-nbold text-standart text-lg">
                         Horário
                     </Text>
                 </View>
                 <View className="w-1/3 items-center">
-                    <Text className="font-nbold text-standart text-base">
+                    <Text className="font-nbold text-standart text-lg">
                         Matéria
                     </Text>
                 </View>
                 <View className="w-1/3 items-center">
-                    <Text className="font-nbold text-standart text-base">
+                    <Text className="font-nbold text-standart text-lg">
                         Professor
                     </Text>
                 </View>
             </View>
-            <FlatList
-                data={route.params.horario}
-                renderItem={(item)=>(
-                    <View className="w-full flex-row justify-evenly">
-                        <View className="border-standart border-r w-1/3 items-center justify-center">
-                            <Text className="font-nbold text-standart text-base">
-                                {item.item.horario}
-                            </Text>
-                        </View>
-                        <View className="w-1/3 items-center justify-center">
-                            <Text className="font-nbold text-standart text-base">
-                                {item.item.materia}
-                            </Text>
-                        </View>
-                        <View className="border-standart border-l w-1/3 items-center justify-center">
-                            <Text className="font-nbold text-standart text-base">
-                                {item.item.prof}
-                            </Text>
-                        </View>
-                    </View>
-                )}
-            />
-            
+            <View
+                className= "w-full h-[55%]"
+            >
+                <FlatList
+                    data={route.params.horario}
+                    renderItem={(item)=>(
+                        <TouchableOpacity
+                            className="w-full flex-row justify-evenly"
+                            style={{height: screenHeight/18}}
+                            onPress={()=>navigation.navigate('editarAula', {
+                                dia: route.params.dia,
+                                aula: item.item.id,
+                                horario: item.item.horario,
+                                materia: item.item.materia,
+                                prof: item.item.prof
+                            })}
+                        >
+                            <View className="border-standart border-r w-1/3 items-center justify-center">
+                                <Text className="font-nbold text-standart text-base">
+                                    {item.item.horario}
+                                </Text>
+                            </View>
+                            <View className="w-1/3 items-center justify-center text-center">
+                                <Text className="font-nbold text-standart text-base">
+                                    {item.item.materia}
+                                </Text>
+                            </View>
+                            <View className="border-standart border-l w-1/3 items-center justify-center text-center">
+                                <Text className="font-nbold text-standart text-base">
+                                    {item.item.prof}
+                                </Text>
+                            </View>
+                        </TouchableOpacity>
+                    )}
+                />
+            </View>
         </View>
     )
 }
