@@ -43,23 +43,22 @@ export function Horario({navigation}){
 
                 const date = new Date();
 
-                /*const teste = await api.post('/aulaAtual', {
+                const teste = await api.post('/aulaAtual', {
                     turma: siglaTurma,
                     dia: date.getDay(),
                     hora: date.getHours(),
                     minuto: date.getMinutes()
                 });
 
-                alert(JSON.stringify(teste.data));*/
+                setAulaAtual(teste.data.aulaAtual);
+                setProfAtual(teste.data.profAtual);
+                setSalaAtual(teste.data.salaAtual);
+                setAtualPresente(teste.data.presenteAtual);
 
-                /*if(diasSemana[0].horario.length !== 0){
-                    const diaAtual = diasSemana.find((item)=>item.key == date.getDay());
-                    if(!diaAtual) alert("A");
-                    setAulaAtual("Matemática");
-                    setProfAtual("Gerson");
-                    setAtualPresente(false);
-                    setSalaAtual("203");
-                }*/
+                setProxAula(teste.data.proxAula);
+                setProxProf(teste.data.proxProf);
+                setProxSala(teste.data.proxSala);
+                setProxPresente(teste.data.proxPresente);
             }
         }
         catch{
@@ -73,8 +72,13 @@ export function Horario({navigation}){
 
     const [aulaAtual, setAulaAtual] = useState<string>('');
     const [profAtual, setProfAtual] = useState<string>('');
-    const [atualPresente, setAtualPresente] = useState<boolean>();
+    const [atualPresente, setAtualPresente] = useState<boolean>(false);
     const [salaAtual, setSalaAtual] = useState<string>('');
+    
+    const [proxAula, setProxAula] = useState<string>('');
+    const [proxProf, setProxProf] = useState<string>('');
+    const [proxPresente, setProxPresente] = useState<boolean>(false);
+    const [proxSala, setProxSala] = useState<string>('');
     
     const [horario, setHorario] = useState<object[]>([]);
 
@@ -192,7 +196,7 @@ export function Horario({navigation}){
                                 Matéria:
                             </Text>
                             <Text className="text-[#51545B] font-nsemibold text-base ml-1">
-                                História
+                                {proxAula}
                             </Text>
                         </View>
                         <View className="flex-row items-center mt-[1%]">
@@ -200,7 +204,7 @@ export function Horario({navigation}){
                                 Professor(a):
                             </Text>
                             <Text className="text-[#51545B] font-nsemibold text-base ml-1">
-                                Manacés
+                                {proxProf}
                             </Text>
                         </View>
                         <View className="flex-row items-center mt-[1%]">
@@ -209,7 +213,7 @@ export function Horario({navigation}){
                                 <FontAwesome
                                         name="circle"
                                         size={20}
-                                        color="#00B489"
+                                        color={proxPresente ? "#00B489" : "#CC3535"}
                                 />
                             </View>
                         </View>
@@ -218,7 +222,7 @@ export function Horario({navigation}){
                                 Sala:
                             </Text>
                             <Text className="text-[#51545B] font-nsemibold text-base ml-1">
-                                459
+                                {proxSala}
                             </Text>
                         </View>
                     </View>

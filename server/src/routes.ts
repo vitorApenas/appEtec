@@ -356,7 +356,11 @@ apiRouter.post('/aulaAtual', async (req, res)=>{
             aulaAtual: "-",
             profAtual: "-",
             salaAtual: "-",
-            presente: false
+            presenteAtual: false,
+            proxAula: "-",
+            proxProf: "-",
+            proxSala: "-",
+            proxPresente: false,
         });
         const infoTurma = await Turmas.findAll({where: {turma: siglaTurma}});
         if(!infoTurma[0]) return res.json({
@@ -388,7 +392,40 @@ apiRouter.post('/aulaAtual', async (req, res)=>{
             
             let index;
             
-            if(hora < 7 || (hora == 7 && minuto < 20) || hora >= 17) return res.json({aulaAtual: "-", profAtual: "-", salaAtual: "-", presenteAtual: false});
+            if(hora < 7 || (hora == 7 && minuto < 20)){ 
+                let nomeProxProf;
+                
+                if(output[0].prof != "Aula vaga"){
+                    if(output[0].prof.split(' ')[0].length > 9){
+                        nomeProxProf = output[0].siglaProf;
+                    }
+                    else{
+                        nomeProxProf = output[0].prof.split(' ')[0];
+                    }
+                }
+                
+                return res.json({
+                    aulaAtual: "-",
+                    profAtual: "-",
+                    salaAtual: "-",
+                    presenteAtual: false,
+                    proxAula: output[0].siglaMateria,
+                    proxProf: nomeProxProf == undefined ? output[0].prof : nomeProxProf,
+                    proxSala: output[0].salaProf,
+                    proxPresente: output[0].presente,
+                });
+            }
+            if(hora >= 17) return res.json({
+                aulaAtual: "-",
+                profAtual: "-",
+                salaAtual: "-",
+                presenteAtual: false,
+                proxAula: "-",
+                proxProf: "-",
+                proxSala: "-",
+                proxPresente: false,
+            })
+
             if((hora == 7 && minuto >= 20) || (hora == 8 && minuto < 10)) index = 0;
             if((hora == 8 && minuto >= 10) && hora < 9) index = 1;
             if(hora == 9 && minuto < 50) index = 2;
@@ -400,7 +437,7 @@ apiRouter.post('/aulaAtual', async (req, res)=>{
             if((hora == 16 && minuto >= 10) && hora < 17) index = 8;
             if(index == undefined) return res.json({aulaAtual: "Intervalo", profAtual: "-", salaAtual: "-"});
 
-            let nomeProfAtual
+            let nomeProfAtual, nomeProxProf;
             
             if(output[index].prof != "Aula vaga"){
                 if(output[index].prof.split(' ')[0].length > 9){
@@ -410,18 +447,40 @@ apiRouter.post('/aulaAtual', async (req, res)=>{
                     nomeProfAtual = output[index].prof.split(' ')[0];
                 }
             }
+
+            if(!output[index+1]){
+                return res.json({
+                    aulaAtual: output[index].siglaMateria,
+                    profAtual: nomeProfAtual == undefined ? output[index].prof : nomeProfAtual,
+                    salaAtual: output[index].salaProf,
+                    presenteAtual: output[index].presente,
+                    proxAula: "-",
+                    proxProf: "-",
+                    proxSala: "-",
+                    proxPresente: false,
+                });    
+            }
+
+            if(output[index+1].prof != "Aula vaga"){
+                if(output[index+1].prof.split(' ')[0].length > 9){
+                    nomeProxProf = output[index+1].siglaProf;
+                }
+                else{
+                    nomeProxProf = output[index+1].prof.split(' ')[0];
+                }
+            }
             
             return res.json({
                 aulaAtual: output[index].siglaMateria,
                 profAtual: nomeProfAtual == undefined ? output[index].prof : nomeProfAtual,
                 salaAtual: output[index].salaProf,
                 presenteAtual: output[index].presente,
-                proxAula: '',
-                proxProf: '',
-                proxSala: ''
-            })
-            //return res.json(output[index])
-            //return res.json(index)
+                proxAula: output[index+1].siglaMateria,
+                proxProf: nomeProxProf == undefined ? output[index+1].prof : nomeProxProf,
+                proxSala: output[index+1].salaProf,
+                proxPresente: output[index+1].presente,
+            });
+            
         }
         else{
             return res.json({msg: "Em desenvolvimento..."});
