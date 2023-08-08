@@ -1,6 +1,6 @@
 import { useIsFocused } from "@react-navigation/native";
 import { useEffect, useState } from "react";
-import { View, Image, TouchableOpacity, Text, BackHandler } from "react-native";
+import { View, Image, TouchableOpacity, Text } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Feather } from "@expo/vector-icons";
 import NetInfo from '@react-native-community/netinfo';
@@ -28,6 +28,8 @@ export function Home({navigation}){
             try{
                 const check = await api.post('/check/aluno', {rm: await AsyncStorage.getItem('@rm')});
                 if(check.data.msg !== "O aluno com esse RM já está cadastrado") return navigation.navigate('login');
+                const asNome = await AsyncStorage.getItem('@nome');
+                setNome(asNome.split(' ')[0]);
                 setIsFunc(false);
             }
             catch{
@@ -38,6 +40,8 @@ export function Home({navigation}){
             try{
                 const check = await api.post('/check/funcionario', {email: await AsyncStorage.getItem('@email')});
                 if(check.data.msg !== "Esse funcionário já está cadastrado") return navigation.navigate('login');
+                const asNome = await AsyncStorage.getItem('@nome');
+                setNome(asNome.split(' ')[0]);
                 setIsFunc(true);
                 
             }
@@ -53,6 +57,8 @@ export function Home({navigation}){
         setIsLoading(false);
     }
 
+    const [nome, setNome] = useState<string>('');
+    
     const [isLoading, setIsLoading] = useState<boolean>();
     const [isFunc, setIsFunc] = useState<boolean>();
 
@@ -99,7 +105,29 @@ export function Home({navigation}){
                     />
                 </TouchableOpacity>
             </View>
-            <Text>Aqui ficarão os posts</Text>
+            <View className="w-full h-[85%] items-center">
+                <View className="mt-5 w-[85%]">
+                    <Text className="text-standart text-lg font-nbold">
+                        Bem vindo(a) de volta, {nome}!
+                    </Text>
+                </View>
+                <View className="mt-10 w-[85%] bg-white h-44 rounded-xl border border-gray-300"/>
+                <TouchableOpacity
+                    className="bg-[#3A4365] rounded-full w-16 h-16 items-center justify-center"
+                    style={{
+                        position: 'absolute',
+                        bottom: '10%',
+                        right: '8%'
+                    }}
+                    onPress={()=>navigation.navigate('criarPost')}
+                >
+                    <Feather
+                        name="plus"
+                        size={38}
+                        color="#FFF"
+                    />
+                </TouchableOpacity>
+            </View>
             <View className="w-full bg-[#99A0B1] h-16 absolute bottom-0 justify-center items-center">
                 <View className="w-5/6 flex-row justify-between items-center">
                     <TouchableOpacity
