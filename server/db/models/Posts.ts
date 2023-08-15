@@ -8,7 +8,7 @@ const Posts = sequelize.define("Posts",
             primaryKey: true
         },
         txt:{
-            type: DataTypes.STRING,
+            type: DataTypes.TEXT,
             allowNull: false
         },
         foto:{

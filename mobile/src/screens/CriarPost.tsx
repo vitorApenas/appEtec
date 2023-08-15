@@ -4,6 +4,7 @@ import { useIsFocused } from '@react-navigation/native';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import NetInfo from '@react-native-community/netinfo';
 import * as ImagePicker from 'expo-image-picker';
+import { customAlphabet } from "nanoid/non-secure";
 
 import { Header } from "../components/Header";
 import { Loading } from '../components/Loading';
@@ -62,7 +63,7 @@ export function CriarPost({navigation}){
     }
 
     async function upload(){
-        const formData = new FormData();
+        /*const formData = new FormData();
         formData.append('file', JSON.parse(JSON.stringify(formDataImg)));
 
         const res = await api.post('/postFoto', formData, {
@@ -70,12 +71,13 @@ export function CriarPost({navigation}){
                 'Accept' : 'application/json',
                 'Content-Type': 'multipart/form-data'
             }
-        });
+        });*/
 
-        alert(JSON.stringify(res.data))
+        alert(nanoId());
     }
 
     const screenWidth = Dimensions.get('screen').width;
+    const nanoId = customAlphabet("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz-");
     
     const [formDataImg, setFormDataImg] = useState<object>();
     const [photoShow, setPhotoShow] = useState<string>();

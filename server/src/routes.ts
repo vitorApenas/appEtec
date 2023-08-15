@@ -583,10 +583,6 @@ apiRouter.post('/postFoto', upload.single('file'), async (req, res)=>{
     }
 });
 
-apiRouter.post('/checkIdPosts', async (req, res)=>{
-
-});
-
 apiRouter.post('/uploadPost', async (req, res)=>{
 
 });
