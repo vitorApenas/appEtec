@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, Dimensions, FlatList } from 'react-native';
+import { View, Text, ScrollView, Dimensions } from 'react-native';
 import {useState, useEffect} from 'react';
 import { FontAwesome } from '@expo/vector-icons';
 import { useIsFocused } from '@react-navigation/native';

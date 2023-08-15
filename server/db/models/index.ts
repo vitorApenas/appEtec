@@ -9,6 +9,7 @@ import Turmas from "./Turmas";
 import Materias from "./Materias";
 import Professores from "./Professores";
 import Horarios from "./Horarios";
+import Posts from "./Posts";
 
 export {
     ReferenciaAlunos,
@@ -21,5 +22,6 @@ export {
     Turmas,
     Materias,
     Professores,
-    Horarios
+    Horarios,
+    Posts
 };

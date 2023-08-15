@@ -1,5 +1,6 @@
 import sequelize from "./db";
-import {AlunosAtivos,
+import {
+    AlunosAtivos,
     FuncionariosAtivos,
     ReferenciaAlunos,
     ReferenciaFuncionarios,
@@ -7,7 +8,8 @@ import {AlunosAtivos,
     Turmas,
     Materias,
     Professores,
-    Horarios
+    Horarios,
+    Posts
 } from './models';
 
 interface typeReferenciaAlunos {
@@ -78,6 +80,13 @@ interface typeHorario{
     idTurma: string,
     idMateria: string,
     idProf: string
+}
+
+interface typePost{
+    id: string,
+    txt: string,
+    foto: boolean,
+    email: string
 }
 
 //Arquivo para RESETAR e POPULAR o database com dados para teste
@@ -894,6 +903,15 @@ interface typeHorario{
         },
     ];
 
+    const posts:typePost[] = [
+        {
+            id: 'JyKHKFilW6I6JiWOt3TvO',
+            txt: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut commodo congue nulla, et euismod lectus semper sed. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Phasellus bibendum fermentum tellus sed sollicitudin. Cras eu leo sed dolor aliquet auctor. Aenean eget iaculis justo. In bibendum dolor sit amet lobortis egestas. In vel tempor nunc. Cras hendrerit lacus lacus, non tincidunt diam maximus rutrum. Morbi id luctus nisl. Aliquam non tempus leo, non molestie velit. Nulla aliquam nisl eu mauris mattis, in fermentum metus luctus. Nunc in finibus turpis. Sed ut dignissim ipsum, ut egestas nisi. Pellentesque eu accumsan purus. Vivamus luctus elit eu lectus elementum, et pulvinar sem interdum.',
+            foto: false,
+            email: 'rosa.shimizu@etec.sp.gov.br'
+        }
+    ]
+
     await sequelize.sync({force: true});
 
     await ReferenciaAlunos.bulkCreate(alunosReferencia);
@@ -905,4 +923,5 @@ interface typeHorario{
     await Materias.bulkCreate(materias);
     await Professores.bulkCreate(professores);
     await Horarios.bulkCreate(horarios);
+    await Posts.bulkCreate(posts)
 })();

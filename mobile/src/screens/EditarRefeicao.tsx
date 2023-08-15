@@ -1,11 +1,11 @@
 import { TouchableOpacity, View, Text } from "react-native";
 import { useEffect, useState } from "react";
-import { Header } from "../components/Header";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useIsFocused } from "@react-navigation/native";
 import { Feather } from "@expo/vector-icons";
 import NetInfo from '@react-native-community/netinfo';
 
+import { Header } from "../components/Header";
 import { Loading } from "../components/Loading";
 import { InputLogin } from "../components/InputLogin";
 

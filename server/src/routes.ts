@@ -4,7 +4,7 @@ import { Op } from 'sequelize';
 import {
     ReferenciaFuncionarios,
     ReferenciaAlunos,
-    NConfirmadosFuncionarios, //confirmação de email
+    NConfirmadosFuncionarios, //confirmação por email
     NConfirmadosAlunos,
     AlunosAtivos,
     FuncionariosAtivos,
@@ -12,11 +12,26 @@ import {
     Turmas,
     Materias,
     Professores,
-    Horarios
+    Horarios,
+    Posts
 } from '../db/models';
 const bcrypt = require('bcrypt');
+const multer = require('multer');
 
 const apiRouter = Router();
+
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, 'assets/postImages');
+    },
+    filename: function (req, file, cb) {
+      const extensao = file.originalname.split('.')[1];
+      const newNameFile = 'biyo-' + file.originalname.split('.')[0];
+      cb(null, `${newNameFile}.${extensao}`);
+    },
+  });
+  
+  const upload = multer({ storage });
 
 const gerarCodigo = customAlphabet('0123456789', 6);
 
@@ -547,6 +562,39 @@ apiRouter.post('/aulaAtual', async (req, res)=>{
         else{
             return res.json({msg: "Em desenvolvimento..."});
         }
+    }
+    catch(err){
+        console.log(err);
+        return res.json({
+            msg: "Houve um erro no servidor, tente novamente mais tarde"
+        });
+    }
+});
+
+apiRouter.post('/postFoto', upload.single('file'), async (req, res)=>{
+    try{
+        res.json({bod: req.body});
+    }
+    catch(err){
+        console.log(err);
+        return res.json({
+            msg: "Houve um erro no servidor, tente novamente mais tarde"
+        });
+    }
+});
+
+apiRouter.post('/checkIdPosts', async (req, res)=>{
+
+});
+
+apiRouter.post('/uploadPost', async (req, res)=>{
+
+});
+
+apiRouter.get('/posts', async (req, res)=>{
+    try{
+        const posts = await Posts.findAll();
+        res.json(posts)
     }
     catch(err){
         console.log(err);

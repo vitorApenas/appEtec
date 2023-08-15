@@ -1,4 +1,4 @@
-import { View, Text, Keyboard } from 'react-native';
+import { View, Text } from 'react-native';
 import { useEffect, useState } from 'react';
 import { useIsFocused } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
