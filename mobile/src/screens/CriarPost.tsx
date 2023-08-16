@@ -33,7 +33,7 @@ export function CriarPost({navigation}){
     }
 
     async function imagem(){
-        const {granted} = await ImagePicker.getMediaLibraryPermissionsAsync();
+        const {granted} = await ImagePicker.requestMediaLibraryPermissionsAsync();
         
         if(granted){
             const {assets, canceled} = await ImagePicker.launchImageLibraryAsync({
@@ -136,7 +136,6 @@ export function CriarPost({navigation}){
                 <Text className="text-standart font-nsemibold text-lg">
                     Descrição do post
                 </Text>
-                <Text className="font-nsemibold text-red-700">*</Text>
             </View>
             <TextInput
                 className="bg-[#FAFAFA] rounded-lg w-[85%] h-20 items-start font-nregular p-1 mt-1"

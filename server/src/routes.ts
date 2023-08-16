@@ -590,7 +590,7 @@ apiRouter.post('/uploadPost', async (req, res)=>{
 apiRouter.get('/posts', async (req, res)=>{
     try{
         const posts = await Posts.findAll();
-        res.json(posts)
+        res.json(posts);
     }
     catch(err){
         console.log(err);
