@@ -49,8 +49,12 @@ export function CriarPost({navigation}){
                 const fileName = assets[0].uri.substring(assets[0].uri.lastIndexOf('/')+1, assets[0].uri.length);
                 const extension = fileName.split('.')[1];
 
+                const newName = nanoId();
+                
+                setIdName(newName);
+
                 setFormDataImg({
-                    name: fileName,
+                    name: `${newName}.${extension}`,
                     uri: assets[0].uri,
                     type: 'image/' + extension
                 });
@@ -63,17 +67,49 @@ export function CriarPost({navigation}){
     }
 
     async function upload(){
-        /*const formData = new FormData();
-        formData.append('file', JSON.parse(JSON.stringify(formDataImg)));
-
-        const res = await api.post('/postFoto', formData, {
-            headers: {
-                'Accept' : 'application/json',
-                'Content-Type': 'multipart/form-data'
+        try{
+            setIsLoading(true);
+            const email = await AsyncStorage.getItem('@email');
+            if(!formDataImg){
+                const newId = nanoId();
+                const resPost = await api.post('/uploadPost', {
+                    id: newId,
+                    txt: txt,
+                    foto: false,
+                    email: email
+                });
+                if(resPost.data === 200) return navigation.navigate('home');
             }
-        });*/
+            else{
+                const formData = new FormData();
+                formData.append('file', JSON.parse(JSON.stringify(formDataImg)));
 
-        alert(nanoId());
+                const res = await api.post('/postFoto', formData, {
+                    headers: {
+                        'Accept' : 'application/json',
+                        'Content-Type': 'multipart/form-data'
+                    }
+                });
+
+                if(res.data === 200){
+                    const resPost = await api.post('/uploadPost', {
+                        id: idName,
+                        txt: txt,
+                        foto: true,
+                        email: email
+                    });
+                    if(resPost.data === 200) return navigation.navigate('home');
+                }
+                else navigation.navigate('login');
+            }
+            setIdName('');
+        }
+        catch(err){
+            navigation.navigate('login');
+        }
+        finally{
+            setIsLoading(false);
+        }
     }
 
     const screenWidth = Dimensions.get('screen').width;
@@ -82,6 +118,7 @@ export function CriarPost({navigation}){
     const [formDataImg, setFormDataImg] = useState<object>();
     const [photoShow, setPhotoShow] = useState<string>();
     const [txt, setTxt] = useState<string>();
+    const [idName, setIdName] = useState<string>('');
 
     const [isLoading, setIsLoading] = useState<boolean>();
 
@@ -148,7 +185,7 @@ export function CriarPost({navigation}){
 
             <TouchableOpacity
                 className="rounded-xl items-center justify-center bg-[#FAFAFA] w-[85%] h-12 mt-[50%]"
-                onPress={()=>setPhotoShow('')}
+                onPress={()=>{setPhotoShow(undefined); setFormDataImg(undefined)}}
             >
                 <Text className="text-standart font-nbold text-base">
                     Remover imagem

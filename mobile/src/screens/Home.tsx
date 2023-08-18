@@ -104,6 +104,7 @@ export function Home({navigation}){
                         color="#3A4365"
                     />
                 </TouchableOpacity>
+
             </View>
             <View className="w-full h-[85%] items-center">
                 <View className="mt-5 w-[85%]">
@@ -128,6 +129,7 @@ export function Home({navigation}){
                     />
                 </TouchableOpacity>
             </View>
+
             <View className="w-full bg-[#99A0B1] h-16 absolute bottom-0 justify-center items-center">
                 <View className="w-5/6 flex-row justify-between items-center">
                     <TouchableOpacity

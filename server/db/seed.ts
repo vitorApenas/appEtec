@@ -909,6 +909,12 @@ interface typePost{
             txt: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut commodo congue nulla, et euismod lectus semper sed. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Phasellus bibendum fermentum tellus sed sollicitudin. Cras eu leo sed dolor aliquet auctor. Aenean eget iaculis justo. In bibendum dolor sit amet lobortis egestas. In vel tempor nunc. Cras hendrerit lacus lacus, non tincidunt diam maximus rutrum. Morbi id luctus nisl. Aliquam non tempus leo, non molestie velit. Nulla aliquam nisl eu mauris mattis, in fermentum metus luctus. Nunc in finibus turpis. Sed ut dignissim ipsum, ut egestas nisi. Pellentesque eu accumsan purus. Vivamus luctus elit eu lectus elementum, et pulvinar sem interdum.',
             foto: false,
             email: 'rosa.shimizu@etec.sp.gov.br'
+        },
+        {
+            id: 'jSO1tHm9izp75wn_A4ewx',
+            txt: 'se liga nesse gato',
+            foto: true,
+            email: 'rosa.shimizu@etec.sp.gov.br'
         }
     ]
 

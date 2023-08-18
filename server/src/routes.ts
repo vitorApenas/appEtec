@@ -26,7 +26,7 @@ const storage = multer.diskStorage({
     },
     filename: function (req, file, cb) {
       const extensao = file.originalname.split('.')[1];
-      const newNameFile = 'biyo-' + file.originalname.split('.')[0];
+      const newNameFile = file.originalname.split('.')[0];
       cb(null, `${newNameFile}.${extensao}`);
     },
   });
@@ -571,9 +571,10 @@ apiRouter.post('/aulaAtual', async (req, res)=>{
     }
 });
 
+//Upload de foto de post (se tiver)
 apiRouter.post('/postFoto', upload.single('file'), async (req, res)=>{
     try{
-        res.json({bod: req.body});
+        res.json(res.statusCode);
     }
     catch(err){
         console.log(err);
@@ -583,13 +584,33 @@ apiRouter.post('/postFoto', upload.single('file'), async (req, res)=>{
     }
 });
 
+//Upload do post
 apiRouter.post('/uploadPost', async (req, res)=>{
-
+    const id = req.body.id;
+    const txt = req.body.txt;
+    const foto = req.body.foto;
+    const email = req.body.email;
+    try{
+        const uploadPost = await Posts.create({
+            id: id,
+            txt: txt,
+            foto: foto,
+            email: email
+        });
+        if(uploadPost) return res.json(res.statusCode);
+    }
+    catch(err){
+        console.log(err);
+        return res.json({
+            msg: "Houve um erro no servidor, tente novamente mais tarde"
+        });
+    }
 });
 
+//Recebe os posts que estão armazenados
 apiRouter.get('/posts', async (req, res)=>{
     try{
-        const posts = await Posts.findAll();
+        const posts = await Posts.findAll({order:[['createdAt', 'DESC']]});
         res.json(posts);
     }
     catch(err){
