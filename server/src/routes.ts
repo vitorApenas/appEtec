@@ -589,12 +589,14 @@ apiRouter.post('/uploadPost', async (req, res)=>{
     const id = req.body.id;
     const txt = req.body.txt;
     const foto = req.body.foto;
+    const ext = req.body.ext;
     const email = req.body.email;
     try{
         const uploadPost = await Posts.create({
             id: id,
             txt: txt,
             foto: foto,
+            extensao: ext,
             email: email
         });
         if(uploadPost) return res.json(res.statusCode);
@@ -610,8 +612,24 @@ apiRouter.post('/uploadPost', async (req, res)=>{
 //Recebe os posts que estão armazenados
 apiRouter.get('/posts', async (req, res)=>{
     try{
-        const posts = await Posts.findAll({order:[['createdAt', 'DESC']]});
-        res.json(posts);
+        let i = 0;
+        const posts = await Posts.findAll({order:[['createdAt', 'DESC']], limit: 5});
+        const output:object[] = []
+        while(i < posts.length){
+            const func = await FuncionariosAtivos.findAll({where: {email: posts[i].email}, attributes: ['nome', 'fotoPerfil']});
+            output[i] = {
+                id: posts[i].id,
+                txt: posts[i].txt,
+                foto: posts[i].foto,
+                extensao: posts[i].extensao,
+                funcNome: func[0].nome,
+                funcFoto: func[0].fotoPerfil,
+                createdAt: posts[i].createdAt
+            }
+            i++;
+        }
+
+        res.json(output);
     }
     catch(err){
         console.log(err);

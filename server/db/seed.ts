@@ -86,6 +86,7 @@ interface typePost{
     id: string,
     txt: string,
     foto: boolean,
+    extensao?: string,
     email: string
 }
 
@@ -914,6 +915,7 @@ interface typePost{
             id: 'jSO1tHm9izp75wn_A4ewx',
             txt: 'se liga nesse gato',
             foto: true,
+            extensao: 'png',
             email: 'rosa.shimizu@etec.sp.gov.br'
         }
     ]

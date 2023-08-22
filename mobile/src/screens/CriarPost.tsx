@@ -48,9 +48,9 @@ export function CriarPost({navigation}){
 
                 const fileName = assets[0].uri.substring(assets[0].uri.lastIndexOf('/')+1, assets[0].uri.length);
                 const extension = fileName.split('.')[1];
+                setExtensao(extension);
 
                 const newName = nanoId();
-                
                 setIdName(newName);
 
                 setFormDataImg({
@@ -96,6 +96,7 @@ export function CriarPost({navigation}){
                         id: idName,
                         txt: txt,
                         foto: true,
+                        ext: extensao,
                         email: email
                     });
                     if(resPost.data === 200) return navigation.navigate('home');
@@ -116,6 +117,7 @@ export function CriarPost({navigation}){
     const nanoId = customAlphabet("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz-");
     
     const [formDataImg, setFormDataImg] = useState<object>();
+    const [extensao , setExtensao] = useState<string>('');
     const [photoShow, setPhotoShow] = useState<string>();
     const [txt, setTxt] = useState<string>();
     const [idName, setIdName] = useState<string>('');

@@ -15,6 +15,10 @@ const Posts = sequelize.define("Posts",
             type: DataTypes.BOOLEAN,
             allowNull: false
         },
+        extensao:{
+            type: DataTypes.STRING,
+            allowNull: true
+        },
         email:{
             type: DataTypes.STRING,
             allowNull: false
