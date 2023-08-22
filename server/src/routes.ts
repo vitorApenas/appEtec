@@ -617,6 +617,15 @@ apiRouter.get('/posts', async (req, res)=>{
         const output:object[] = []
         while(i < posts.length){
             const func = await FuncionariosAtivos.findAll({where: {email: posts[i].email}, attributes: ['nome', 'fotoPerfil']});
+
+            const meses = ['jan', 'fev', 'mar', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'];
+            
+            const createdAt = {
+                dia: posts[i].createdAt.getDate(),
+                mes: meses[posts[i].createdAt.getMonth()],
+                ano: posts[i].createdAt.getFullYear(),
+            }
+
             output[i] = {
                 id: posts[i].id,
                 txt: posts[i].txt,
@@ -624,7 +633,7 @@ apiRouter.get('/posts', async (req, res)=>{
                 extensao: posts[i].extensao,
                 funcNome: func[0].nome,
                 funcFoto: func[0].fotoPerfil,
-                createdAt: posts[i].createdAt
+                createdAt: createdAt
             }
             i++;
         }

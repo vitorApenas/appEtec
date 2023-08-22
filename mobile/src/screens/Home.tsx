@@ -151,9 +151,20 @@ export function Home({navigation}){
                                             }}
                                         />
                                     }
-                                    <Text className="mt-2 text-justify text-black font-nregular">
-                                        {item.txt}
-                                    </Text>
+                                    {item.txt.length >= 144 ?
+                                                <Text className="mt-2 text-justify text-black font-nregular text-sm">
+                                                    {item.txt}
+                                                </Text>
+                                            :
+                                                <Text className="mt-2 text-justify text-black font-nregular text-sm">
+                                                    {item.txts}
+                                                </Text>
+                                            }
+                                    <View className="w-full h-6 items-end justify-start">
+                                        <Text className="text-[#727B80] font-nsemibold text-sm">
+                                            {item.createdAt.dia} de {item.createdAt.mes}, {item.createdAt.ano}
+                                        </Text>
+                                    </View>
                                 </View>
                             </View>
                         ))
@@ -223,7 +234,8 @@ export function Home({navigation}){
                 </View>
             </View>
 
-            <TouchableOpacity
+            {isFunc &&
+                <TouchableOpacity
                     className="bg-[#3A4365] rounded-full w-16 h-16 items-center justify-center"
                     style={{
                         position: 'absolute',
@@ -239,6 +251,7 @@ export function Home({navigation}){
                         color="#FFF"
                     />
                 </TouchableOpacity>
+            }
         </View>
     )
 }
