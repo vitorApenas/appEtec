@@ -33,8 +33,6 @@ const storage = multer.diskStorage({
   
   const upload = multer({ storage });
 
-const gerarCodigo = customAlphabet('0123456789', 6);
-
 async function hashPassword(pass:string){
     const salt = await bcrypt.genSalt(10);
     const hashedPass = await bcrypt.hash(pass, salt);

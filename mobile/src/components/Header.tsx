@@ -7,7 +7,7 @@ interface Props extends TouchableOpacityProps {
 
 export function Header({title, ...rest}: Props){
     return(
-        <View className="w-full bg-[#99A0B1] h-24 flex-row items-end px-2">
+        <View className="w-full bg-[#99A0B1] h-20 flex-row items-end px-2">
             <TouchableOpacity
                 className="mb-1"
                 {...rest}

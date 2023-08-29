@@ -127,7 +127,7 @@ export function Login({navigation}){
                 <>
                     <Image
                         source={require('../assets/Logo_tucano.png')}
-                        className="h-28 mt-24"
+                        className="h-24 mt-24"
                         style={{resizeMode: 'contain'}}
                     />
                     <Text className="text-standart font-nsemibold text-4xl mt-10">

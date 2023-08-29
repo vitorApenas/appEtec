@@ -6,15 +6,32 @@ import { Feather } from "@expo/vector-icons";
 import NetInfo from '@react-native-community/netinfo';
 
 import { Loading } from "../components/Loading";
+import { TextoPost } from "../components/TextoPost";
 
 import { api } from "../lib/axios";
 
 export function Home({navigation}){
 
+    interface typePost{
+        id: string,
+        txt?: string,
+        foto: boolean,
+        extensao?: string,
+        funcNome: string,
+        funcFoto: string,
+        createdAt:{
+            dia: number,
+            mes: string,
+            ano: number
+        }
+    }
+
     const isFocused = useIsFocused();
     
     useEffect(()=>{
-        if(isFocused) getData();
+        if(isFocused){
+            getData();
+        }
     }, [isFocused]);
 
     async function getData(){
@@ -57,16 +74,21 @@ export function Home({navigation}){
         const resPosts = await api.get('/posts');
         setPosts(resPosts.data);
 
-        //if(posts == undefined) getData();
+        /*if(!posts[0]) setIsLoadingPosts(true);
+
+        if(isLoadingPosts) setInterval(()=>{
+            setIsLoadingPosts(false)
+        }, 3000);*/
 
         setIsLoading(false);
     }
 
     const screenHeight = Dimensions.get('screen').height;
     const [nome, setNome] = useState<string>('');
-    const [posts, setPosts] = useState<any>([{}]);
+    const [posts, setPosts] = useState<any>([]);
     
     const [isLoading, setIsLoading] = useState<boolean>();
+    const [isLoadingPosts, setIsLoadingPosts] = useState<boolean>(false);
     const [isFunc, setIsFunc] = useState<boolean>();
 
     const serverURL = (api.defaults.baseURL).replace('api', 'images/');
@@ -76,7 +98,7 @@ export function Home({navigation}){
 
     return(
         <View className="flex-1 bg-back items-center">
-            <View className="w-full bg-[#99A0B1] h-24 flex-row items-end pb-1 pl-2">
+            <View className="w-full bg-[#99A0B1] flex-row items-end pb-1 pl-2" style={{height: 88}}>
                 {isFunc ? 
                     (
                         <View className="border-[#3A4365] border-2 rounded-full">
@@ -100,7 +122,7 @@ export function Home({navigation}){
                     )
                 }
                 <TouchableOpacity
-                    className="absolute right-3 bottom-1"
+                    className="absolute right-3 bottom-2"
                     onPress={()=>navigation.navigate('settings')}
                 >
                     <Feather
@@ -122,54 +144,59 @@ export function Home({navigation}){
                     </View>
                     
                     {
-                        posts ? posts.map((item)=>(
-                            <View
-                                className="mt-5 mb-5 w-[85%] bg-white rounded-xl border border-gray-300 items-center"
-                                key={item.id}
-                            >
-                                <View className="w-[95%] mt-1">
-                                    <View className="flex-row justify-start items-center">
-                                        <View className="border-[#3A4365] border-2 rounded-full">
-                                            <Image
-                                                source={{uri: serverURL + 'perfilTucanos/' + item.funcFoto}}
-                                                className="rounded-full h-10 w-10"
-                                            />
+                        isLoadingPosts ?
+                            <>
+                                <View className="mt-5 mb-5 w-[85%] bg-white h-44 rounded-xl border border-gray-300"/>
+                                <View className="mt-5 mb-5 w-[85%] bg-white h-44 rounded-xl border border-gray-300"/>
+                                <View className="mt-5 mb-5 w-[85%] bg-white h-44 rounded-xl border border-gray-300"/>
+                            </>
+                        :
+                            posts.map((item:typePost)=>{
+
+                                return(
+                                <View
+                                    className="mt-5 mb-5 w-[85%] bg-white rounded-xl border border-gray-300 items-center"
+                                    key={item.id}
+                                >
+                                    <View className="w-[95%] mt-1">
+                                        <View className="flex-row justify-start items-center">
+                                            <View className="border-[#3A4365] border-2 rounded-full">
+                                                <Image
+                                                    source={{uri: serverURL + 'perfilTucanos/' + item.funcFoto}}
+                                                    className="rounded-full h-10 w-10"
+                                                />
+                                            </View>
+                                            <Text
+                                                className="text-standart font-nbold text-sm ml-1"
+                                            >
+                                                {item.funcNome}
+                                            </Text>
                                         </View>
-                                        <Text
-                                            className="text-standart font-nbold text-sm ml-1"
-                                        >
-                                            {item.funcNome}
-                                        </Text>
-                                    </View>
-                                    {item.foto && 
-                                        <Image
-                                            source={{uri: `${serverURL}postImages/${item.id}.${item.extensao}`}}
-                                            className="w-full rounded-xl mt-1"
-                                            style={{
-                                                height: screenHeight*0.22,
-                                                resizeMode: 'contain',
-                                            }}
-                                        />
-                                    }
-                                    {item.txt.length >= 144 ?
-                                                <Text className="mt-2 text-justify text-black font-nregular text-sm">
-                                                    {item.txt}
-                                                </Text>
-                                            :
-                                                <Text className="mt-2 text-justify text-black font-nregular text-sm">
-                                                    {item.txts}
-                                                </Text>
-                                            }
-                                    <View className="w-full h-6 items-end justify-start">
-                                        <Text className="text-[#727B80] font-nsemibold text-sm">
-                                            {item.createdAt.dia} de {item.createdAt.mes}, {item.createdAt.ano}
-                                        </Text>
+                                        {item.foto &&
+                                            <Image
+                                                source={{uri: `${serverURL}postImages/${item.id}.${item.extensao}`}}
+                                                className="w-full rounded-xl mt-1"
+                                                style={{
+                                                    height: screenHeight*0.22,
+                                                    resizeMode: 'contain',
+                                                }}
+                                            />
+                                        }
+                                        {item.txt.length < 144 ?
+                                            <Text className="mt-2 text-justify text-black font-nregular text-sm">
+                                                {item.txt}
+                                            </Text>
+                                        :
+                                            <TextoPost text={item.txt}/>
+                                        }
+                                        <View className="w-full h-6 items-end justify-start">
+                                            <Text className="text-[#727B80] font-nsemibold text-sm">
+                                                {item.createdAt.dia} de {item.createdAt.mes}, {item.createdAt.ano}
+                                            </Text>
+                                        </View>
                                     </View>
                                 </View>
-                            </View>
-                        ))
-                        :
-                        <View className="mt-5 mb-5 w-[85%] bg-white h-44 rounded-xl border border-gray-300" key={1}/>
+                            )})
                     }
                     <View className="h-36"/>
                 </ScrollView>
