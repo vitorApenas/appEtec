@@ -10,6 +10,7 @@ import Materias from "./Materias";
 import Professores from "./Professores";
 import Horarios from "./Horarios";
 import Posts from "./Posts";
+import PostFixado from "./PostFixado";
 
 export {
     ReferenciaAlunos,
@@ -23,5 +24,6 @@ export {
     Materias,
     Professores,
     Horarios,
-    Posts
+    Posts,
+    PostFixado
 };

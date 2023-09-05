@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, Dimensions } from 'react-native';
+import { View, Text, ScrollView, useWindowDimensions } from 'react-native';
 import {useState, useEffect} from 'react';
 import { FontAwesome } from '@expo/vector-icons';
 import { useIsFocused } from '@react-navigation/native';
@@ -43,22 +43,22 @@ export function Horario({navigation}){
 
                 const date = new Date();
 
-                const teste = await api.post('/aulaAtual', {
+                const aulaAtual = await api.post('/aulaAtual', {
                     turma: siglaTurma,
                     dia: date.getDay(),
                     hora: date.getHours(),
                     minuto: date.getMinutes()
                 });
 
-                setAulaAtual(teste.data.aulaAtual);
-                setProfAtual(teste.data.profAtual);
-                setSalaAtual(teste.data.salaAtual);
-                setAtualPresente(teste.data.presenteAtual);
+                setAulaAtual(aulaAtual.data.aulaAtual);
+                setProfAtual(aulaAtual.data.profAtual);
+                setSalaAtual(aulaAtual.data.salaAtual);
+                setAtualPresente(aulaAtual.data.presenteAtual);
 
-                setProxAula(teste.data.proxAula);
-                setProxProf(teste.data.proxProf);
-                setProxSala(teste.data.proxSala);
-                setProxPresente(teste.data.proxPresente);
+                setProxAula(aulaAtual.data.proxAula);
+                setProxProf(aulaAtual.data.proxProf);
+                setProxSala(aulaAtual.data.proxSala);
+                setProxPresente(aulaAtual.data.proxPresente);
             }
         }
         catch{
@@ -68,7 +68,7 @@ export function Horario({navigation}){
         setIsLoading(false);
     }
 
-    const screenWidth = Dimensions.get('screen').width;
+    const {width} = useWindowDimensions();
 
     const [aulaAtual, setAulaAtual] = useState<string>('');
     const [profAtual, setProfAtual] = useState<string>('');
@@ -144,7 +144,7 @@ export function Horario({navigation}){
                     <View
                         className="bg-white rounded-xl border border-gray-300 w-[85%] p-1 mt-2"
                         style={{
-                            height: screenWidth*0.33,
+                            height: width*0.33,
                         }}
                     >
                         <View className="flex-row items-center mt-[1%]">
@@ -188,7 +188,7 @@ export function Horario({navigation}){
                     <View
                         className="bg-white rounded-xl border border-gray-300 w-[85%] p-1 mt-2"
                         style={{
-                            height: screenWidth*0.33,
+                            height: width*0.33,
                         }}
                     >
                         <View className="flex-row items-center mt-[1%]">

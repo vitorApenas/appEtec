@@ -13,7 +13,8 @@ import {
     Materias,
     Professores,
     Horarios,
-    Posts
+    Posts,
+    PostFixado
 } from '../db/models';
 const bcrypt = require('bcrypt');
 const multer = require('multer');
@@ -569,6 +570,31 @@ apiRouter.post('/aulaAtual', async (req, res)=>{
     }
 });
 
+apiRouter.post('/getMateria', async (req, res) => {
+    const sigla = req.body.sigla;
+    const dia = req.body.dia;
+    const hora = req.body.hora;
+    const minuto = req.body.minuto;
+    try{
+        if(dia===0 || dia===6) return res.json("Sem aula")
+        
+        if(hora < 7 || (hora == 7 && minuto < 20) || hora >= 17) return res.json("Sem aula");
+
+        if(sigla === "Intervalo") return res.json(sigla);
+
+        const materia = await Materias.findAll({where: {sigla: sigla}, attributes: ['nome']});
+
+        if(materia[0].nome.length > 16) return res.json(sigla);
+        return res.json(materia[0].nome);
+    }
+    catch(err){
+        console.log(err);
+        return res.json({
+            msg: "Houve um erro no servidor, tente novamente mais tarde"
+        });
+    }
+});
+
 //Upload de foto de post (se tiver)
 apiRouter.post('/postFoto', upload.single('file'), async (req, res)=>{
     try{
@@ -637,6 +663,119 @@ apiRouter.get('/posts', async (req, res)=>{
         }
 
         res.json(output);
+    }
+    catch(err){
+        console.log(err);
+        return res.json({
+            msg: "Houve um erro no servidor, tente novamente mais tarde"
+        });
+    }
+});
+
+//Fixar post
+apiRouter.post('/fixarPost', async (req, res)=>{
+    const id = req.body.id;
+    try{
+        const postId = await Posts.count({where: {id: id}});
+
+        if(postId === 0) return res.json({
+            msg: "Houve um erro no servidor, tente novamente mais tarde"
+        });
+        
+        const nanoId = customAlphabet("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz-");
+        const countFixado = await PostFixado.count();
+        if (countFixado !== 0){
+            await PostFixado.destroy({
+                truncate: true
+            });
+        }
+        const postFixado = await PostFixado.create({
+            id: nanoId(),
+            postId: id
+        });
+        if(postFixado) return res.json(res.statusCode);
+        return res.json({
+            msg: "Houve um erro no servidor, tente novamente mais tarde"
+        });
+    }
+    catch(err){
+        console.log(err);
+        return res.json({
+            msg: "Houve um erro no servidor, tente novamente mais tarde"
+        });
+    }
+});
+
+//Excluir post
+apiRouter.post('/deletarPost', async (req, res)=>{
+    const id = req.body.id;
+    try{
+        const postId = await Posts.count({where: {id: id}});
+
+        if(postId === 0) return res.json({
+            msg: "Houve um erro no servidor, tente novamente mais tarde"
+        });
+
+        await Posts.destroy({where: {id: id}});
+
+        const countFixado = await PostFixado.count({where: {postId: id}});
+        if(countFixado === 1) await PostFixado.destroy({where: {postId: id}});
+
+        return res.json(res.statusCode)
+    }
+    catch(err){
+        console.log(err);
+        return res.json({
+            msg: "Houve um erro no servidor, tente novamente mais tarde"
+        });
+    }
+});
+
+//Recebe o post fixado
+apiRouter.get('/postFixado', async (req, res)=>{
+    try{
+        const countFixado = await PostFixado.count();
+        if(countFixado === 0) return res.json(res.statusCode)
+        
+        const idPost = await PostFixado.findAll({attributes: ['postId']});
+        const post = await Posts.findAll({where: {id: idPost[0].postId}});
+        const func = await FuncionariosAtivos.findAll({where: {email: post[0].email}, attributes: ['nome', 'fotoPerfil']});
+        
+        const meses = ['jan', 'fev', 'mar', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'];
+            
+        const createdAt = {
+            dia: post[0].createdAt.getDate(),
+            mes: meses[post[0].createdAt.getMonth()],
+            ano: post[0].createdAt.getFullYear(),
+        }
+
+        const output = {
+            id: post[0].id,
+            txt: post[0].txt,
+            foto: post[0].foto,
+            extensao: post[0].extensao,
+            funcNome: func[0].nome,
+            funcFoto: func[0].fotoPerfil,
+            createdAt: createdAt
+        }
+        
+        return res.json(output);
+    }
+    catch(err){
+        console.log(err);
+        return res.json({
+            msg: "Houve um erro no servidor, tente novamente mais tarde"
+        });
+    }
+});
+
+//Desafixa o post
+apiRouter.post('/desafixarPost', async (req, res)=>{
+    try{
+        await PostFixado.destroy({
+            truncate: true
+        });
+        res.json(res.statusCode)
     }
     catch(err){
         console.log(err);
