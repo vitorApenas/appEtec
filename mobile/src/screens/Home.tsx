@@ -2,9 +2,8 @@ import { useIsFocused } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import { View, Image, TouchableOpacity, Text, ScrollView, useWindowDimensions } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Feather } from "@expo/vector-icons";
 import NetInfo from '@react-native-community/netinfo';
-import { FontAwesome } from "@expo/vector-icons";
+import { FontAwesome, Feather } from "@expo/vector-icons";
 
 import { Loading } from "../components/Loading";
 import { TextoPost } from "../components/TextoPost";
@@ -452,7 +451,7 @@ export function Home({navigation}){
                         className="w-0.5 h-8 bg-white rounded-full"
                     />
                     <TouchableOpacity
-                        onPress={()=>{}}
+                        onPress={()=>navigation.navigate('achadosPerdidos')}
                     >
                         <Image
                             source={require("../assets/home/A_P_icon.png")}

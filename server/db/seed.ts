@@ -9,7 +9,8 @@ import {
     Materias,
     Professores,
     Horarios,
-    Posts
+    Posts,
+    TagsAeP
 } from './models';
 
 interface typeReferenciaAlunos {
@@ -88,6 +89,11 @@ interface typePost{
     foto: boolean,
     extensao?: string,
     email: string
+}
+
+interface typeTags{
+    id: string,
+    txt: string
 }
 
 //Arquivo para RESETAR e POPULAR o database com dados para teste
@@ -920,6 +926,45 @@ interface typePost{
         }
     ]
 
+    const tagsAep:typeTags[] = [
+        {
+            id: '8VgkzukV7L17aA1pTiXiw',
+            txt: 'Celulares'
+        },
+        {
+            id: 'UdG7DsGRIMpkJqNG2qUDs',
+            txt: 'Eletrônicos'
+        },
+        {
+            id: 'wfnjiItFpyueujT-_h0Cf',
+            txt: 'Jogos'
+        },
+        {
+            id: 'Z9QL3GLycV_a5ZoJkHI1o',
+            txt: 'Pessoal'
+        },
+        {
+            id: 'm2--5xO2AvcYoRm5-iy2X',
+            txt: 'Higiene'
+        },
+        {
+            id: 'AbQo16XFE1Rgw8bomsxiD',
+            txt: 'Vestimentas'
+        },
+        {
+            id: 'KCsoW-gddly9-8N9UNKYY',
+            txt: 'Acessórios'
+        },
+        {
+            id: 'WJkJ1fjpg6TJDDBCvwRRy',
+            txt: 'Materiais'
+        },
+        {
+            id: 'A1l_p18B6MF-5QP1FgFfx',
+            txt: 'Outros'
+        }
+    ]
+
     await sequelize.sync({force: true});
 
     await ReferenciaAlunos.bulkCreate(alunosReferencia);
@@ -931,5 +976,6 @@ interface typePost{
     await Materias.bulkCreate(materias);
     await Professores.bulkCreate(professores);
     await Horarios.bulkCreate(horarios);
-    await Posts.bulkCreate(posts)
+    await Posts.bulkCreate(posts);
+    await TagsAeP.bulkCreate(tagsAep);
 })();

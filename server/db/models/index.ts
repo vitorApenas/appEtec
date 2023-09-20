@@ -11,6 +11,9 @@ import Professores from "./Professores";
 import Horarios from "./Horarios";
 import Posts from "./Posts";
 import PostFixado from "./PostFixado";
+import NConfirmadosAeP from "./NConfirmadosAeP";
+import AchadosPerdidos from "./AchadosPerdidos";
+import TagsAeP from "./TagsAeP";
 
 export {
     ReferenciaAlunos,
@@ -25,5 +28,8 @@ export {
     Professores,
     Horarios,
     Posts,
-    PostFixado
+    PostFixado,
+    NConfirmadosAeP,
+    AchadosPerdidos,
+    TagsAeP
 };
