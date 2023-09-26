@@ -1,6 +1,6 @@
 import { useIsFocused } from "@react-navigation/native";
 import { useEffect, useState } from "react";
-import { View } from "react-native";
+import { View, Text } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import NetInfo from '@react-native-community/netinfo';
 
@@ -26,12 +26,11 @@ export function AeP({navigation}){
         const keys = await AsyncStorage.getAllKeys();
         if(!keys.includes('@email')) return navigation.navigate('login');
 
-        const data = await api.get('teste')
-        alert(JSON.stringify(data.data))
-
         setIsLoading(false)
     }
 
+    const [tagsAep, setTagsAep] = useState<any>([]);
+    
     const [isLoading, setIsLoading] = useState<boolean>();
 
     if(isLoading) return <Loading/>
@@ -42,6 +41,12 @@ export function AeP({navigation}){
                 title="A&P"
                 onPress={()=>navigation.navigate('home')}
             />
+            <View>
+                <Text>Itens perdidos:</Text>
+                {
+                    
+                }
+            </View>
         </View>
     )
 }

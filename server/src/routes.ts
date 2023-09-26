@@ -14,7 +14,10 @@ import {
     Professores,
     Horarios,
     Posts,
-    PostFixado
+    PostFixado,
+    AchadosPerdidos,
+    NConfirmadosAeP,
+    TagsAeP
 } from '../db/models';
 const bcrypt = require('bcrypt');
 const multer = require('multer');
@@ -637,7 +640,7 @@ apiRouter.post('/uploadPost', async (req, res)=>{
 apiRouter.get('/posts', async (req, res)=>{
     try{
         let i = 0;
-        const posts = await Posts.findAll({order:[['createdAt', 'DESC']], limit: 5});
+        const posts = await Posts.findAll({order:[['createdAt', 'DESC']]});
         const output:object[] = []
         while(i < posts.length){
             const func = await FuncionariosAtivos.findAll({where: {email: posts[i].email}, attributes: ['nome', 'fotoPerfil']});
@@ -776,6 +779,31 @@ apiRouter.post('/desafixarPost', async (req, res)=>{
             truncate: true
         });
         res.json(res.statusCode)
+    }
+    catch(err){
+        console.log(err);
+        return res.json({
+            msg: "Houve um erro no servidor, tente novamente mais tarde"
+        });
+    }
+});
+
+apiRouter.get('/achadosPerdidos', async (req, res)=>{
+    try{
+        const aep = AchadosPerdidos.findAll({order:[['createdAt', 'DESC']]});
+    }
+    catch(err){
+        console.log(err);
+        return res.json({
+            msg: "Houve um erro no servidor, tente novamente mais tarde"
+        });
+    }
+});
+
+apiRouter.get('/tagsAep', async (req, res)=>{
+    try{
+        const tags = await TagsAeP.findAll();
+        res.json(tags)
     }
     catch(err){
         console.log(err);
