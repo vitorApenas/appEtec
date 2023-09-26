@@ -33,7 +33,18 @@ const storage = multer.diskStorage({
       const newNameFile = file.originalname.split('.')[0];
       cb(null, `${newNameFile}.${extensao}`);
     },
-  });
+});
+
+const aepStorage = multer.diskStorage({
+    destination: function (req, file, cb){
+        cb(null, 'assets/aepImages');
+    },
+    filename: function (req, file, cb) {
+        const extensao = file.originalname.split('.')[1];
+        const newNameFile = file.originalname.split('.')[0];
+        cb(null, `${newNameFile}.${extensao}`);
+    }
+})
   
   const upload = multer({ storage });
 
@@ -788,9 +799,37 @@ apiRouter.post('/desafixarPost', async (req, res)=>{
     }
 });
 
+apiRouter.post('/aepFoto', async (req, res)=>{
+    try{
+
+    }
+    catch(err){
+        console.log(err);
+        return res.json({
+            msg: "Houve um erro no servidor, tente novamente mais tarde"
+        });
+    }
+});
+
+apiRouter.post('/uploadAep', async (req, res)=>{
+    try{
+
+    }
+    catch(err){
+        console.log(err);
+        return res.json({
+            msg: "Houve um erro no servidor, tente novamente mais tarde"
+        });
+    }
+})
+
 apiRouter.get('/achadosPerdidos', async (req, res)=>{
     try{
+        let i = 0;
         const aep = AchadosPerdidos.findAll({order:[['createdAt', 'DESC']]});
+        while(i < aep.length){
+            i++;
+        }
     }
     catch(err){
         console.log(err);
