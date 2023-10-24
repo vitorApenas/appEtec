@@ -1,20 +1,20 @@
-import { View, Text, TextInput, TouchableOpacity, Image, Dimensions } from "react-native";
-import { useState, useEffect } from 'react'
+import {View, Text, TouchableOpacity, Dimensions, Image, TextInput, Touchable} from 'react-native';
+import {useState, useEffect} from 'react';
 import { useIsFocused } from '@react-navigation/native';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import NetInfo from '@react-native-community/netinfo';
 import * as ImagePicker from 'expo-image-picker';
-import { customAlphabet } from "nanoid/non-secure";
+import { customAlphabet } from 'nanoid/non-secure';
 
-import { Header } from "../components/Header";
+import { Header } from '../components/Header'
 import { Loading } from '../components/Loading';
 
-import { api } from "../lib/axios";
+import { api } from '../lib/axios';
 
-export function CriarPost({navigation}){
+export function CriarAep({navigation}){
 
     const isFocused = useIsFocused();
-    
+
     useEffect(()=>{
         if(isFocused) getData();
     }, [isFocused]);
@@ -26,15 +26,17 @@ export function CriarPost({navigation}){
         if(!conexao.isConnected) return navigation.navigate('login');
         
         const keys = await AsyncStorage.getAllKeys();
-        if(keys.includes('@rm')) return navigation.navigate('home');
         if(!keys.includes('@email')) return navigation.navigate('login');
+
+        const res = await api.get('/tagsAep');
+        setTagsServer(res.data);
 
         setIsLoading(false);
     }
 
     async function imagem(){
         const {granted} = await ImagePicker.requestMediaLibraryPermissionsAsync();
-        
+
         if(granted){
             const {assets, canceled} = await ImagePicker.launchImageLibraryAsync({
                 mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -51,59 +53,35 @@ export function CriarPost({navigation}){
                 setExtensao(extension);
 
                 const newName = nanoId();
-                setIdName(newName);
+                setIdPost(newName);
 
                 setFormDataImg({
                     name: `${newName}.${extension}`,
                     uri: assets[0].uri,
-                    type: 'image/' + extension
+                    type: `image/${extension}`
                 });
             }
-
         }
         else{
-            alert("{erro} voce não permitiu o acesso a sua galeria")   
+            alert("{erro} você não permitiu o acesso à sua galeria")
         }
     }
 
     async function upload(){
         try{
             setIsLoading(true);
-            const email = await AsyncStorage.getItem('@email');
-            if(!formDataImg){
-                const newId = nanoId();
-                const resPost = await api.post('/uploadPost', {
-                    id: newId,
-                    txt: txt,
-                    foto: false,
-                    email: email
-                });
-                if(resPost.data === 200) return navigation.navigate('home');
-            }
-            else{
-                const formData = new FormData();
-                formData.append('file', JSON.parse(JSON.stringify(formDataImg)));
 
-                const res = await api.post('/postFoto', formData, {
-                    headers: {
-                        'Accept' : 'application/json',
-                        'Content-Type': 'multipart/form-data'
-                    }
-                });
+            const formData = new FormData();
+            formData.append('file', JSON.parse(JSON.stringify(formDataImg)));
 
-                if(res.data === 200){
-                    const resPost = await api.post('/uploadPost', {
-                        id: idName,
-                        txt: txt,
-                        foto: true,
-                        ext: extensao,
-                        email: email
-                    });
-                    if(resPost.data === 200) return navigation.navigate('home');
+            const res = await api.post('/aepFoto', formData, {
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'multipart/form-data'
                 }
-                else navigation.navigate('login');
-            }
-            setIdName('');
+            });
+
+            alert(res.data);
         }
         catch(err){
             navigation.navigate('login');
@@ -115,31 +93,29 @@ export function CriarPost({navigation}){
 
     const screenWidth = Dimensions.get('screen').width;
     const nanoId = customAlphabet("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz-");
-    
-    const [formDataImg, setFormDataImg] = useState<object>();
-    const [extensao , setExtensao] = useState<string>('');
+
+    const [txt, setTxt] = useState<string>('');
+    const [tagsServer, setTagsServer] = useState<any>([]);
+    const [tagsItem, setTagsItem] = useState<any>([]);
     const [photoShow, setPhotoShow] = useState<string>();
-    const [txt, setTxt] = useState<string>();
-    const [idName, setIdName] = useState<string>('');
-
+    const [extensao, setExtensao] = useState<string>();
+    const [idPost, setIdPost] = useState<string>();
+    const [formDataImg, setFormDataImg] = useState<object>();
+    
     const [isLoading, setIsLoading] = useState<boolean>();
-
+    
     if(isLoading) return <Loading/>
 
     return(
         <View className="flex-1 bg-back items-center">
             <Header
-                title="Nova Postagem"
-                onPress={()=>{navigation.navigate('home')}}
+                title="A&P"
+                onPress={()=>navigation.navigate('achadosPerdidos')}
             />
-            <View className="w-[85%] flex-row mt-5 items-center">
+            <View className="w-[85%] mt-5">
                 <Text className="text-standart font-nsemibold text-xl">
-                    Novo Post
+                    Anunciar item
                 </Text>
-                <Image
-                    className="w-5 h-5 ml-1"
-                    source={require('../assets/estrelas.png')}
-                />
             </View>
             <TouchableOpacity
                 style={{
@@ -151,29 +127,28 @@ export function CriarPost({navigation}){
             >
                 {photoShow ?
                     <Image
-                        source={{uri: photoShow}} 
+                        source={{uri: photoShow}}
                         className="h-full w-full rounded-xl"
                         style={{resizeMode: 'contain'}}
                     />
-                    :
-                    <>
-                        <Image
+                :
+                <>
+                    <Image
                         source={require('../assets/adcImagem.png')}
                         className="h-12 w-12"
-                        />
-                        <Text className="text-standart font-nbold text-base">
-                            Adicionar foto
-                        </Text>
-                        <Text className="text-[#8889A0] font-nsemibold text-sm">
-                            Utilize uma foto nítida e na horizontal
-                        </Text>
-                    </>
+                    />
+                    <Text className="text-standart font-nbold text-base">
+                        Adicionar foto
+                    </Text>
+                    <Text className="text-[#8889A0] font-nsemibold text-sm">
+                        Utilize uma foto nítida e na horizontal
+                    </Text>
+                </>
                 }
             </TouchableOpacity>
-
             <View className="w-[85%] mt-5 justify-center">
                 <Text className="text-standart font-nsemibold text-lg">
-                    Descrição do post
+                    Descrição do item
                 </Text>
             </View>
             <TextInput
@@ -184,18 +159,31 @@ export function CriarPost({navigation}){
                 value={txt}
                 onChangeText={(value)=>setTxt(value)}
             />
-
-            <TouchableOpacity
-                className="rounded-xl items-center justify-center bg-[#FAFAFA] w-[85%] h-12 mt-[60%]"
-                onPress={()=>{setPhotoShow(undefined); setFormDataImg(undefined)}}
-            >
-                <Text className="text-standart font-nbold text-base">
-                    Remover imagem
+            <View className="w-[85%] mt-4 justify-center">
+                <Text className="text-standart font-nsemibold text-lg">
+                    Tags
                 </Text>
-            </TouchableOpacity>
-
+            </View>
+            <View className="bg-[#FAFAFA] rounded-lg w-[85%] h-32 flex-row flex-wrap mt-1">
+                {tagsServer && tagsServer.map((item)=>{
+                    return(
+                        <TouchableOpacity
+                            key={item.id}
+                            className={`p-1 ${tagsItem.includes(item.id) ? "bg-[#3A4365]": "bg-[#BDC3C7]"} m-1 rounded-lg`}
+                            onPress={()=>{
+                                tagsItem.includes(item.id) ? 
+                                    setTagsItem(tagsItem.filter((tag)=>tag != item.id))
+                                : 
+                                    setTagsItem([...tagsItem, item.id]);
+                            }}
+                        >
+                            <Text className={`font-nsemibold text-xs ${tagsItem.includes(item.id) ? "text-back": "text-[#3C4460]"}`}>{item.txt}</Text>
+                        </TouchableOpacity>
+                    )
+                })}
+            </View>
             <TouchableOpacity
-                className="rounded-xl items-center justify-center bg-[#99A0B1] w-[85%] h-12 mt-[5%]"
+                className="rounded-xl items-center justify-center bg-[#99A0B1] w-[85%] h-12 mt-[15%]"
                 onPress={()=>upload()}
             >
                 <Text className="text-white font-nbold text-base">
@@ -203,5 +191,5 @@ export function CriarPost({navigation}){
                 </Text>
             </TouchableOpacity>
         </View>
-    );
+    )
 }

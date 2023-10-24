@@ -21,7 +21,7 @@ const Professores = sequelize.define('Professores',
             allowNull: false
         },
         presente:{
-            type: DataTypes.BOOLEAN,
+            type: DataTypes.STRING,
             allowNull: false
         }
     },

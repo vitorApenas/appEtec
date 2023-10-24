@@ -280,7 +280,7 @@ export function Login({navigation}){
                         
                         <BtnForm
                             text="ENTRAR"
-                            className="mt-20"
+                            className="mt-28"
                             onPress={()=>loginAluno()}
                             erro={erroAluno}
                         />

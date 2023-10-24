@@ -1,6 +1,7 @@
 import { useIsFocused } from "@react-navigation/native";
 import { useEffect, useState } from "react";
-import { View, Text } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
+import { Feather } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import NetInfo from '@react-native-community/netinfo';
 
@@ -26,11 +27,13 @@ export function AeP({navigation}){
         const keys = await AsyncStorage.getAllKeys();
         if(!keys.includes('@email')) return navigation.navigate('login');
 
+        keys.includes('@rm') ? setIsFunc(false) : setIsFunc(true)
+
         setIsLoading(false)
     }
 
-    const [tagsAep, setTagsAep] = useState<any>([]);
     
+    const [isFunc, setIsFunc] = useState<boolean>();
     const [isLoading, setIsLoading] = useState<boolean>();
 
     if(isLoading) return <Loading/>
@@ -41,12 +44,32 @@ export function AeP({navigation}){
                 title="A&P"
                 onPress={()=>navigation.navigate('home')}
             />
-            <View>
-                <Text>Itens perdidos:</Text>
-                {
-                    
-                }
-            </View>
+            {isFunc &&
+                <TouchableOpacity
+                    className="bg-[#3A4365] w-[85%] mt-5 h-10 items-center justify-center rounded-lg"
+                >
+                    <Text className="text-back font-nsemibold text-base">
+                        15 itens ainda precisam de verificação
+                    </Text>
+                </TouchableOpacity>
+            }
+            <Text>Itens perdidos:</Text>
+            <TouchableOpacity
+                className="bg-[#3A4365] rounded-full w-16 h-16 items-center justify-center"
+                style={{
+                    position: 'absolute',
+                    bottom: '3%',
+                    right: '8%',
+                    zIndex: 9
+                }}
+                onPress={()=>navigation.navigate('criarAep')}
+            >
+                <Feather
+                    name="plus"
+                    size={38}
+                    color="#FFF"
+                />
+            </TouchableOpacity>
         </View>
     )
 }

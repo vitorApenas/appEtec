@@ -16,7 +16,10 @@ import { EditarHorario } from "../screens/EditarHorario";
 import { EditarHorarioDia } from "../screens/EditarHorarioDia";
 import { EditarAula } from "../screens/EditarAula";
 import { CriarPost } from "../screens/CriarPost";
-import { AeP } from "../screens/AeP";
+import { EditarPresencas } from "../screens/EditarPresencas";
+//import { AeP } from "../screens/AeP";
+//import { CriarAep } from "../screens/CriarAep";
+//import { NConfirmadosAep } from "../screens/NConfirmadosAep";
 //import { Email } from "../screens/Email";
 
 export function AppRoutes(){
@@ -36,7 +39,7 @@ export function AppRoutes(){
             <Screen name="editarHorarioDia" component={EditarHorarioDia}/>
             <Screen name="editarAula" component={EditarAula}/>
             <Screen name="criarPost" component={CriarPost}/>
-            <Screen name="achadosPerdidos" component={AeP}/>
+            <Screen name="editarPresencas" component={EditarPresencas}/>
         </Navigator>
     )
 }

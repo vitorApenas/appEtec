@@ -88,15 +88,21 @@ export function Home({navigation}){
             const date = new Date();
             const aulaAtual = await api.post('/aulaAtual', {
                 turma: siglaTurma,
+                /*dia: date.getDay(),
+                hora: date.getHours(),
+                minuto: date.getMinutes()*/
                 dia: 5,
-                hora: 12,
-                minuto: 42
+                hora: 8,
+                minuto: 25
             });
             const nomeMateria = await api.post('/getMateria', {
                 sigla: aulaAtual.data.aulaAtual,
+                /*dia: date.getDay(),
+                hora: date.getHours(),
+                minuto: date.getMinutes()*/
                 dia: 5,
-                hora: 12,
-                minuto: 42
+                hora: 8,
+                minuto: 25
             });
             setImgAula(`${serverURL}iconesHorario/${aulaAtual.data.aulaAtual}.png`);
 
@@ -104,6 +110,13 @@ export function Home({navigation}){
             setPresenteAtual(aulaAtual.data.presenteAtual);
             setProfAtual(aulaAtual.data.profAtual);
             setSalaAtual(aulaAtual.data.salaAtual);
+        }
+
+        if(keys.includes('@nome') && isFunc){
+            const nome = await AsyncStorage.getItem('@nome');
+            const nomeProf = await api.post('/isProfessor', {
+                nome: nome
+            });
         }
 
         setIsLoading(false);
@@ -192,7 +205,7 @@ export function Home({navigation}){
                                     }}
                                 >
                                     <Text
-                                        className="font-nsemibold text-black"
+                                        className="font-nsemibold text-black text-center"
                                         style={{
                                             fontSize: 13,
                                             lineHeight: 18
@@ -211,7 +224,7 @@ export function Home({navigation}){
                                 <View 
                                     className="bg-white rounded-xl items-start justify-evenly mt-1 p-1"
                                     style={{
-                                        width: height/3.2,
+                                        width: height/3.5,
                                         height: height/9
                                     }}
                                 >
@@ -269,7 +282,7 @@ export function Home({navigation}){
                                             <FontAwesome
                                                 name="circle"
                                                 size={18}
-                                                color={presenteAtual ? "#00B489" : "#CC3535"}
+                                                color={presenteAtual}
                                             />
                                         </View>
                                     </View>
@@ -427,7 +440,7 @@ export function Home({navigation}){
                         className="w-0.5 h-8 bg-white rounded-full"
                     />
                     <TouchableOpacity
-                        onPress={()=>{}}
+                        onPress={()=>navigation.navigate('login')}
                         className="items-center justify-center"
                     >
                         <Image
@@ -451,7 +464,7 @@ export function Home({navigation}){
                         className="w-0.5 h-8 bg-white rounded-full"
                     />
                     <TouchableOpacity
-                        onPress={()=>navigation.navigate('achadosPerdidos')}
+                        //onPress={()=>navigation.navigate('achadosPerdidos')}
                     >
                         <Image
                             source={require("../assets/home/A_P_icon.png")}

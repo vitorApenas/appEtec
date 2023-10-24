@@ -71,7 +71,7 @@ interface typeProf{
     sigla: string,
     nome: string,
     sala: string,
-    presente: boolean
+    presente: string
 }
 
 interface typeHorario{
@@ -340,210 +340,210 @@ interface typeTags{
             sigla: '-',
             nome: 'Aula vaga',
             sala: '-',
-            presente: true
+            presente: '#00B489'
         },
         {
             id: '7-XptxMDwryuaQPaVe65N',
             sigla: 'MPS',
             nome: 'Marcelo Aparecido dos Santos',
             sala: '555',
-            presente: true
+            presente: '#00B489'
         },
         {
             id: 'Au1ZeDAsLjA0iVyto-I54',
             sigla: 'MNS',
             nome: 'Manacés Angelo dos Santos',
             sala: '459',
-            presente: true
+            presente: '#00B489'
         },
         {
             id: 'P_crRNZzvWqudb21RoHlC',
             sigla: 'CSM',
             nome: 'Cleonice Salete Molon Meucci',
             sala: '453',
-            presente: true
+            presente: '#00B489'
         },
         {
             id: 'B0sctz-aAW9Xfpwvy0JlP',
             sigla: 'VSM',
             nome: 'Viviane Silva da Mata',
             sala: '470',
-            presente: true
+            presente: '#00B489'
         },
         {
             id: '9bghQ9r1v4Vol4JbZ3MkL',
             sigla: 'ADL',
             nome: 'Adilson Lopes',
             sala: '552',
-            presente: true
+            presente: '#00B489'
         },
         {
             id: 'EVwKrllFWFSDuFiiaOFOH',
             sigla: 'RMS',
             nome: 'Rosa Mitiko Shimizu',
             sala: '265.6',
-            presente: true
+            presente: '#00B489'
         },
         {
             id: 'rDFYj-hcjkbPAhDt22fyg',
             sigla: 'RRZ',
             nome: 'Rafael Russi Zamboni',
             sala: '265.1',
-            presente: true
+            presente: '#00B489'
         },
         {
             id: 'cAWMusqyQh7JmCHiMAlgH',
             sigla: 'GMF',
             nome: 'Gerson Martins Fontalva',
             sala: '203',
-            presente: true
+            presente: '#00B489'
         },
         {
             id: 'f5sifqHztOaWy9jzQCfn1',
             sigla: 'MIM',
             nome: 'Miriam Angélica Morini',
             sala: '468',
-            presente: true
+            presente: '#00B489'
         },
         {
             id: 'Zw6sW5RBbq0I15tlpzPUU',
             sigla: 'MPB',
             nome: 'Marcelo Pereira Barbosa',
             sala: '265.1',
-            presente: true
+            presente: '#00B489'
         },
         {
             id: 'TU4ykygmGp8DjEcb8iWNM',
             sigla: 'ARL',
             nome: 'Aparecida Romera Loures',
             sala: '-',
-            presente: true
+            presente: '#00B489'
         },
         {
             id: 'sMiDRPJWeeAjLYOKGDLBJ',
             sigla: 'HAS',
             nome: 'Herminio Alves Silva',
             sala: '465',
-            presente: true
+            presente: '#00B489'
         },
         {
             id: 'IWY5DMEiM9ylb3-H5kD_3',
             sigla: 'EDA',
             nome: 'Edno Afonso',
             sala: '460',
-            presente: true
+            presente: '#00B489'
         },
         {
             id: '7Ha6-54lnq4jFGeRULInJ',
             sigla: 'ICO',
             nome: 'Íris Cristine Odizio',
             sala: '460',
-            presente: true
+            presente: '#00B489'
         },
         {
             id: '5_7yI-GonhdiKL6U8ovh-',
             sigla: 'ECK',
             nome: 'Elisabete da Cunha Kubilius',
             sala: '353',
-            presente: true
+            presente: '#00B489'
         },
         {
             id: 'y0IuOQsPd0yHMslo7w6QC',
             sigla: 'PCD',
             nome: 'Paulo Cuesta Acuna Diaz',
             sala: '509',
-            presente: true
+            presente: '#00B489'
         },
         {
             id: 'VkyPSI189N7wEDbRqIoiL',
             sigla: 'NBJ',
             nome: 'Nivaldo Bertozzo Júnior',
             sala: '511',
-            presente: true
+            presente: '#00B489'
         },
         {
             id: 'tkGDjQPDorrk1GYC4A1MJ',
             sigla: 'BGF',
             nome: 'Batista Gibba Filho',
             sala: '213',
-            presente: true
+            presente: '#00B489'
         },
         {
             id: 'QjpVPu4k9I2_wyWKYCsNm',
             sigla: 'JTD',
             nome: 'Jefferson Thadeus Dias de Oliveira',
             sala: '352',
-            presente: true
+            presente: '#00B489'
         },
         {
             id: 'wFJGYnx2FrUs7_fGL7crg',
             sigla: 'JLR',
             nome: 'João Lázaro Masini Rossi',
             sala: '405',
-            presente: true
+            presente: '#00B489'
         },
         {
             id: 'aJ9NILV6jTcGF2ChkZUem',
             sigla: 'VAO',
             nome: 'Valter de Oliveira',
             sala: '405',
-            presente: true
+            presente: '#00B489'
         },
         {
             id: 'wfJzDP_zOyLjCQSdJgDCA',
             sigla: 'MRQ',
             nome: 'Marcia Romaquel',
             sala: '454',
-            presente: true
+            presente: '#00B489'
         },
         {
             id: 'tz2JU7NMc6dRHj2O19MK5',
             sigla: 'CRZ',
             nome: 'Carlos Rodolfo Zoboli',
             sala: '405',
-            presente: true
+            presente: '#00B489'
         },
         {
             id: 'sfNfvItcyp-MlGI5P9Epm',
             sigla: 'AAJ',
             nome: 'Américo Antonio Saia Junior',
             sala: 'OFI',
-            presente: true
+            presente: '#00B489'
         },
         {
             id: '3R8sveblKP1JZ_TNU4sWY',
             sigla: 'LCA',
             nome: 'Luis Carlos da Silva',
             sala: '458',
-            presente: true
+            presente: '#00B489'
         },
         {
             id: 'rcU2D3IUW_ufTNcoBZ1L0',
             sigla: 'WAH',
             nome: 'Wanderlei Aguilera Hidalga',
             sala: '517',
-            presente: true
+            presente: '#00B489'
         },
         {
             id: 'MGVVYj46EB9ydL4AnUehH',
             sigla: 'WAS',
             nome: 'Walter Antonio Sciani',
             sala: '210',
-            presente: true
+            presente: '#00B489'
         },
         {
             id: 'Zh-byfV-BoHlyo3mMxGx1',
             sigla: 'JOM',
             nome: 'José Antonio Meire',
             sala: '474',
-            presente: true
+            presente: '#00B489'
         },
         {
             id: 'YkJihhVwGH4Onj1zTf9Pi',
             sigla: 'NAO',
             nome: 'Nilton Amancio de Oliveira',
             sala: '-',
-            presente: true
+            presente: '#00B489'
         },
     ];
 
@@ -918,10 +918,10 @@ interface typeTags{
             email: 'rosa.shimizu@etec.sp.gov.br'
         },
         {
-            id: 'jSO1tHm9izp75wn_A4ewx',
-            txt: 'se liga nesse gato',
+            id: 'I_vBRWsz7zQthFEIcQ3nW',
+            txt: 'Devido à greve dos professores, algumas aulas podem ser suspensas por tempo indeterminado.',
             foto: true,
-            extensao: 'png',
+            extensao: 'jpeg',
             email: 'rosa.shimizu@etec.sp.gov.br'
         }
     ]
@@ -977,5 +977,5 @@ interface typeTags{
     await Professores.bulkCreate(professores);
     await Horarios.bulkCreate(horarios);
     await Posts.bulkCreate(posts);
-    await TagsAeP.bulkCreate(tagsAep);
+    //await TagsAeP.bulkCreate(tagsAep);
 })();

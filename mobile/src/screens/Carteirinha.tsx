@@ -78,7 +78,7 @@ export function Carteirinha({navigation}){
                 <View className="rounded-full mt-[8%] border-4 border-[#99A0B1]">
                     <Image
                         source={{uri: profilePic}}
-                        className="rounded-full h-40 w-40"
+                        className="rounded-full h-36 w-36"
                     />  
                 </View>
                 

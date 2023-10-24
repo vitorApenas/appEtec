@@ -34,7 +34,7 @@ export function HorarioFunc({navigation}){
             }
             else{
                 setTurmas([]);
-                setTurmas(turmas.data)
+                setTurmas(turmas.data);
                 //turmas.data.map((item)=>setTurmas(turma => [...turma, item]));
             }
         }
@@ -73,6 +73,27 @@ export function HorarioFunc({navigation}){
                 onPress={()=>navigation.navigate('home')}
             />
             <View className="w-full h-full absolute top-24 items-center">
+                <View className="w-5/6">
+                    <TouchableOpacity
+                        className="w-full h-20 bg-[#5C6480] mt-1 items-center justify-center rounded-xl"
+                        onPress={()=>navigation.navigate('editarPresencas')}
+                    >
+                        <Text className="font-nsemibold text-white text-xl text-center">
+                            EDITAR PRESENÇAS
+                        </Text>
+                    </TouchableOpacity>
+                </View>
+
+                <View 
+                    className="mt-3 -mb-2 w-5/6 flex-row items-center justify-between"
+                >
+                    <View className="bg-standart w-[38%] h-0.5"/>
+                        <Text className="font-nsemibold text-base text-center text-standart">
+                            Turmas
+                        </Text>
+                    <View className="bg-standart w-[38%] h-0.5"/>
+                </View>
+
                 <FlatList
                     className="w-5/6"
                     data={turmas}
@@ -80,6 +101,7 @@ export function HorarioFunc({navigation}){
                         <TouchableOpacity
                             className="w-full h-20 bg-white mt-5 items-center justify-center rounded-xl border border-gray-300"
                             onPress={()=>navigation.navigate('editarHorario', {obj: turma.item})}
+                            key={turma.id}
                         >
                             <Text className="font-nsemibold text-standart text-xl text-center">
                                 {`${turma.item.turma} - ${turma.item.curso.toUpperCase()}`}

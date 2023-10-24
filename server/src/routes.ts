@@ -21,6 +21,7 @@ import {
 } from '../db/models';
 const bcrypt = require('bcrypt');
 const multer = require('multer');
+const fs = require('fs')
 
 const apiRouter = Router();
 
@@ -35,7 +36,7 @@ const storage = multer.diskStorage({
     },
 });
 
-const aepStorage = multer.diskStorage({
+/*const aepStorage = multer.diskStorage({
     destination: function (req, file, cb){
         cb(null, 'assets/aepImages');
     },
@@ -44,9 +45,10 @@ const aepStorage = multer.diskStorage({
         const newNameFile = file.originalname.split('.')[0];
         cb(null, `${newNameFile}.${extensao}`);
     }
-})
+})*/
   
   const upload = multer({ storage });
+  //const uploadAep = multer({ aepStorage });
 
 async function hashPassword(pass:string){
     const salt = await bcrypt.genSalt(10);
@@ -61,10 +63,10 @@ async function checkPassword(pass:string, hashedPass:string){
 
 //Teste de API
 apiRouter.get('/teste', (req, res)=>{
-    console.log("Recebido")
-    res.json({
+    console.log("Recebido");
+    return res.json({
         "message":"API funcionando"
-    })
+    });
 });
 
 //Checar se o aluno está ativo
@@ -385,11 +387,11 @@ apiRouter.post('/aulaAtual', async (req, res)=>{
             aulaAtual: "-",
             profAtual: "-",
             salaAtual: "-",
-            presenteAtual: false,
+            presenteAtual: "#CC3535",
             proxAula: "-",
             proxProf: "-",
             proxSala: "-",
-            proxPresente: false,
+            proxPresente: "#CC3535",
         });
         const infoTurma = await Turmas.findAll({where: {turma: siglaTurma}});
         if(!infoTurma[0]) return res.json({
@@ -435,7 +437,7 @@ apiRouter.post('/aulaAtual', async (req, res)=>{
                     aulaAtual: "-",
                     profAtual: "-",
                     salaAtual: "-",
-                    presenteAtual: false,
+                    presenteAtual: "#CC3535",
                     proxAula: output[0].siglaMateria,
                     proxProf: nomeProxProf == undefined ? output[0].prof : nomeProxProf,
                     proxSala: output[0].salaProf,
@@ -447,11 +449,11 @@ apiRouter.post('/aulaAtual', async (req, res)=>{
                 aulaAtual: "-",
                 profAtual: "-",
                 salaAtual: "-",
-                presenteAtual: false,
+                presenteAtual: "#CC3535",
                 proxAula: "-",
                 proxProf: "-",
                 proxSala: "-",
-                proxPresente: false,
+                proxPresente: "#CC3535",
             });
 
             let index;
@@ -517,7 +519,7 @@ apiRouter.post('/aulaAtual', async (req, res)=>{
                         aulaAtual: "Intervalo",
                         profAtual: "-",
                         salaAtual: "-",
-                        presenteAtual: false,
+                        presenteAtual: "#CC3535",
                         proxAula: proxAula,
                         proxProf: nomeProxProf == undefined ? "Aula vaga" : nomeProxProf,
                         proxSala: proxSala,
@@ -547,7 +549,7 @@ apiRouter.post('/aulaAtual', async (req, res)=>{
                     proxAula: "-",
                     proxProf: "-",
                     proxSala: "-",
-                    proxPresente: false,
+                    proxPresente: "#CC3535",
                 });    
             }
 
@@ -730,12 +732,18 @@ apiRouter.post('/deletarPost', async (req, res)=>{
             msg: "Houve um erro no servidor, tente novamente mais tarde"
         });
 
+        const post = await Posts.findAll({where: {id: id}});
+        if(post[0].foto){
+            const extensao = post[0].extensao;
+            fs.unlinkSync(`assets/postImages/${id}.${extensao}`);
+        }
+
         await Posts.destroy({where: {id: id}});
 
         const countFixado = await PostFixado.count({where: {postId: id}});
         if(countFixado === 1) await PostFixado.destroy({where: {postId: id}});
 
-        return res.json(res.statusCode)
+        return res.json(res.statusCode);
     }
     catch(err){
         console.log(err);
@@ -799,9 +807,13 @@ apiRouter.post('/desafixarPost', async (req, res)=>{
     }
 });
 
-apiRouter.post('/aepFoto', async (req, res)=>{
+apiRouter.post('/isProfessor', async (req, res)=>{
+    const nome = req.body.nome;
     try{
+        const reqProfs = await Professores.findAll({where: {nome: nome}});
+        if(!reqProfs[0]) return res.json(res.statusCode);
 
+        res.json(reqProfs[0]);
     }
     catch(err){
         console.log(err);
@@ -811,9 +823,56 @@ apiRouter.post('/aepFoto', async (req, res)=>{
     }
 });
 
+apiRouter.get('/getPresencaProfs', async (req, res)=>{
+    try{
+        const profs = await Professores.findAll({attributes: ['id', 'sigla', 'nome', 'presente']});
+        return res.json(profs);
+    }
+    catch(err){
+        console.log(err);
+        return res.json({
+            msg: "Houve um erro no servidor, tente novamente mais tarde"
+        });
+    }
+});
+
+apiRouter.post('/editarPresencaProf', async (req, res)=>{
+    const id = req.body.id;
+    const presenca = req.body.presenca;
+    try{
+        const count = Professores.count({where: {id:id}});
+        if(count == 0) return res.json({
+            msg: "Houve um erro no servidor, tente novamente mais tarde"
+        });
+
+        //aceitar a variável de presença como numeros (0, 1 ou 2, cada um equivalente a cada hexadecimal) ou como string (o hexadecimal em si)?
+    }
+    catch(err){
+        console.log(err);
+        return res.json({
+            msg: "Houve um erro no servidor, tente novamente mais tarde"
+        });
+    }
+});
+
+/*
+//upload da foto dos achados e perdidos
+apiRouter.post('/aepFoto', uploadAep.single('file'), async (req, res)=>{
+    try{
+        res.json(res.statusCode);
+    }
+    catch(err){
+        console.log(err);
+        return res.json({
+            msg: "Houve um erro no servidor, tente novamente mais tarde"
+        });
+    }
+});
+
+//upload do item de achados e perdidos (para a tabela de não confirmados)
 apiRouter.post('/uploadAep', async (req, res)=>{
     try{
-
+        
     }
     catch(err){
         console.log(err);
@@ -823,6 +882,7 @@ apiRouter.post('/uploadAep', async (req, res)=>{
     }
 })
 
+//recebe os itens de achados e perdidos (confirmados)
 apiRouter.get('/achadosPerdidos', async (req, res)=>{
     try{
         let i = 0;
@@ -839,6 +899,7 @@ apiRouter.get('/achadosPerdidos', async (req, res)=>{
     }
 });
 
+//recebe as tags de achados e perdidos
 apiRouter.get('/tagsAep', async (req, res)=>{
     try{
         const tags = await TagsAeP.findAll();
@@ -851,5 +912,6 @@ apiRouter.get('/tagsAep', async (req, res)=>{
         });
     }
 });
+*/
 
 export default apiRouter;

@@ -45,9 +45,12 @@ export function Horario({navigation}){
 
                 const aulaAtual = await api.post('/aulaAtual', {
                     turma: siglaTurma,
-                    dia: date.getDay(),
+                    /*dia: date.getDay(),
                     hora: date.getHours(),
-                    minuto: date.getMinutes()
+                    minuto: date.getMinutes()*/
+                    dia: 3,
+                    hora: 10,
+                    minuto: 25
                 });
 
                 setAulaAtual(aulaAtual.data.aulaAtual);
@@ -72,12 +75,12 @@ export function Horario({navigation}){
 
     const [aulaAtual, setAulaAtual] = useState<string>('');
     const [profAtual, setProfAtual] = useState<string>('');
-    const [atualPresente, setAtualPresente] = useState<boolean>(false);
+    const [atualPresente, setAtualPresente] = useState<string>('#FFCC18');
     const [salaAtual, setSalaAtual] = useState<string>('');
     
     const [proxAula, setProxAula] = useState<string>('');
     const [proxProf, setProxProf] = useState<string>('');
-    const [proxPresente, setProxPresente] = useState<boolean>(false);
+    const [proxPresente, setProxPresente] = useState<string>('#FFCC18');
     const [proxSala, setProxSala] = useState<string>('');
     
     const [horario, setHorario] = useState<object[]>([]);
@@ -169,7 +172,7 @@ export function Horario({navigation}){
                                 <FontAwesome
                                         name="circle"
                                         size={20}
-                                        color={atualPresente ? "#00B489" : "#CC3535"}
+                                        color={atualPresente}
                                 />
                             </View>
                         </View>
@@ -213,7 +216,7 @@ export function Horario({navigation}){
                                 <FontAwesome
                                         name="circle"
                                         size={20}
-                                        color={proxPresente ? "#00B489" : "#CC3535"}
+                                        color={proxPresente}
                                 />
                             </View>
                         </View>
