@@ -841,11 +841,15 @@ apiRouter.post('/editarPresencaProf', async (req, res)=>{
     const presenca = req.body.presenca;
     try{
         const count = Professores.count({where: {id:id}});
-        if(count == 0) return res.json({
+        if(count < 1) return res.json({
             msg: "Houve um erro no servidor, tente novamente mais tarde"
         });
 
-        //aceitar a variável de presença como numeros (0, 1 ou 2, cada um equivalente a cada hexadecimal) ou como string (o hexadecimal em si)?
+        if(await Professores.update({presente: presenca}, {where: {id:id}})) return res.json(res.statusCode);
+        
+        return res.json({
+            msg: "Houve um erro no servidor, tente novamente mais tarde"
+        });
     }
     catch(err){
         console.log(err);
