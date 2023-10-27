@@ -793,8 +793,8 @@ interface typeTags{
             aula: 29,
             horario: '09:00',
             idTurma: 'GqN4TrXjMQ8S1i0FeT849',
-            idMateria: 'cQUEmNGqDpCeYJYkVDD0J',
-            idProf: '4oyXJ6aQZ4X7e0QrIwROp'
+            idMateria: '7hJvljgYrg_KehuColFAa',
+            idProf: 'P_crRNZzvWqudb21RoHlC'
         },
         {
             id: 'DOuwszLBtgq9kvuH_pv8F',
@@ -865,8 +865,8 @@ interface typeTags{
             aula: 38,
             horario: '09:00',
             idTurma: 'GqN4TrXjMQ8S1i0FeT849',
-            idMateria: '7hJvljgYrg_KehuColFAa',
-            idProf: 'P_crRNZzvWqudb21RoHlC'
+            idMateria: 'cQUEmNGqDpCeYJYkVDD0J',
+            idProf: '4oyXJ6aQZ4X7e0QrIwROp'
         },
         {
             id: 'qEPq4yfdDvlMiPne817bE',
@@ -916,6 +916,14 @@ interface typeTags{
             idMateria: 'MaOxiGGjAwA297Z9O_KgQ',
             idProf: '7Ha6-54lnq4jFGeRULInJ'
         },
+        {
+            id: '7LlnRvB2YglmgoSns1-78',
+            aula: 0,
+            horario: '07:20',
+            idTurma: 'Rgf8kJDwnsJ1u2VxDk4DV',
+            idMateria: 'MaOxiGGjAwA297Z9O_KgQ',
+            idProf: '5_7yI-GonhdiKL6U8ovh-'
+        }
     ];
 
     const posts:typePost[] = [
