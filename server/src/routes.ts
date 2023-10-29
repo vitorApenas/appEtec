@@ -810,7 +810,7 @@ apiRouter.post('/desafixarPost', async (req, res)=>{
 apiRouter.post('/isProfessor', async (req, res)=>{
     const nome = req.body.nome;
     try{
-        const reqProfs = await Professores.findAll({where: {nome: nome}});
+        const reqProfs = await Professores.findAll({where: {nome: nome}, attributes: ['id', 'sigla', 'nome', 'presente']});
         if(!reqProfs[0]) return res.json(res.statusCode);
 
         res.json(reqProfs[0]);
@@ -825,7 +825,7 @@ apiRouter.post('/isProfessor', async (req, res)=>{
 
 apiRouter.get('/getPresencaProfs', async (req, res)=>{
     try{
-        const profs = await Professores.findAll({attributes: ['id', 'sigla', 'nome', 'presente']});
+        const profs = await Professores.findAll({attributes: ['id', 'sigla', 'nome', 'presente'], order: [['sigla', 'ASC']]});
         return res.json(profs);
     }
     catch(err){
@@ -840,16 +840,33 @@ apiRouter.post('/editarPresencaProf', async (req, res)=>{
     const id = req.body.id;
     const presenca = req.body.presenca;
     try{
-        const count = Professores.count({where: {id:id}});
-        if(count < 1) return res.json({
-            msg: "Houve um erro no servidor, tente novamente mais tarde"
-        });
+        const count = await Professores.count({where: {id:id}});
+        if(count == 0) return res.json({msg: "Houve um erro no servidor, tente novamente mais tarde"});
+
+        if(presenca !== "#00B489" && presenca !== "#CC3535") return res.json({msg: "Houve um erro no servidor, tente novamente mais tarde"});
 
         if(await Professores.update({presente: presenca}, {where: {id:id}})) return res.json(res.statusCode);
         
         return res.json({
             msg: "Houve um erro no servidor, tente novamente mais tarde"
         });
+    }
+    catch(err){
+        console.log(err);
+        return res.json({
+            msg: "Houve um erro no servidor, tente novamente mais tarde"
+        });
+    }
+});
+
+apiRouter.post('/getPresencaProfUnico', async (req, res)=>{
+    const id = req.body.id;
+    try{
+        const count = await Professores.count({where: {id:id}});
+        if(count == 0) return res.json({msg: "Houve um erro no servidor, tente novamente mais tarde"});
+
+        const presenca = await Professores.findAll({where: {id:id}, attributes: ['presente']});
+        return res.json(presenca[0].presente);
     }
     catch(err){
         console.log(err);

@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
-import { View, Text, Image, TextInput } from 'react-native';
+import { View, Text, Image, TextInput, FlatList } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import NetInfo from '@react-native-community/netinfo';
 
 import { Loading } from '../components/Loading';
 import { Header } from '../components/Header';
+import { DropDownProf } from '../components/DropDownProf';
 
 import { api } from '../lib/axios';
 
@@ -29,6 +30,7 @@ export function EditarPresencas({navigation}){
             if(keys.includes('@rm')) return navigation.navigate('home');
 
             const profsData = await api.get('/getPresencaProfs');
+            if(profsData.data.msg) setErro(profsData.data.msg);
             setProfs(profsData.data);
         }
         catch{
@@ -49,7 +51,7 @@ export function EditarPresencas({navigation}){
         <View className="flex-1 bg-back items-center">
             <Header
                 title="Professores"
-                onPress={()=>navigation.navigate('login')}
+                onPress={()=>navigation.navigate('horarioFunc')}
             />
             <View className="w-5/6 items-center mt-10">
                 <Text className="text-lg font-nsemibold ml-1 text-red-700 text-center">
@@ -76,20 +78,19 @@ export function EditarPresencas({navigation}){
                 <Text className="text-standart font-nbold text-xl">Lista de Professores:</Text>
                 <Text className="text-standart font-nbold text-xs">Nome/Sigla</Text>
             </View>
-            <View className="w-[90%]">
-                <View className="flex-row justify-between">
-                    <View className="bg-white h-16 w-[75%] rounded-xl justify-center items-center p-1">
-                        <Text className="text-standart font-nsemibold text-base">
-                            Rosa Mitiko Shimizu
-                        </Text>
-                    </View>
-                    <View className="bg-white h-16 w-16 rounded-xl justify-center items-center">
-                        <Text className="text-standart font-nsemibold text-base">
-                            RMS
-                        </Text>
-                    </View>
-                </View>
-            </View>
-        </View>        
+            <FlatList
+                className="w-[90%] mt-3"
+                data={profs}
+                renderItem={(prof:any)=>(
+                    <DropDownProf
+                        key={prof.index}
+                        id={prof.item.id}
+                        nome={prof.item.nome}
+                        sigla={prof.item.sigla}
+                        presente={prof.item.presente}
+                    />
+                )}
+            />
+        </View>
     )
 }

@@ -112,13 +112,6 @@ export function Home({navigation}){
             setSalaAtual(aulaAtual.data.salaAtual);
         }
 
-        if(keys.includes('@nome') && isFunc){
-            const nome = await AsyncStorage.getItem('@nome');
-            const nomeProf = await api.post('/isProfessor', {
-                nome: nome
-            });
-        }
-
         setIsLoading(false);
     }
 
@@ -187,7 +180,7 @@ export function Home({navigation}){
                 >
                     <View className="mt-5 w-[85%]" key={0}>
                         <Text className="text-standart text-lg font-nbold">
-                            Bem vindo(a) de volta, {nome}!
+                            Bem vindo(a), {nome}!
                         </Text>
                     </View>
 

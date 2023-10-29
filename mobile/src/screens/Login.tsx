@@ -51,7 +51,7 @@ export function Login({navigation}){
                 setErroAluno(login.data.msg);
             }
             else{
-                AsyncStorage.multiSet([
+                await AsyncStorage.multiSet([
                     ['@rm', rm.trim()],
                     ['@email', login.data.email],
                     ['@nome', login.data.nome],
@@ -87,11 +87,29 @@ export function Login({navigation}){
                 setErroFunc(login.data.msg);
             }
             else{
-                AsyncStorage.multiSet([
-                    ['@email', email.trim()],
-                    ['@nome', login.data.nome],
-                    ['@profilePhoto', login.data.fotoPerfil]
-                ]);
+                const nome = login.data.nome;
+                const nomeProf = await api.post('/isProfessor', {
+                    nome: nome.trim()
+                });
+
+                if(nomeProf.data == 200){
+                    await AsyncStorage.multiSet([
+                        ['@email', email.trim()],
+                        ['@nome', login.data.nome],
+                        ['@profilePhoto', login.data.fotoPerfil]
+                    ]);
+                }
+                else{
+                    await AsyncStorage.multiSet([
+                        ['@email', email.trim()],
+                        ['@nome', login.data.nome],
+                        ['@profilePhoto', login.data.fotoPerfil],
+                        ['@idProf', nomeProf.data.id.trim()],
+                        ['@siglaProf', nomeProf.data.sigla.trim()],
+                        ['@presencaProf', nomeProf.data.presente.trim()]
+                    ]);
+                }
+
                 return navigation.navigate('home')
             }
         }

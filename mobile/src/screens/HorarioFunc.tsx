@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { View, TouchableOpacity, FlatList, Text } from 'react-native';
+import { FontAwesome } from '@expo/vector-icons';
 import { useIsFocused } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import NetInfo from '@react-native-community/netinfo';
@@ -28,6 +29,21 @@ export function HorarioFunc({navigation}){
             if(keys.includes('@rm')) return navigation.navigate('home');
             if(!keys.includes('@email')) return navigation.navigate('login');
 
+            if(keys.includes('@idProf')){
+                const presencaProfOnline = await api.post('/getPresencaProfUnico', {id: await AsyncStorage.getItem('@idProf')});
+                if(presencaProfOnline.data.msg){
+                    setErro(presencaProfOnline.data.msg);
+                }
+                else{
+                    setPresencaProf(presencaProfOnline.data);
+                }
+                
+                setIsProf(true);
+            }
+            else{
+                setIsProf(false);
+            }
+
             const turmas = await api.get('/turmas');
             if(turmas.data.msg){
                 setErro(turmas.data.msg);
@@ -45,7 +61,33 @@ export function HorarioFunc({navigation}){
         setIsLoading(false);
     }
 
+    async function switchPresenca(presenca: string){
+        try{
+            setIsLoading(true);
+
+            const id = await AsyncStorage.getItem('@idProf');
+            const res = await api.post('/editarPresencaProf', {
+                id: id,
+                presenca: presenca
+            });
+            if(res.data.msg) setErro(res.data.msg);
+            if(res.data == 200){
+                await AsyncStorage.setItem('@presencaProf', presenca);
+                getData();
+            }
+        }
+        catch{
+            setErro("Houve um erro no servidor, tente novamente mais tarde");
+        }
+        finally{
+            setIsLoading(false);
+        }
+    }
+
     const [turmas, setTurmas] = useState<object[]>([]);
+
+    const [isProf, setIsProf] = useState<boolean>(false);
+    const [presencaProf, setPresencaProf] = useState<string>('');
     
     const [isLoading, setIsLoading] = useState<boolean>();
     const [erro, setErro] = useState<string>('');
@@ -73,9 +115,49 @@ export function HorarioFunc({navigation}){
                 onPress={()=>navigation.navigate('home')}
             />
             <View className="w-full h-full absolute top-24 items-center">
-                <View className="w-5/6">
+
+                <View className="w-5/6 mt-1">
+                    {isProf &&
+                        <View className="w-full bg-white h-36 rounded-xl p-1 items-center">
+                            <View className="w-[90%] items-start">
+                                <Text className="font-nsemibold text-base text-standart mt-1">
+                                    Você irá para a escola hoje?
+                                </Text>
+                            </View>
+                            <View className="w-2/3 flex-row justify-between mt-4">
+                                <TouchableOpacity
+                                    className="bg-[#99A0B1] w-20 h-10 rounded-md items-center justify-center"
+                                    onPress={()=>switchPresenca('#00B489')}
+                                >
+                                    <Text className="text-white font-nsemibold">
+                                        Sim
+                                    </Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity
+                                    className="bg-[#99A0B1] w-20 h-10 rounded-md items-center justify-center"
+                                    onPress={()=>switchPresenca('#CC3535')}
+                                >
+                                    <Text className="text-white font-nsemibold">
+                                        Não
+                                    </Text>
+                                </TouchableOpacity>
+                            </View>
+                            <View className="w-[90%] flex-row items-center justify-start mt-4">
+                                <Text className="font-nsemibold text-base text-standart">
+                                    Sua presença:
+                                </Text>
+                                <View className="ml-1 mt-0.5">
+                                    <FontAwesome
+                                        name="circle"
+                                        size={24}
+                                        color={presencaProf}
+                                    />
+                                </View>
+                            </View>
+                        </View>   
+                    }
                     <TouchableOpacity
-                        className="w-full h-20 bg-[#5C6480] mt-1 items-center justify-center rounded-xl"
+                        className="w-full h-20 bg-[#5C6480] items-center justify-center rounded-xl mt-3"
                         onPress={()=>navigation.navigate('editarPresencas')}
                     >
                         <Text className="font-nsemibold text-white text-xl text-center">
