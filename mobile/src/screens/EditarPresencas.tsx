@@ -32,6 +32,7 @@ export function EditarPresencas({navigation}){
             const profsData = await api.get('/getPresencaProfs');
             if(profsData.data.msg) setErro(profsData.data.msg);
             setProfs(profsData.data);
+            setOpenedTab(profsData.data.length)
         }
         catch{
             setErro("Houve um erro no servidor, tente novamente mais tarde");
@@ -40,10 +41,33 @@ export function EditarPresencas({navigation}){
         setIsLoading(false);
     }
 
+    const switchPresenca = async (id: string, presenca: string) => {
+        try{
+            setIsLoading(true);
+
+            const res = await api.post('/editarPresencaProf', {
+                id: id,
+                presenca: presenca
+            });
+            if(res.data.msg) setErro(res.data.msg);
+            if(res.data == 200){
+                setOpenedTab(profs.length);
+                getData();
+            }
+        }
+        catch{
+            setErro("Houve um erro no servidor, tente novamente mais tarde");
+        }
+        finally{
+            setIsLoading(false);
+        }
+    }
+
     const [isLoading, setIsLoading] = useState<boolean>();
     const [erro, setErro] = useState<string>('');
 
     const [profs, setProfs] = useState<any>([]);
+    const [openedTab, setOpenedTab] = useState<number>();
 
     if(isLoading) return <Loading/>
 
@@ -71,7 +95,7 @@ export function EditarPresencas({navigation}){
                 <Image source={require('../assets/lupa.png')} className='h-9 w-9'/>
                 <TextInput
                     className="w-5/6 h-8 ml-3 text-[#8087A0] font-nsemibold text-base"
-                    placeholder="Pesquisar professor"
+                    placeholder="Pesquisar professor por sigla"
                 />
             </View>
             <View className="w-[90%] h-12 rounded-xl mt-3 p-1 flex-row items-center justify-between">
@@ -88,6 +112,12 @@ export function EditarPresencas({navigation}){
                         nome={prof.item.nome}
                         sigla={prof.item.sigla}
                         presente={prof.item.presente}
+                        isOpen={openedTab === prof.index}
+                        funcPresenca={switchPresenca}
+                        onPress={()=>{
+                            if(openedTab === prof.index) return setOpenedTab(profs.length);
+                            setOpenedTab(prof.index);
+                        }}
                     />
                 )}
             />
