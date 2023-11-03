@@ -446,7 +446,7 @@ export function Home({navigation}){
                         className="w-0.5 h-8 bg-white rounded-full"
                     />
                     <TouchableOpacity
-                        onPress={()=>{}}
+                        onPress={()=>navigation.navigate('emDesenvolvimento')}
                     >
                         <Image
                             source={require("../assets/home/Biblioteca_icon.png")}
@@ -457,7 +457,7 @@ export function Home({navigation}){
                         className="w-0.5 h-8 bg-white rounded-full"
                     />
                     <TouchableOpacity
-                        //onPress={()=>navigation.navigate('achadosPerdidos')}
+                        onPress={()=>navigation.navigate('emDesenvolvimento')}
                     >
                         <Image
                             source={require("../assets/home/A_P_icon.png")}

@@ -66,6 +66,9 @@ export function EditarPresencas({navigation}){
     const [isLoading, setIsLoading] = useState<boolean>();
     const [erro, setErro] = useState<string>('');
 
+    const [pesquisa, setPesquisa] = useState<string>('');
+    const [profsPesquisa, setProfsPesquisa] = useState<any>([]);
+
     const [profs, setProfs] = useState<any>([]);
     const [openedTab, setOpenedTab] = useState<number>();
 
@@ -92,10 +95,15 @@ export function EditarPresencas({navigation}){
                 onPress={()=>navigation.navigate('horarioFunc')}
             />
             <View className="bg-white w-[90%] h-12 rounded-xl mt-5 p-1 flex-row items-center justify-start">
-                <Image source={require('../assets/lupa.png')} className='h-9 w-9'/>
+                <Image source={require('../assets/lupa.png')} className='h-8 w-8'/>
                 <TextInput
                     className="w-5/6 h-8 ml-3 text-[#8087A0] font-nsemibold text-base"
                     placeholder="Pesquisar professor por sigla"
+                    value={pesquisa}
+                    onChangeText={(value)=>{
+                        setProfsPesquisa(profs.filter(prof => prof.sigla.includes(value.toUpperCase())));
+                        setPesquisa(value);
+                    }}
                 />
             </View>
             <View className="w-[90%] h-12 rounded-xl mt-3 p-1 flex-row items-center justify-between">
@@ -104,7 +112,7 @@ export function EditarPresencas({navigation}){
             </View>
             <FlatList
                 className="w-[90%] mt-3"
-                data={profs}
+                data={pesquisa.length > 0 ? profsPesquisa : profs}
                 renderItem={(prof:any)=>(
                     <DropDownProf
                         key={prof.index}

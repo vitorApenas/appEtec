@@ -13,10 +13,10 @@ interface DropDownProps extends TouchableOpacityProps{
 export function DropDownProf({id, nome="-", sigla="-", presente="#FFC700", isOpen=false, funcPresenca, ...rest}:DropDownProps){
 
     if(isOpen) return(
-        <TouchableOpacity className="w-full mb-3" {...rest}>
+        <View className="w-full mb-3">
             <View className="flex-row justify-between">
                 <View className="bg-white h-36 w-[75%] rounded-xl justify-between">
-                    <View className="bg-standart h-[40%] w-full rounded-xl justify-between items-center p-2 flex-row">
+                    <TouchableOpacity className="bg-standart h-[40%] w-full rounded-xl justify-between items-center p-2 flex-row" {...rest}>
                         <Text className="text-white font-nsemibold text-base">
                             {nome}
                         </Text>
@@ -25,7 +25,7 @@ export function DropDownProf({id, nome="-", sigla="-", presente="#FFC700", isOpe
                             size={20}
                             color={presente}
                         />
-                    </View>
+                    </TouchableOpacity>
                     <View className="h-[60%] items-center p-1">
                         <View className="w-full items-center">
                             <Text className="font-nsemibold text-base text-standart">
@@ -52,13 +52,13 @@ export function DropDownProf({id, nome="-", sigla="-", presente="#FFC700", isOpe
                         </View>
                     </View>
                 </View>
-                <View className="bg-standart h-16 w-16 rounded-xl justify-center items-center">
+                <TouchableOpacity className="bg-standart h-16 w-16 rounded-xl justify-center items-center" {...rest}>
                     <Text className="text-white font-nsemibold text-base">
                         {sigla}
                     </Text>
-                </View>
+                </TouchableOpacity>
             </View>
-        </TouchableOpacity>
+        </View>
     );
 
     return(

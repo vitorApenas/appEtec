@@ -923,6 +923,358 @@ interface typeTags{
             idTurma: 'Rgf8kJDwnsJ1u2VxDk4DV',
             idMateria: 'MaOxiGGjAwA297Z9O_KgQ',
             idProf: '5_7yI-GonhdiKL6U8ovh-'
+        },
+        {
+            id: 'IGoAZK6zoGSZ0k27YbcYb',
+            aula: 1,
+            horario: '08:10',
+            idTurma: 'Rgf8kJDwnsJ1u2VxDk4DV',
+            idMateria: 'fPt8P-0Scw3hcBeHojQa-',
+            idProf: 'y0IuOQsPd0yHMslo7w6QC'
+        },
+        {
+            id: 'MxY1HLt9vtNLoDiXdIeRQ',
+            aula: 2,
+            horario: '09:10',
+            idTurma: 'Rgf8kJDwnsJ1u2VxDk4DV',
+            idMateria: 'fPt8P-0Scw3hcBeHojQa-',
+            idProf: 'y0IuOQsPd0yHMslo7w6QC'
+        },
+        {
+            id: 'O5xDfTE5gBjrGWkeZwbmH',
+            aula: 3,
+            horario: '10:10',
+            idTurma: 'Rgf8kJDwnsJ1u2VxDk4DV',
+            idMateria: 'TNU-YA4eKCEcL1rLKcD-v',
+            idProf: 'tkGDjQPDorrk1GYC4A1MJ'
+        },
+        {
+            id: 'N7CdxYHS2HAm-UDDYHjOA',
+            aula: 4,
+            horario: '11:00',
+            idTurma: 'Rgf8kJDwnsJ1u2VxDk4DV',
+            idMateria: 'B6XgHYN2ZIDxsqeH8JHF4',
+            idProf: 'QjpVPu4k9I2_wyWKYCsNm'
+        },
+        {
+            id: 'd5q4vwirLisxd3h97Dm_S',
+            aula: 5,
+            horario: '13:20',
+            idTurma: 'Rgf8kJDwnsJ1u2VxDk4DV',
+            idMateria: 'DNQZzIn0G1YZwf-aSO3Me',
+            idProf: 'wFJGYnx2FrUs7_fGL7crg'
+        },
+        {
+            id: 'fcpjf0-k36hWVazMqqTgz',
+            aula: 6,
+            horario: '14:10',
+            idTurma: 'Rgf8kJDwnsJ1u2VxDk4DV',
+            idMateria: 'W9-mnvyfNEWyKdwI8gT6K',
+            idProf: 'wfJzDP_zOyLjCQSdJgDCA'
+        },
+        {
+            id: 'p6b14H7DzNmBYb_72ah6S',
+            aula: 7,
+            horario: '15:20',
+            idTurma: 'Rgf8kJDwnsJ1u2VxDk4DV',
+            idMateria: '4JTjxi37t98WtCj-QVTIh',
+            idProf: 'tz2JU7NMc6dRHj2O19MK5'
+        },
+        {
+            id: 'ycvffau74fOsJP0_6DpUI',
+            aula: 8,
+            horario: '16:10',
+            idTurma: 'Rgf8kJDwnsJ1u2VxDk4DV',
+            idMateria: '4JTjxi37t98WtCj-QVTIh',
+            idProf: 'tz2JU7NMc6dRHj2O19MK5'
+        },
+        {
+            id: 'A5NKbLf0TIDfkcMj9Zftl',
+            aula: 9,
+            horario: '07:20',
+            idTurma: 'Rgf8kJDwnsJ1u2VxDk4DV',
+            idMateria: '7hJvljgYrg_KehuColFAa',
+            idProf: 'P_crRNZzvWqudb21RoHlC'
+        },
+        {
+            id: '-fCA5eOkEyu5TzsfwfZW6',
+            aula: 10,
+            horario: '08:10',
+            idTurma: 'Rgf8kJDwnsJ1u2VxDk4DV',
+            idMateria: '4KL0R4fQlmUfXRG0fpayC',
+            idProf: '9bghQ9r1v4Vol4JbZ3MkL'
+        },
+        {
+            id: '5Kl9xvLa2iuvsXfZkbehy',
+            aula: 11,
+            horario: '09:00',
+            idTurma: 'Rgf8kJDwnsJ1u2VxDk4DV',
+            idMateria: 'B6XgHYN2ZIDxsqeH8JHF4',
+            idProf: 'QjpVPu4k9I2_wyWKYCsNm'
+        },
+        {
+            id: 'La1WYwes9vnloZy0el0WQ',
+            aula: 12,
+            horario: '10:10',
+            idTurma: 'Rgf8kJDwnsJ1u2VxDk4DV',
+            idMateria: 'AV0WBNxJrGYtH5eV_6NeG',
+            idProf: 'B0sctz-aAW9Xfpwvy0JlP'
+        },
+        {
+            id: '5q9mLmmjhOBJyy5suyTuH',
+            aula: 13,
+            horario: '11:00',
+            idTurma: 'Rgf8kJDwnsJ1u2VxDk4DV',
+            idMateria: '4JTjxi37t98WtCj-QVTIh',
+            idProf: 'tz2JU7NMc6dRHj2O19MK5'
+        },
+        {
+            id: 'dVVfz4gSD6Ok6apf3Kq04',
+            aula: 14,
+            horario: '13:20',
+            idTurma: 'Rgf8kJDwnsJ1u2VxDk4DV',
+            idMateria: 'LsUt1wCMK_3kLG4h1bbgJ',
+            idProf: 'sfNfvItcyp-MlGI5P9Epm'
+        },
+        {
+            id: 'MCK9rwzl4ORXkR3lmyHb9',
+            aula: 15,
+            horario: '14:10',
+            idTurma: 'Rgf8kJDwnsJ1u2VxDk4DV',
+            idMateria: 'LsUt1wCMK_3kLG4h1bbgJ',
+            idProf: 'sfNfvItcyp-MlGI5P9Epm'
+        },
+        {
+            id: '4lVgraIoweLCCnTgiGwmZ',
+            aula: 16,
+            horario: '15:20',
+            idTurma: 'Rgf8kJDwnsJ1u2VxDk4DV',
+            idMateria: 'DNQZzIn0G1YZwf-aSO3Me',
+            idProf: 'wFJGYnx2FrUs7_fGL7crg'
+        },
+        {
+            id: 'liCJCy2tcfz5vBH1pXdoy',
+            aula: 17,
+            horario: '16:10',
+            idTurma: 'Rgf8kJDwnsJ1u2VxDk4DV',
+            idMateria: 'DNQZzIn0G1YZwf-aSO3Me',
+            idProf: 'wFJGYnx2FrUs7_fGL7crg'
+        },
+        {
+            id: 'TANDU9tKUsp4fQpPoSKNP',
+            aula: 18,
+            horario: '07:20',
+            idTurma: 'Rgf8kJDwnsJ1u2VxDk4DV',
+            idMateria: 'xrAqq3a4m6auZcatCVHPR',
+            idProf: 'Au1ZeDAsLjA0iVyto-I54'
+        },
+        {
+            id: 'RFLSbDjnbFWvDPsA17WeP',
+            aula: 19,
+            horario: '08:10',
+            idTurma: 'Rgf8kJDwnsJ1u2VxDk4DV',
+            idMateria: '8DU7l7hk-zepxrCrZpIGq',
+            idProf: 'rcU2D3IUW_ufTNcoBZ1L0'
+        },
+        {
+            id: '-y6FbYTeSseXasiypBr0e',
+            aula: 20,
+            horario: '09:00',
+            idTurma: 'Rgf8kJDwnsJ1u2VxDk4DV',
+            idMateria: '8DU7l7hk-zepxrCrZpIGq',
+            idProf: 'rcU2D3IUW_ufTNcoBZ1L0'
+        },
+        {
+            id: '7QND9YkA5dzzrDiJVnr-l',
+            aula: 21,
+            horario: '10:10',
+            idTurma: 'Rgf8kJDwnsJ1u2VxDk4DV',
+            idMateria: 'gm0nlC_emR_QzQN10fa2f',
+            idProf: 'MGVVYj46EB9ydL4AnUehH'
+        },
+        {
+            id: 'CsW3MaLyrQeVjLB_wPVPh',
+            aula: 22,
+            horario: '11:00',
+            idTurma: 'Rgf8kJDwnsJ1u2VxDk4DV',
+            idMateria: 'MaOxiGGjAwA297Z9O_KgQ',
+            idProf: '5_7yI-GonhdiKL6U8ovh-'
+        },
+        {
+            id: '3TLuOhgx_yizcfCk_54Ww',
+            aula: 23,
+            horario: '13:20',
+            idTurma: 'Rgf8kJDwnsJ1u2VxDk4DV',
+            idMateria: 'noftZ0tWc6rzC8OlqnzZF',
+            idProf: 'Zh-byfV-BoHlyo3mMxGx1'
+        },
+        {
+            id: '_elWBrojUxn65meL3U_Sd',
+            aula: 24,
+            horario: '14:10',
+            idTurma: 'Rgf8kJDwnsJ1u2VxDk4DV',
+            idMateria: 'noftZ0tWc6rzC8OlqnzZF',
+            idProf: 'Zh-byfV-BoHlyo3mMxGx1'
+        },
+        {
+            id: 'WaQ8fZWnfHO_DCsvH7iTc',
+            aula: 25,
+            horario: '15:20',
+            idTurma: 'Rgf8kJDwnsJ1u2VxDk4DV',
+            idMateria: 'ZXd9qURzwzhQrwO96V0Fl',
+            idProf: 'YkJihhVwGH4Onj1zTf9Pi'
+        },
+        {
+            id: '_vakz2NCnKy2vdahj9SMQ',
+            aula: 26,
+            horario: '16:10',
+            idTurma: 'Rgf8kJDwnsJ1u2VxDk4DV',
+            idMateria: 'cQUEmNGqDpCeYJYkVDD0J',
+            idProf: '4oyXJ6aQZ4X7e0QrIwROp'
+        },
+        {
+            id: 'ZNfgRRyS7VU1Y5HaCaVf6',
+            aula: 27,
+            horario: '07:20',
+            idTurma: 'Rgf8kJDwnsJ1u2VxDk4DV',
+            idMateria: 'AV0WBNxJrGYtH5eV_6NeG',
+            idProf: 'B0sctz-aAW9Xfpwvy0JlP'
+        },
+        {
+            id: 'iUYx1dG0u1jGMy2Dek0jR',
+            aula: 28,
+            horario: '08:10',
+            idTurma: 'Rgf8kJDwnsJ1u2VxDk4DV',
+            idMateria: 'TNU-YA4eKCEcL1rLKcD-v',
+            idProf: 'tkGDjQPDorrk1GYC4A1MJ'
+        },
+        {
+            id: '2GA_ZjaC9AKDUqqBuxeXJ',
+            aula: 29,
+            horario: '09:00',
+            idTurma: 'Rgf8kJDwnsJ1u2VxDk4DV',
+            idMateria: 'cQUEmNGqDpCeYJYkVDD0J',
+            idProf: '4oyXJ6aQZ4X7e0QrIwROp'
+        },
+        {
+            id: 'LGENLlGDCgk_4RTwPl3co',
+            aula: 30,
+            horario: '10:10',
+            idTurma: 'Rgf8kJDwnsJ1u2VxDk4DV',
+            idMateria: 'MaOxiGGjAwA297Z9O_KgQ',
+            idProf: '5_7yI-GonhdiKL6U8ovh-'
+        },
+        {
+            id: 'g1jzST4K2mKflpAN0yl5e',
+            aula: 31,
+            horario: '11:00',
+            idTurma: 'Rgf8kJDwnsJ1u2VxDk4DV',
+            idMateria: 'xrAqq3a4m6auZcatCVHPR',
+            idProf: 'Au1ZeDAsLjA0iVyto-I54'
+        },
+        {
+            id: 'ia2RN0rRlCLJ28k6z2DJx',
+            aula: 32,
+            horario: '13:20',
+            idTurma: 'Rgf8kJDwnsJ1u2VxDk4DV',
+            idMateria: 'MaOxiGGjAwA297Z9O_KgQ',
+            idProf: '5_7yI-GonhdiKL6U8ovh-'
+        },
+        {
+            id: 'cnvEsTst8yGPwLV_EvETE',
+            aula: 33,
+            horario: '14:10',
+            idTurma: 'Rgf8kJDwnsJ1u2VxDk4DV',
+            idMateria: 'fPt8P-0Scw3hcBeHojQa-',
+            idProf: 'y0IuOQsPd0yHMslo7w6QC'
+        },
+        {
+            id: 'WjElSf0DCaI6Q9EN2FqEN',
+            aula: 34,
+            horario: '15:20',
+            idTurma: 'Rgf8kJDwnsJ1u2VxDk4DV',
+            idMateria: '4KL0R4fQlmUfXRG0fpayC',
+            idProf: '9bghQ9r1v4Vol4JbZ3MkL'
+        },
+        {
+            id: '5yGJ88ArnMG7KV_MVJJ8I',
+            aula: 35,
+            horario: '16:10',
+            idTurma: 'Rgf8kJDwnsJ1u2VxDk4DV',
+            idMateria: 'cQUEmNGqDpCeYJYkVDD0J',
+            idProf: '4oyXJ6aQZ4X7e0QrIwROp'
+        },
+        {
+            id: 'tqrRB4W7vLr191ZbVjMjH',
+            aula: 36,
+            horario: '07:20',
+            idTurma: 'Rgf8kJDwnsJ1u2VxDk4DV',
+            idMateria: 'gm0nlC_emR_QzQN10fa2f',
+            idProf: 'MGVVYj46EB9ydL4AnUehH'
+        },
+        {
+            id: '9J_9na_o_DudMop6McKJ2',
+            aula: 37,
+            horario: '08:10',
+            idTurma: 'Rgf8kJDwnsJ1u2VxDk4DV',
+            idMateria: 'ZXd9qURzwzhQrwO96V0Fl',
+            idProf: 'YkJihhVwGH4Onj1zTf9Pi'
+        },
+        {
+            id: 'mjd15EuFtzZjVbBIYkAZl',
+            aula: 38,
+            horario: '09:00',
+            idTurma: 'Rgf8kJDwnsJ1u2VxDk4DV',
+            idMateria: '7hJvljgYrg_KehuColFAa',
+            idProf: 'P_crRNZzvWqudb21RoHlC'
+        },
+        {
+            id: '41B0Qwr97rpVNwXRejBeY',
+            aula: 39,
+            horario: '10:10',
+            idTurma: 'Rgf8kJDwnsJ1u2VxDk4DV',
+            idMateria: 'gm0nlC_emR_QzQN10fa2f',
+            idProf: 'MGVVYj46EB9ydL4AnUehH'
+        },
+        {
+            id: 'WWGzxEAshM0N4xWWNlFWk',
+            aula: 40,
+            horario: '11:00',
+            idTurma: 'Rgf8kJDwnsJ1u2VxDk4DV',
+            idMateria: 'gm0nlC_emR_QzQN10fa2f',
+            idProf: 'MGVVYj46EB9ydL4AnUehH'
+        },
+        {
+            id: 'PIZGnxzXnjbXbognokZyG',
+            aula: 41,
+            horario: '13:20',
+            idTurma: 'Rgf8kJDwnsJ1u2VxDk4DV',
+            idMateria: 'cQUEmNGqDpCeYJYkVDD0J',
+            idProf: '4oyXJ6aQZ4X7e0QrIwROp'
+        },
+        {
+            id: 'qzxgOGrM7QkmJdWJnshP5',
+            aula: 42,
+            horario: '14:10',
+            idTurma: 'Rgf8kJDwnsJ1u2VxDk4DV',
+            idMateria: 'cQUEmNGqDpCeYJYkVDD0J',
+            idProf: '4oyXJ6aQZ4X7e0QrIwROp'
+        },
+        {
+            id: 'YfC-cFeoyd4_cib2Rrmu8',
+            aula: 43,
+            horario: '15:20',
+            idTurma: 'Rgf8kJDwnsJ1u2VxDk4DV',
+            idMateria: 'cQUEmNGqDpCeYJYkVDD0J',
+            idProf: '4oyXJ6aQZ4X7e0QrIwROp'
+        },
+        {
+            id: 'rNXeq3RaHd07-afM62UTj',
+            aula: 44,
+            horario: '15:20',
+            idTurma: 'Rgf8kJDwnsJ1u2VxDk4DV',
+            idMateria: 'cQUEmNGqDpCeYJYkVDD0J',
+            idProf: '4oyXJ6aQZ4X7e0QrIwROp'
         }
     ];
 
@@ -942,7 +1294,7 @@ interface typeTags{
         }
     ]
 
-    const tagsAep:typeTags[] = [
+    /*const tagsAep:typeTags[] = [
         {
             id: '8VgkzukV7L17aA1pTiXiw',
             txt: 'Celulares'
@@ -979,7 +1331,7 @@ interface typeTags{
             id: 'A1l_p18B6MF-5QP1FgFfx',
             txt: 'Outros'
         }
-    ]
+    ]*/
 
     await sequelize.sync({force: true});
 
